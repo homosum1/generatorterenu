@@ -1,9 +1,11 @@
 class_name Tile
 extends Object
 
-var entropy = -1
-var collapsedState = -1
-var possibleStates = []
+var entropy = -1 # number of possible outcomes
+var collapsedState = -1 # storing collapsed state if collapse() was executed
+var possibleStates = [] # array of all possible states
+
+var neighbors = {} # dictionary of 8 neighbors
 
 func _init():
 	var possibleTilesCount = Tiles.tiles.size()
@@ -27,4 +29,38 @@ func collapse() -> void:
 		entropy = 1
 		
 		possibleStates.clear()  
+		# notify neighbors about collapse
+		_notifyNeighbors()
 		
+
+func _notifyNeighbors():
+	for direction in neighbors.keys():
+		neighbors[direction].onNeighborCollapse(collapsedState, direction)
+
+# reduce tile entropy on neighbor collapse		
+func onNeighborCollapse(collapsedNeighborState: int, direction: String) -> bool:
+	var valid_neighbors = getPossibleNeighbors(collapsedNeighborState, direction)
+	var changed = false
+
+	for i in range(possibleStates.size()):
+		if possibleStates[i] and not i in valid_neighbors:
+			possibleStates[i] = false
+			changed = true
+			
+	if changed:
+		entropy = possibleStates.count(true)
+	
+	return changed
+
+
+func getPossibleNeighbors(collapsedNeighborState: int, direction: String) -> Array:
+	var possibleNeighbors = []
+
+	for i in range(Tiles.tiles.size()):	
+		if isPossibleNeighbor(collapsedNeighborState, i, direction):
+			possibleNeighbors.append(i) 
+	
+	return possibleNeighbors
+
+
+	
