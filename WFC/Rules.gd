@@ -31,16 +31,46 @@ const adjacencyRules = {
 			"grass-dirt_corner_bottom-right"
 		]
 	},
+	"dirt": {
+		"left": [
+			"dirt",
+			"grass-dirt_right",
+			"grass-dirt_bottom-left",
+			"grass-dirt_bottom-right",
+			"grass-dirt_top-left",
+			"grass-dirt_top-right",
+		],
+		"right": [
+			"dirt",
+			"grass-dirt_left",
+			"grass-dirt_bottom-left",
+			"grass-dirt_bottom-right",
+			"grass-dirt_top-left",
+			"grass-dirt_top-right",
+		],
+		"top": [
+			"dirt",
+			"grass-dirt_bottom",
+			"grass-dirt_bottom-left",
+			"grass-dirt_bottom-right",
+		],
+		"bottom": [
+			"dirt",
+			"grass-dirt_top",
+			"grass-dirt_top-left",
+			"grass-dirt_top-right",
+		]
+	},	
 	"grass-dirt_top": {
 		"left": [
 			"grass-dirt_top", 
 			"grass-dirt_top-left",
-			"grass-dirt_corner_top-left"	
+			"grass-dirt_corner_top-right"	
 		],
 		"right": [
 			"grass-dirt_top", 
 			"grass-dirt_top-right",
-			"grass-dirt_corner_top-right",	
+			"grass-dirt_corner_top-left",	
 		],
 		"top": ["dirt"],
 		"bottom": ["grass"]
@@ -162,6 +192,13 @@ static func initialize():
 					continue
 				
 				adjacencyRulesAsIndexes[tileIndex][direction].append(neighborIndex)
+
+	_printRules()
+
+static func _printRules():
+	print("\n------- Translated tiles rules -------")
+	for tileIndex in adjacencyRulesAsIndexes.keys():
+		print(Tiles.getName(tileIndex) + ": " + str(adjacencyRulesAsIndexes[tileIndex]))
 
 static func isPossibleNeighbor(tileIndex: int, neighborIndex: int, direction: String) -> bool:
 	if adjacencyRulesAsIndexes.has(tileIndex) and adjacencyRulesAsIndexes[tileIndex].has(direction):

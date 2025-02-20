@@ -25,10 +25,17 @@ const tiles = [
 static var nameToIndex := {}
 static var indexToName := {}
 
-static func _init():
+static func initialize():
+	nameToIndex.clear()
+	indexToName.clear()
+	
 	for tile in tiles:
 		nameToIndex[tile.name] = tile.index
 		indexToName[tile.index] = tile.name
+		
+	print("\n------- Tiles mapping after initialization -------")
+	for tile_name in nameToIndex.keys():
+		print(tile_name, " -> ", nameToIndex[tile_name])
 
 static func getIndex(name: String) -> int:
 	return nameToIndex.get(name, -1)  

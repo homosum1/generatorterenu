@@ -1,16 +1,19 @@
+
 extends Node
 
-const GRID_WIDTH = 6
-const GRID_HEIGHT = 6
+const GRID_WIDTH = 3
+const GRID_HEIGHT = 3
 
 var gridMatrix = []
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	Tiles.initialize() # Loading tiles
 	Rules.initialize() # Map rules to index based system
-	#_gridInit()  # Initialize grid for WFC
-	#_runWFC()  # Start WFC algorithm
+	_gridInit()  # Initialize grid for WFC
+	
+	_runWFC()  # Start WFC algorithm
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -21,7 +24,7 @@ func _gridInit() -> void:
 	for x in range(GRID_WIDTH):
 		var gridColumn = []
 		for y in range(GRID_HEIGHT):
-			gridColumn.append(Tile.new())
+			gridColumn.append(Tile.new(x, y))
 			
 		gridMatrix.append(gridColumn)
 
@@ -38,8 +41,17 @@ func _gridInit() -> void:
 				processedTile.neighbors["top"] = gridMatrix[x][y - 1]
 			if y < GRID_HEIGHT - 1:
 				processedTile.neighbors["bottom"] = gridMatrix[x][y + 1]
-				
-						
+	
+	_printGridDebug()
+
+func _printGridDebug():
+	print("\n------- Initialized grid data -------")
+	for y in range(GRID_HEIGHT):
+		var row = ""
+		for x in range(GRID_WIDTH):
+			row += "[" + str(gridMatrix[x][y]) + "] "
+		print(row)
+
 func _findTileWithMinEntropy() -> Array:
 	var minEntropy = Tiles.tiles.size() + 1
 	var bestCandidates =  []
@@ -49,7 +61,8 @@ func _findTileWithMinEntropy() -> Array:
 			var consideredTile = gridMatrix[x][y]
 			var consideredEntropy = consideredTile.entropy
 			
-			if consideredEntropy > 1:
+			#if consideredEntropy > 1:
+			if consideredTile.collapsedState == -1: # for testing 
 				if consideredEntropy < minEntropy:
 					minEntropy = consideredEntropy
 					bestCandidates = [[x,y]]
@@ -59,21 +72,30 @@ func _findTileWithMinEntropy() -> Array:
 	# select randomly one from selected min entropy tiles
 	if bestCandidates.size() > 0:
 		var randomIndex = randi() % bestCandidates.size()
+		if Globals.DEBUG_MODE:
+			print("\nselected min etropy tile: ", bestCandidates[randomIndex])
 		return bestCandidates[randomIndex]
 	else:
+		if Globals.DEBUG_MODE:
+			print("empty min entropy")
 		return []	
 
 
 func _collapseTile(x: int, y: int) -> void:
 	var tile = gridMatrix[x][y]
 
-	if tile.entropy <= 1:
+	if tile.collapsedState != -1:
 		# tile is already collapsed
+		if Globals.DEBUG_MODE:
+			print("tile:", [x, y], "is already collapsed:", Tiles.getName(tile.collapsedState))
 		return  
-
+		
 	tile.collapse() 
-
+	
 func _propagateWave():
+	if Globals.DEBUG_MODE:
+		print("\nPROPAGATE WAVE\n")
+	
 	var queue = []
 
 	# if tile is collapsed - add to queue
@@ -90,12 +112,52 @@ func _propagateWave():
 			var neighbor = tile.neighbors[direction]
 
 			if neighbor and neighbor.entropy > 1:
-				if neighbor.onNeighborCollapse(tile.collapsedState, direction):
-					# add changed neighbors to queue
-					queue.append(neighbor)  
+				var old_entropy = neighbor.entropy
+				
+				
+				# if current tile is collapsed
+				if tile.collapsedState != -1:
+					if neighbor.onNeighborCollapse(tile.collapsedState, direction):
+						if neighbor.entropy > 1:
+							if Globals.DEBUG_MODE:
+								print("- adding tile: ",  neighbor.position, " to the queue")
+							queue.append(neighbor)
+				# else if current tile isn't collapsed
+				else:
+					var tilePossibleStates = []
+					for i in range(tile.possibleStates.size()):
+						if tile.possibleStates[i]:
+							tilePossibleStates.append(i)
+
+					if neighbor.onNeighborUpdate(tilePossibleStates, direction):
+						if neighbor.entropy > 1:
+							if Globals.DEBUG_MODE:
+								print("- adding tile: ",  neighbor.position, " to the queue")
+							queue.append(neighbor)
+				
+				# TU CHYBA JEST BŁAD. WYWOLUJEMY ONNEIGHBOURCOLLAPSE DLA STANU, KTORY NIE JEST JEDNOZNACZNY
+				# FUNKCJA onNeighborCollapse POWINNA ROZWAZAC WSZYSTKIE MOZLIWE STANY A NIE TYLKO JEDEN
+				#var neigborGotContstrained = neighbor.onNeighborUpdate(tile.collapsedState, direction)
+				#
+				#if neigborGotContstrained:
+					#if Globals.DEBUG_MODE:
+						#print("propagation updated for tile: ", neighbor.position, " from: ", old_entropy, " to: ", neighbor.entropy)
+					#
+					#if neighbor.entropy > 1:
+						#if Globals.DEBUG_MODE:
+							#print("- adding tile: ",  neighbor.position, " to the queue")
+						#queue.append(neighbor)
+					
 
 func _runWFC():
-	while true:
+	const MAX_ITERATIONS = 10
+	var iterations = 0
+	while true and (iterations <= MAX_ITERATIONS):
+		print("\nWFC ITERATION\n")
+		
+		_printEntropyMap()
+		_printGridStateAsNums()
+				
 		var pos = _findTileWithMinEntropy()
 		
 		if pos.is_empty():
@@ -104,3 +166,41 @@ func _runWFC():
 		
 		_collapseTile(pos[0], pos[1])
 		_propagateWave()
+		
+		iterations+=1
+		
+		print("Iterations: ", iterations)
+		
+		#_printGridState()
+		
+	print("\nWFC ENDED")
+	_printGridState()
+	_printGridStateAsNums()
+
+func _printGridState():
+	print("\n--- Grid State ---")
+	for y in range(GRID_HEIGHT):
+		var row = ""
+		for x in range(GRID_WIDTH):
+			var tile = gridMatrix[x][y]
+			var tile_name = Tiles.getName(tile.collapsedState) if tile.entropy == 1 else "?"
+			row += tile_name + "\t"
+		print(row)
+		
+func _printGridStateAsNums():
+	print("\n--- Grid State ---")
+	for y in range(GRID_HEIGHT):
+		var row = ""
+		for x in range(GRID_WIDTH):
+			var tile = gridMatrix[x][y]
+			row += str(tile.collapsedState) + "\t"
+		print(row)
+
+func _printEntropyMap():
+	print("\n\n--- Entropy Map ---")
+	for y in range(GRID_HEIGHT):
+		var row = ""
+		for x in range(GRID_WIDTH):
+			var tile = gridMatrix[x][y]
+			row += str(tile.entropy) + "\t"
+		print(row)
