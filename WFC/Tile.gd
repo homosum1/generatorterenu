@@ -57,7 +57,7 @@ func getPossibleNeighbors(collapsedNeighborState: int, direction: String) -> Arr
 	var possibleNeighbors = []
 
 	for i in range(Tiles.tiles.size()):	
-		if isPossibleNeighbor(collapsedNeighborState, i, direction):
+		if Rules.isPossibleNeighbor(collapsedNeighborState, i, direction):
 			possibleNeighbors.append(i) 
 	
 	return possibleNeighbors

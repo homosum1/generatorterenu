@@ -2,10 +2,23 @@ class_name Tiles
 extends Object
 
 const tiles = [
-	{"name": "desert_tile", "index": 0},
-	{"name": "forest_tile", "index": 1},
-	{"name": "water_tile", "index": 2},
-	{"name": "mountain_tile", "index": 3}
+	{"name": "grass", "index": 0},
+	{"name": "dirt", "index": 1},
+# sides
+	{"name": "grass-dirt_left", "index": 2},
+	{"name": "grass-dirt_top", "index": 3},
+	{"name": "grass-dirt_right", "index": 4},
+	{"name": "grass-dirt_bottom", "index": 5},
+# edges
+	{"name": "grass-dirt_top-left", "index": 6},
+	{"name": "grass-dirt_top-right", "index": 7},
+	{"name": "grass-dirt_bottom-left", "index": 8},
+	{"name": "grass-dirt_bottom-right", "index": 9},	
+# corners
+	{"name": "grass-dirt_corner_top-left", "index": 10},
+	{"name": "grass-dirt_corner_top-right", "index": 11},
+	{"name": "grass-dirt_corner_bottom-left", "index": 12},
+	{"name": "grass-dirt_corner_bottom-right", "index": 13},	
 ]
 
 

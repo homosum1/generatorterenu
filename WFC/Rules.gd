@@ -139,19 +139,31 @@ const adjacencyRules = {
 
 static var adjacencyRulesAsIndexes = {}
 
-static func _init():
+static func initialize():
+	adjacencyRulesAsIndexes.clear()
+	
 	for tileName in adjacencyRules.keys():
 		var tileIndex = Tiles.getIndex(tileName)
 		
-		if tileIndex != -1:
-			adjacencyRulesAsIndexes[tileIndex] = {}
+		if tileIndex == -1:
+			print_debug("Oopsie Tile '%s' is not defined" % tileName)
+			continue
+		
+		adjacencyRulesAsIndexes[tileIndex] = {}
+		
+		for direction in adjacencyRules[tileName].keys():
+			adjacencyRulesAsIndexes[tileIndex][direction] = []
 			
-			for direction in adjacencyRules[tileName].keys():
-				adjacencyRulesAsIndexes[tileIndex][direction] = []
-				for neighbor_name in adjacencyRules[tileName][direction]:
-					var neighborIndex = Tiles.getIndex(neighbor_name)
-					if neighborIndex != -1:
-						adjacencyRulesAsIndexes[tileIndex][direction].append(neighborIndex)
+			for neighbor_name in adjacencyRules[tileName][direction]:
+				var neighborIndex = Tiles.getIndex(neighbor_name)
+				
+				if neighborIndex == -1:
+					print_debug("Oopsie Neighbor tile '%s' not found" % neighbor_name)
+					continue
+				
+				adjacencyRulesAsIndexes[tileIndex][direction].append(neighborIndex)
 
-static func isPossibleNeighbor(tileIndex: int, direction: String) -> Array:
-	return adjacencyRulesAsIndexes.get(tileIndex, {}).get(direction, [])
+static func isPossibleNeighbor(tileIndex: int, neighborIndex: int, direction: String) -> bool:
+	if adjacencyRulesAsIndexes.has(tileIndex) and adjacencyRulesAsIndexes[tileIndex].has(direction):
+		return neighborIndex in adjacencyRulesAsIndexes[tileIndex][direction]
+	return false

@@ -1,15 +1,16 @@
 extends Node
 
-const GRID_WIDTH = 10
-const GRID_HEIGHT = 10
+const GRID_WIDTH = 6
+const GRID_HEIGHT = 6
 
 var gridMatrix = []
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
-
+	Rules.initialize() # Map rules to index based system
+	#_gridInit()  # Initialize grid for WFC
+	#_runWFC()  # Start WFC algorithm
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -38,14 +39,6 @@ func _gridInit() -> void:
 			if y < GRID_HEIGHT - 1:
 				processedTile.neighbors["bottom"] = gridMatrix[x][y + 1]
 				
-			#if (x > 0) and (y > 0):
-				#processedTile.neighbors["top_left"] = gridMatrix[x - 1][y - 1]
-			#if (x < GRID_WIDTH - 1) and (y > 0):
-				#processedTile.neighbors["top_right"] = gridMatrix[x + 1][y - 1]
-			#if (x > 0) and (y < GRID_HEIGHT - 1):
-				#processedTile.neighbors["bottom_left"] = gridMatrix[x - 1][y + 1]
-			#if (x < GRID_WIDTH - 1) and (y < GRID_HEIGHT - 1):
-				#processedTile.neighbors["bottom_right"] = gridMatrix[x + 1][y + 1]
 						
 func _findTileWithMinEntropy() -> Array:
 	var minEntropy = Tiles.tiles.size() + 1
@@ -69,3 +62,45 @@ func _findTileWithMinEntropy() -> Array:
 		return bestCandidates[randomIndex]
 	else:
 		return []	
+
+
+func _collapseTile(x: int, y: int) -> void:
+	var tile = gridMatrix[x][y]
+
+	if tile.entropy <= 1:
+		# tile is already collapsed
+		return  
+
+	tile.collapse() 
+
+func _propagateWave():
+	var queue = []
+
+	# if tile is collapsed - add to queue
+	for x in range(GRID_WIDTH):
+		for y in range(GRID_HEIGHT):
+			if gridMatrix[x][y].entropy == 1:
+				queue.append(gridMatrix[x][y])
+
+	# empty queue
+	while queue.size() > 0:
+		var tile = queue.pop_front()
+
+		for direction in tile.neighbors.keys():
+			var neighbor = tile.neighbors[direction]
+
+			if neighbor and neighbor.entropy > 1:
+				if neighbor.onNeighborCollapse(tile.collapsedState, direction):
+					# add changed neighbors to queue
+					queue.append(neighbor)  
+
+func _runWFC():
+	while true:
+		var pos = _findTileWithMinEntropy()
+		
+		if pos.is_empty():
+			# stop algorithm when all tiles are collapsed
+			break 
+		
+		_collapseTile(pos[0], pos[1])
+		_propagateWave()
