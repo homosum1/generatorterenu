@@ -1,8 +1,8 @@
-
+class_name WFC
 extends Node
 
-const GRID_WIDTH = 3
-const GRID_HEIGHT = 3
+const GRID_WIDTH = 5
+const GRID_HEIGHT = 5
 
 var gridMatrix = []
 
@@ -135,29 +135,19 @@ func _propagateWave():
 								print("- adding tile: ",  neighbor.position, " to the queue")
 							queue.append(neighbor)
 				
-				# TU CHYBA JEST BŁAD. WYWOLUJEMY ONNEIGHBOURCOLLAPSE DLA STANU, KTORY NIE JEST JEDNOZNACZNY
-				# FUNKCJA onNeighborCollapse POWINNA ROZWAZAC WSZYSTKIE MOZLIWE STANY A NIE TYLKO JEDEN
-				#var neigborGotContstrained = neighbor.onNeighborUpdate(tile.collapsedState, direction)
-				#
-				#if neigborGotContstrained:
-					#if Globals.DEBUG_MODE:
-						#print("propagation updated for tile: ", neighbor.position, " from: ", old_entropy, " to: ", neighbor.entropy)
-					#
-					#if neighbor.entropy > 1:
-						#if Globals.DEBUG_MODE:
-							#print("- adding tile: ",  neighbor.position, " to the queue")
-						#queue.append(neighbor)
-					
 
 func _runWFC():
-	const MAX_ITERATIONS = 10
+	const MAX_ITERATIONS = 500
 	var iterations = 0
 	while true and (iterations <= MAX_ITERATIONS):
-		print("\nWFC ITERATION\n")
+		if Globals.DEBUG_MODE:
+			print("\nWFC ITERATION\n")
+			_printEntropyMap()
 		
-		_printEntropyMap()
-		_printGridStateAsNums()
-				
+		if iterations > 15:
+			_printEntropyMap()
+			_printGridStateAsNums()
+			
 		var pos = _findTileWithMinEntropy()
 		
 		if pos.is_empty():
@@ -168,12 +158,14 @@ func _runWFC():
 		_propagateWave()
 		
 		iterations+=1
-		
-		print("Iterations: ", iterations)
+
+		if Globals.DEBUG_MODE:		
+			print("Iterations: ", iterations)
 		
 		#_printGridState()
-		
-	print("\nWFC ENDED")
+	
+	if Globals.DEBUG_MODE:
+		print("\nWFC ENDED")
 	_printGridState()
 	_printGridStateAsNums()
 

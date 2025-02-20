@@ -40,6 +40,7 @@ func collapse() -> void:
 	else:
 		print("No potential states:", possibleStates, " at: ", position)
 		push_error("Stopping execution from Object class")
+		
 		assert(false)
 
 func _notifyNeighbors():
