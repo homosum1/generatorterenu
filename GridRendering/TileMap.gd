@@ -19,5 +19,4 @@ func renderWFCGrid(gridMatrix):
 	for x in range(gridMatrix.size()):
 		for y in range(gridMatrix[x].size()):
 			var tile = gridMatrix[x][y]
-			if tile.collapsedState != -1:
-				set_cell(Vector2i(x, y), tile.collapsedState, Vector2i(0, 0))
+			set_cell(Vector2i(x, y), 0, Vector2i(tile.collapsedState, 0))

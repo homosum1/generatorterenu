@@ -19,7 +19,6 @@ func calulateWFC() -> void:
 	Tiles.initialize() # Loading tiles
 	Rules.initialize() # Map rules to index based system
 	_gridInit()  # Initialize grid for WFC
-	
 	_runWFC()  # Start WFC algorithm
 
 func _gridInit() -> void:
@@ -147,7 +146,7 @@ func _runWFC():
 			print("\nWFC ITERATION\n")
 			_printEntropyMap()
 		
-		if iterations > 15:
+		if iterations > 5:
 			_printEntropyMap()
 			_printGridStateAsNums()
 			
