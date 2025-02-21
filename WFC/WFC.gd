@@ -146,9 +146,7 @@ func _runWFC():
 			print("\nWFC ITERATION\n")
 			_printEntropyMap()
 		
-		if iterations > 5:
-			_printEntropyMap()
-			_printGridStateAsNums()
+		
 			
 		var pos = _findTileWithMinEntropy()
 		
@@ -168,7 +166,8 @@ func _runWFC():
 	
 	if Globals.DEBUG_MODE:
 		print("\nWFC ENDED")
-	_printGridState()
+	
+	_printEntropyMap()
 	_printGridStateAsNums()
 
 func _printGridState():

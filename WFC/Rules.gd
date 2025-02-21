@@ -196,7 +196,11 @@ const adjacencyRules = {
 			"grass-dirt_bottom-left",
 			"grass-dirt_corner_bottom-right"
 		],
-		"right": ["dirt", "grass-dirt_left"],
+		"right": [
+			"dirt", 
+			"grass-dirt_left",
+			"grass-dirt_bottom-left"
+		],
 		"top": ["grass-dirt_right", "grass-dirt_corner_bottom-right", "grass-dirt_top-right"],
 		"bottom": [
 			"dirt", 
@@ -208,7 +212,8 @@ const adjacencyRules = {
 	"grass-dirt_bottom-left": {
 		"left": [
 			"dirt", 
-			"grass-dirt_right"
+			"grass-dirt_right",
+			"grass-dirt_bottom-right"
 		],
 		"right": [
 			"grass-dirt_bottom", 
@@ -249,8 +254,14 @@ const adjacencyRules = {
 			"grass-dirt_bottom-left", 
 			"grass-dirt_corner_bottom-right"
 		],
-		"right": ["grass",  "grass-dirt_right"],
-		"top": ["grass", "grass-dirt_top"],
+		"right": [
+			"grass",  
+			"grass-dirt_right"
+		],
+		"top": [
+			"grass", 
+			"grass-dirt_top"
+		],
 		"bottom": [
 			"grass-dirt_left", 
 			"grass-dirt_bottom-left", 
@@ -261,9 +272,13 @@ const adjacencyRules = {
 		"left": [
 			"grass", 
 			"grass-dirt_left",
-			
+			"grass-dirt_corner_bottom-left"
 		],
-		"right": ["grass-dirt_bottom", "grass-dirt_bottom-right", "grass-dirt_corner_bottom-left"],
+		"right": [
+			"grass-dirt_bottom", 
+			"grass-dirt_bottom-right", 
+			"grass-dirt_corner_bottom-left"
+		],
 		"top": ["grass", "grass-dirt_top"],
 		"bottom": [
 			"grass-dirt_right", 

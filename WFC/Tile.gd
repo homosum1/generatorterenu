@@ -37,8 +37,8 @@ func collapse() -> void:
 		possibleStates.clear()  
 		# notify neighbors about collapse
 		_notifyNeighbors()
-	else:
-		print("No potential states:", possibleStates, " at: ", position)
+	#else:
+		#print("No potential states:", possibleStates, " at: ", position)
 		#push_error("Stopping execution from Object class")
 		
 		#assert(false)
