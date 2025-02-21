@@ -23,6 +23,10 @@ func collapse() -> void:
 	var weightedIndexes = [] 
 	
 	const boostedIndexes = [0, 1]
+	const boosts = [3, 7]
+	# miejsce na bardziej złozony system, gdzie przewaga jednego z dwoch tile'i
+	# boostuje prawdopodobienstwo krawedzi dla drugiego tile'a, tak aby przeszedl
+	# on w inny tile
 	
 	for i in range(possibleStates.size()):
 		if possibleStates[i]:
@@ -43,11 +47,11 @@ func collapse() -> void:
 				neighborStatesCounts[state] = 1
 
 	for index in potentialIndexes:
-		var weight = 1  # Default probability weight
+		var weight = 1 
 
 		if index in neighborStatesCounts:
 			if index in boostedIndexes:
-				weight += neighborStatesCounts[index] * 100
+				weight += pow(boosts[index], neighborStatesCounts[index])
 
 		for _i in range(weight):
 			weightedIndexes.append(index)
