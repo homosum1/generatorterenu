@@ -72,8 +72,8 @@ const adjacencyRules = {
 		"bottom": [
 			"grass", 
 			"grass-dirt_bottom", 
-			"grass-dirt_bottom-left", 
-			"grass-dirt_bottom-right"
+			"grass-dirt_corner_bottom-left",
+			"grass-dirt_corner_bottom-right"
 		]
 	},	
 	"grass-dirt_right": {
@@ -82,7 +82,12 @@ const adjacencyRules = {
 			"grass-dirt_corner_bottom-left",
 			"grass-dirt_corner_top-left"
 		],
-		"right": ["dirt", "grass-dirt_left"],
+		"right": [
+			"dirt", 
+			"grass-dirt_left",
+			"grass-dirt_bottom-left",
+			"grass-dirt_top-left"
+		],
 		"top": [
 			"grass-dirt_right", 
 			"grass-dirt_top-right",
@@ -105,7 +110,12 @@ const adjacencyRules = {
 			"grass-dirt_bottom-right",
 			"grass-dirt_corner_bottom-left",
 		],
-		"top": ["grass", "grass-dirt_top"],
+		"top": [
+			"grass", 
+			"grass-dirt_top",
+			"grass-dirt_corner_top-left",
+			"grass-dirt_corner_top-right"
+		],
 		"bottom": [
 			"dirt", 
 			"grass-dirt_top", 
@@ -114,7 +124,12 @@ const adjacencyRules = {
 		]
 	},
 	"grass-dirt_left": {
-		"left": ["dirt", "grass-dirt_right"],
+		"left": [
+			"dirt", 
+			"grass-dirt_right",
+			"grass-dirt_bottom-right",
+			"grass-dirt_top-right"
+		],
 		"right": [
 			"grass",
 			"grass-dirt_corner_bottom-right",
@@ -152,27 +167,46 @@ const adjacencyRules = {
 		"bottom": ["grass-dirt_left", "grass-dirt_corner_top-left", "grass-dirt_bottom-left"]
 	},
 	"grass-dirt_bottom-right": {
-		"left": ["grass-dirt_bottom", "grass-dirt_corner_bottom-right"],
+		"left": [
+			"grass-dirt_bottom", 
+			"grass-dirt_bottom-left",
+			"grass-dirt_corner_bottom-right"
+		],
 		"right": ["dirt", "grass-dirt_left"],
 		"top": ["grass-dirt_right", "grass-dirt_corner_bottom-right", "grass-dirt_top-right"],
 		"bottom": ["dirt", "grass-dirt_top"]
 	},
 	"grass-dirt_bottom-left": {
-		"left": ["dirt", "grass-dirt_right"],
-		"right": ["grass-dirt_bottom", "grass-dirt_corner_bottom-left"],
+		"left": [
+			"dirt", 
+			"grass-dirt_right"
+		],
+		"right": [
+			"grass-dirt_bottom", 
+			"grass-dirt_corner_bottom-left",
+			"grass-dirt_bottom-right",
+		],
 		"top": ["grass-dirt_left", "grass-dirt_corner_bottom-left", "grass-dirt_top-left"],
 		"bottom": ["dirt", "grass-dirt_top"]
 	},
 	"grass-dirt_corner_top-left": {
 		"left": ["grass-dirt_top", "grass-dirt_top-left", "grass-dirt_corner_top-right"],
 		"right": ["grass", "grass-dirt_right"],
-		"top": ["grass-dirt_left", "grass-dirt_top-left", "grass-dirt_corner_bottom-left"],
+		"top": [
+			"grass-dirt_left", 
+			"grass-dirt_top-left", 
+			"grass-dirt_corner_bottom-left"
+		],
 		"bottom": ["grass", "grass-dirt_bottom"]
 	},
 	"grass-dirt_corner_top-right": {
 		"left": ["grass", "grass-dirt_left"],
 		"right": ["grass-dirt_top", "grass-dirt_top-right", "grass-dirt_corner_top-left"],
-		"top": ["grass-dirt_left", "grass-dirt_top-right", "grass-dirt_corner_bottom-right"],
+		"top": [
+			"grass-dirt_right", 
+			"grass-dirt_top-right", 
+			"grass-dirt_corner_bottom-right"
+		],
 		"bottom": ["grass", "grass-dirt_bottom"]
 	},
 	"grass-dirt_corner_bottom-left": {
@@ -180,13 +214,17 @@ const adjacencyRules = {
 		"right": ["grass",  "grass-dirt_right"],
 		"top": ["grass", "grass-dirt_top"],
 		"bottom": [
-			"grass-dirt_right", 
+			"grass-dirt_left", 
 			"grass-dirt_bottom-left", 
 			"grass-dirt_corner_top-left"
 		]
 	},
 	"grass-dirt_corner_bottom-right": {
-		"left": ["grass", "grass-dirt_left"],
+		"left": [
+			"grass", 
+			"grass-dirt_left",
+			
+		],
 		"right": ["grass-dirt_bottom", "grass-dirt_bottom-right", "grass-dirt_corner_bottom-left"],
 		"top": ["grass", "grass-dirt_top"],
 		"bottom": [
