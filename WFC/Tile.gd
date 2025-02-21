@@ -20,28 +20,72 @@ func _init(x: int, y: int):
 
 func collapse() -> void:
 	var potentialIndexes = []
+	var weightedIndexes = [] 
+	
+	const boostedIndexes = [0, 1]
 	
 	for i in range(possibleStates.size()):
 		if possibleStates[i]:
 			potentialIndexes.append(i)
-	
-	if potentialIndexes.size() > 0:
-		var randomIndex = randi() % potentialIndexes.size() 
-		
-		collapsedState = potentialIndexes[randomIndex]
-		entropy = 1
-		
-		if Globals.DEBUG_MODE:
-			print("↳ Tile at: ", position, " collapsed to: ", Tiles.getName(collapsedState), " (", collapsedState, ")")
-		
-		possibleStates.clear()  
-		# notify neighbors about collapse
-		_notifyNeighbors()
-	#else:
-		#print("No potential states:", possibleStates, " at: ", position)
-		#push_error("Stopping execution from Object class")
-		
-		#assert(false)
+
+	if potentialIndexes.size() == 0:
+		return
+
+	var neighborStatesCounts = {}
+
+	for direction in neighbors.keys():
+		var neighbor = neighbors[direction]
+		if neighbor and (neighbor.collapsedState != -1):
+			var state = neighbor.collapsedState
+			if state in neighborStatesCounts:
+				neighborStatesCounts[state] += 1
+			else:
+				neighborStatesCounts[state] = 1
+
+	for index in potentialIndexes:
+		var weight = 1  # Default probability weight
+
+		if index in neighborStatesCounts:
+			if index in boostedIndexes:
+				weight += neighborStatesCounts[index] * 100
+
+		for _i in range(weight):
+			weightedIndexes.append(index)
+
+	var randomIndex = randi() % weightedIndexes.size()
+	collapsedState = weightedIndexes[randomIndex]
+	entropy = 1
+
+	if Globals.DEBUG_MODE:
+		print("↳ Tile at: ", position, " collapsed to: ", Tiles.getName(collapsedState), " (", collapsedState, ") with weighted probability.")
+
+	possibleStates.clear()  
+	_notifyNeighbors()
+
+#func collapse() -> void:
+	#var potentialIndexes = []
+	#
+	#for i in range(possibleStates.size()):
+		#if possibleStates[i]:
+			#potentialIndexes.append(i)
+	#
+	#if potentialIndexes.size() > 0:
+		#var randomIndex = randi() % potentialIndexes.size() 
+		#
+		#collapsedState = potentialIndexes[randomIndex]
+		#entropy = 1
+		#
+		#if Globals.DEBUG_MODE:
+			#print("↳ Tile at: ", position, " collapsed to: ", Tiles.getName(collapsedState), " (", collapsedState, ")")
+		#
+		#possibleStates.clear()  
+		## notify neighbors about collapse
+		#_notifyNeighbors()
+	##else:
+		##print("No potential states:", possibleStates, " at: ", position)
+		##push_error("Stopping execution from Object class")
+		#
+		##assert(false)
 
 func _notifyNeighbors():
 	for direction in neighbors.keys():
