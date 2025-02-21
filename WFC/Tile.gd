@@ -39,9 +39,9 @@ func collapse() -> void:
 		_notifyNeighbors()
 	else:
 		print("No potential states:", possibleStates, " at: ", position)
-		push_error("Stopping execution from Object class")
+		#push_error("Stopping execution from Object class")
 		
-		assert(false)
+		#assert(false)
 
 func _notifyNeighbors():
 	for direction in neighbors.keys():

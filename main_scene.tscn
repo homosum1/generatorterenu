@@ -109,6 +109,10 @@ sources/0 = SubResource("TileSetAtlasSource_d2ome")
 script = ExtResource("1_mifgn")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
+texture_filter = 1
 tile_set = SubResource("TileSet_rtv2r")
 script = ExtResource("2_b4q31")
 wfc_path = NodePath("..")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(3, 3)
