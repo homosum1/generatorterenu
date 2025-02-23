@@ -1,8 +1,8 @@
 class_name WFC
 extends Node
 
-const GRID_WIDTH = 12
-const GRID_HEIGHT = 12
+const GRID_WIDTH = 20
+const GRID_HEIGHT = 20
 
 var gridMatrix = []
 

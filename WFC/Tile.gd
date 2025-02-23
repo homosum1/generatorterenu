@@ -23,7 +23,7 @@ func collapse() -> void:
 	var weightedIndexes = [] 
 	
 	const boostedIndexes = [0, 1]
-	const boosts = [3, 7]
+	const boosts = [5, 10]
 	# miejsce na bardziej złozony system, gdzie przewaga jednego z dwoch tile'i
 	# boostuje prawdopodobienstwo krawedzi dla drugiego tile'a, tak aby przeszedl
 	# on w inny tile

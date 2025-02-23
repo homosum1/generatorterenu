@@ -115,5 +115,5 @@ script = ExtResource("2_b4q31")
 wfc_path = NodePath("..")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(100, 100)
+position = Vector2(150, 150)
 zoom = Vector2(3, 3)
