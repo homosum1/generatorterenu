@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://bd28sv8yutm07"]
+[gd_scene load_steps=8 format=3 uid="uid://bd28sv8yutm07"]
 
 [ext_resource type="Script" path="res://WFC/WFC.gd" id="1_mifgn"]
 [ext_resource type="Script" path="res://GridRendering/TileMap.gd" id="2_b4q31"]
 [ext_resource type="Texture2D" uid="uid://btcdpcpn41jpo" path="res://ordered_tiles.png" id="2_el5gr"]
+[ext_resource type="Script" path="res://Player/Player.gd" id="4_achjb"]
+[ext_resource type="Texture2D" uid="uid://c1ey603ufdrd1" path="res://icon.svg" id="5_48tht"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_d2ome"]
 texture = ExtResource("2_el5gr")
@@ -114,10 +116,6 @@ tile_set = SubResource("TileSet_rtv2r")
 script = ExtResource("2_b4q31")
 wfc_path = NodePath("..")
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(150, 150)
-zoom = Vector2(3, 3)
-
 [node name="UiLayer" type="CanvasLayer" parent="."]
 
 [node name="UiRoot" type="Control" parent="UiLayer"]
@@ -139,5 +137,16 @@ offset_right = -20.0
 offset_bottom = 51.0
 grow_horizontal = 0
 text = "Generate Map"
+
+[node name="Player" type="CharacterBody2D" parent="."]
+script = ExtResource("4_achjb")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("5_48tht")
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+zoom = Vector2(3, 3)
+position_smoothing_enabled = true
 
 [connection signal="pressed" from="UiLayer/UiRoot/RegenButton" to="TileMapLayer" method="_on_regen_button_pressed"]
