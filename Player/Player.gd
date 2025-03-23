@@ -5,7 +5,8 @@ extends CharacterBody2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	z_index = 10
+
 
 func _process(delta: float) -> void:
 	var direction = Vector2.ZERO

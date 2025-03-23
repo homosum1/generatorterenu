@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://bd28sv8yutm07"]
+[gd_scene load_steps=9 format=3 uid="uid://bd28sv8yutm07"]
 
-[ext_resource type="Script" path="res://WFC/WFC.gd" id="1_mifgn"]
 [ext_resource type="Script" path="res://GridRendering/TileMap.gd" id="2_b4q31"]
 [ext_resource type="Texture2D" uid="uid://btcdpcpn41jpo" path="res://ordered_tiles.png" id="2_el5gr"]
+[ext_resource type="Script" path="res://ChunkRendering/ChunkRendering.gd" id="2_iue0x"]
+[ext_resource type="Script" path="res://UiControllers/UiController.gd" id="4_4e0j1"]
 [ext_resource type="Script" path="res://Player/Player.gd" id="4_achjb"]
 [ext_resource type="Texture2D" uid="uid://c1ey603ufdrd1" path="res://icon.svg" id="5_48tht"]
 
@@ -108,13 +109,13 @@ texture = ExtResource("2_el5gr")
 sources/0 = SubResource("TileSetAtlasSource_d2ome")
 
 [node name="Node2D" type="Node2D"]
-script = ExtResource("1_mifgn")
+script = ExtResource("2_iue0x")
+tileMapRendererPath = NodePath("TileMapLayer")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 texture_filter = 1
 tile_set = SubResource("TileSet_rtv2r")
 script = ExtResource("2_b4q31")
-wfc_path = NodePath("..")
 
 [node name="UiLayer" type="CanvasLayer" parent="."]
 
@@ -125,6 +126,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("4_4e0j1")
 
 [node name="RegenButton" type="Button" parent="UiLayer/UiRoot"]
 layout_mode = 1
@@ -138,6 +140,24 @@ offset_bottom = 51.0
 grow_horizontal = 0
 text = "Generate Map"
 
+[node name="ZoomButtons" type="HBoxContainer" parent="UiLayer/UiRoot"]
+layout_mode = 1
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 222.0
+offset_bottom = 60.0
+
+[node name="ZoomIn" type="Button" parent="UiLayer/UiRoot/ZoomButtons"]
+layout_mode = 2
+text = "zoom in (+)"
+
+[node name="ZoomOut" type="Button" parent="UiLayer/UiRoot/ZoomButtons"]
+layout_mode = 2
+text = "zoom out (-)"
+
+[node name="ZoomLabel" type="Label" parent="UiLayer/UiRoot/ZoomButtons"]
+layout_mode = 2
+
 [node name="Player" type="CharacterBody2D" parent="."]
 script = ExtResource("4_achjb")
 
@@ -146,7 +166,12 @@ scale = Vector2(0.15, 0.15)
 texture = ExtResource("5_48tht")
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
+scale = Vector2(-1.95722, 0.849247)
 zoom = Vector2(3, 3)
 position_smoothing_enabled = true
 
-[connection signal="pressed" from="UiLayer/UiRoot/RegenButton" to="TileMapLayer" method="_on_regen_button_pressed"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+
+[connection signal="pressed" from="UiLayer/UiRoot/RegenButton" to="." method="_on_regen_button_pressed"]
+[connection signal="pressed" from="UiLayer/UiRoot/ZoomButtons/ZoomIn" to="UiLayer/UiRoot" method="_on_zoom_in_pressed"]
+[connection signal="pressed" from="UiLayer/UiRoot/ZoomButtons/ZoomOut" to="UiLayer/UiRoot" method="_on_zoom_out_pressed"]

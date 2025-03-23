@@ -1,26 +1,19 @@
 class_name WFC
-extends Node
 
-const GRID_WIDTH = 20
-const GRID_HEIGHT = 20
-
-var gridMatrix = []
+var GRID_WIDTH = 0
+var GRID_HEIGHT = 0
+var gridMatrix: Array[Array]  = []
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass
+func _init(grid_width: int, grid_height: int) -> void:
+	self.GRID_WIDTH = grid_width
+	self.GRID_HEIGHT = grid_height
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
-func calculateWFC() -> void:
-	gridMatrix = []
-	Tiles.initialize() # Loading tiles
-	Rules.initialize() # Map rules to index based system
+func calculateWFC() -> Array[Array]:	
 	_gridInit()  # Initialize grid for WFC
 	_runWFC()  # Start WFC algorithm
+	
+	return gridMatrix
 
 func _gridInit() -> void:
 	# create tiles

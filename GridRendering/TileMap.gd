@@ -3,25 +3,23 @@ extends TileMapLayer
 var wfc
 
 func _ready() -> void:
-	wfc = get_node(wfc_path)
+	pass
+	#wfc = get_node(wfc_path)
+#
+	#if not wfc:
+		#print("Missing wfc generator")
+		#return
+#
+	#wfc.calculateWFC() # run wfc before render
+	#
+	#renderWFCGrid(wfc.gridMatrix)
 
-	if not wfc:
-		print("Missing wfc generator")
-		return
 
-	wfc.calculateWFC() # run wfc before render
-	
-	renderWFCGrid(wfc.gridMatrix)
-
-func renderWFCGrid(gridMatrix):
+func renderWFCGrid(gridMatrix: Array[Array], offset: Vector2i):
 	clear() 
 
 	for x in range(gridMatrix.size()):
 		for y in range(gridMatrix[x].size()):
 			var tile = gridMatrix[x][y]
-			set_cell(Vector2i(x, y), 0, Vector2i(tile.collapsedState, 0))
-
-
-func _on_regen_button_pressed() -> void:
-	wfc.calculateWFC()
-	renderWFCGrid(wfc.gridMatrix)
+			#set_cell(Vector2i(x, y), 0, Vector2i(tile.collapsedState, 0))
+			set_cell(Vector2i(x + offset.x, y + offset.y), 0, Vector2i(tile.collapsedState, 0))
