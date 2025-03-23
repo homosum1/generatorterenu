@@ -9,7 +9,7 @@ func _ready() -> void:
 		print("Missing wfc generator")
 		return
 
-	wfc.calulateWFC() # run wfc before render
+	wfc.calculateWFC() # run wfc before render
 	
 	renderWFCGrid(wfc.gridMatrix)
 
@@ -20,3 +20,8 @@ func renderWFCGrid(gridMatrix):
 		for y in range(gridMatrix[x].size()):
 			var tile = gridMatrix[x][y]
 			set_cell(Vector2i(x, y), 0, Vector2i(tile.collapsedState, 0))
+
+
+func _on_regen_button_pressed() -> void:
+	wfc.calculateWFC()
+	renderWFCGrid(wfc.gridMatrix)

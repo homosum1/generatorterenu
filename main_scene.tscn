@@ -117,3 +117,27 @@ wfc_path = NodePath("..")
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(150, 150)
 zoom = Vector2(3, 3)
+
+[node name="UiLayer" type="CanvasLayer" parent="."]
+
+[node name="UiRoot" type="Control" parent="UiLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RegenButton" type="Button" parent="UiLayer/UiRoot"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -139.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 51.0
+grow_horizontal = 0
+text = "Generate Map"
+
+[connection signal="pressed" from="UiLayer/UiRoot/RegenButton" to="TileMapLayer" method="_on_regen_button_pressed"]

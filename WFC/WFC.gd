@@ -15,7 +15,8 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
-func calulateWFC() -> void:
+func calculateWFC() -> void:
+	gridMatrix = []
 	Tiles.initialize() # Loading tiles
 	Rules.initialize() # Map rules to index based system
 	_gridInit()  # Initialize grid for WFC
@@ -43,8 +44,9 @@ func _gridInit() -> void:
 				processedTile.neighbors["top"] = gridMatrix[x][y - 1]
 			if y < GRID_HEIGHT - 1:
 				processedTile.neighbors["bottom"] = gridMatrix[x][y + 1]
-	
-	_printGridDebug()
+				
+	if Globals.DEBUG_MODE:
+		_printGridDebug()
 
 func _printGridDebug():
 	print("\n------- Initialized grid data -------")
