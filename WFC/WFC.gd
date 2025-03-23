@@ -162,8 +162,8 @@ func _runWFC():
 	if Globals.DEBUG_MODE:
 		print("\nWFC ENDED")
 	
-	_printEntropyMap()
-	_printGridStateAsNums()
+		_printEntropyMap()
+		_printGridStateAsNums()
 
 func _printGridState():
 	print("\n--- Grid State ---")
