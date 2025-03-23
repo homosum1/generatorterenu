@@ -22,8 +22,9 @@ func collapse() -> void:
 	var potentialIndexes = []
 	var weightedIndexes = [] 
 	
-	const boostedIndexes = [0, 1]
-	const boosts = [5, 10]
+	const boostsMap = {0: 10, 1: 6, 6: 1, 7: 1, 8: 1, 9: 1}
+	
+	
 	# miejsce na bardziej złozony system, gdzie przewaga jednego z dwoch tile'i
 	# boostuje prawdopodobienstwo krawedzi dla drugiego tile'a, tak aby przeszedl
 	# on w inny tile
@@ -41,17 +42,21 @@ func collapse() -> void:
 		var neighbor = neighbors[direction]
 		if neighbor and (neighbor.collapsedState != -1):
 			var state = neighbor.collapsedState
-			if state in neighborStatesCounts:
-				neighborStatesCounts[state] += 1
-			else:
-				neighborStatesCounts[state] = 1
+			# Add more "probability" if neighbour has a similar state
+			neighborStatesCounts[state] = neighborStatesCounts.get(state, 0) + 1 
 
 	for index in potentialIndexes:
 		var weight = 1 
-
+		
+		# boost probability based on adjacency
 		if index in neighborStatesCounts:
-			if index in boostedIndexes:
-				weight += pow(boosts[index], neighborStatesCounts[index])
+			#weight += log(1 + neighborStatesCounts[index]) * boostsMap.get(index, 1)
+			weight += pow(boostsMap.get(index, 1), neighborStatesCounts[index])
+		
+		# boost probability purely on intended boost
+		if boostsMap.has(index):
+			var plannedBoost = boostsMap.get(index, 1)
+			weight += plannedBoost
 
 		for _i in range(weight):
 			weightedIndexes.append(index)
