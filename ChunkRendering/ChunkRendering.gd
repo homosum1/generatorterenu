@@ -31,6 +31,7 @@ func _ready() -> void:
 	_generateStitchingEdges()
 	
 	_renderWFCGrid()
+	_rednerStiches()
 
 func _clearWorldMap() -> void:
 	worldMap = []
@@ -53,23 +54,34 @@ func _initializeEmptyWorldMap() -> void:
 		worldMap.append(column)	
 
 func _generateStitchingEdges():
-	# horizontal stiches
-	for y in range(CHUNKS_COUNT_HEIGHT - 1):
-		var row = []
-		for x in range(CHUNKS_COUNT_WIDTH):
-			var edge = WFC.new(CHUNK_WIDTH, 1)
-			edge.calculateWFC()
-			row.append(edge.gridMatrix)
+	const horizontalStichWidth = CHUNK_WIDTH * CHUNKS_COUNT_WIDTH + (CHUNKS_COUNT_WIDTH-1) 
+	const verticalStichHeigth = CHUNK_HEIGHT * CHUNKS_COUNT_HEIGHT + (CHUNKS_COUNT_HEIGHT-1) 
+	
+	# horizontal stitches
+	for i in range(CHUNKS_COUNT_HEIGHT - 1):
+		var edge = WFC.new(horizontalStichWidth , 1)
+		var row = edge.calculateWFC()
 		horizontalStiches.append(row)
-
-	# vertical stiches
+		
+	# vertical stitch 
+	# add collapsed tiles from horizontal stitches to
+	# vertial not yet collapsed stitches
 	for x in range(CHUNKS_COUNT_WIDTH - 1):
-		var column = []
-		for y in range(CHUNKS_COUNT_HEIGHT):
-			var edge = WFC.new(1, CHUNK_HEIGHT)
-			edge.calculateWFC()
-			column.append(edge.gridMatrix)
+		var edge = WFC.new(1, verticalStichHeigth)
+
+		# Inject already collapsed intersection tiles from horizontalStitches
+		for y in range(CHUNKS_COUNT_HEIGHT - 1):
+			var intersectY = CHUNK_HEIGHT * (y + 1) + y  
+			var intersectX = CHUNK_WIDTH * (x + 1) + x   
+
+			
+			var collapsedIndex = horizontalStiches[y][intersectX][0].collapsedState
+			edge.gridMatrix[0][intersectY].collapseTo(collapsedIndex)
+
+		var column = edge.calculateWFC()
 		verticalStiches.append(column)
+		
+
 		
 
 func _calculateWFCForWorldMap() -> void:
@@ -89,7 +101,19 @@ func _renderWFCGrid() -> void:
 			#print("offset x: " + str(x) + " y: " + str(y))
 
 			tileMapRenderer.renderWFCGrid(worldMap[x][y], offset)
+
+func _rednerStiches() -> void:
+	# render horizontal stitches
+	for y in range(CHUNKS_COUNT_HEIGHT - 1):
+		var offset = Vector2i(0, (y + 1) * CHUNK_HEIGHT + y * CHUNK_GAP)
+		var row = horizontalStiches[y]  
+		tileMapRenderer.renderWFCGrid(row, offset)
 	
+	# render vertical stitches
+	for x in range(CHUNKS_COUNT_WIDTH - 1):
+		var offset = Vector2i((x + 1) * CHUNK_WIDTH + x * CHUNK_GAP, 0)
+		var column = verticalStiches[x]
+		tileMapRenderer.renderWFCGrid(column, offset)
 
 func _on_regen_button_pressed() -> void:
 	tileMapRenderer.clearMap()
@@ -98,3 +122,4 @@ func _on_regen_button_pressed() -> void:
 	_initializeEmptyWorldMap()
 	_calculateWFCForWorldMap()
 	_renderWFCGrid()
+	_rednerStiches() 

@@ -71,30 +71,16 @@ func collapse() -> void:
 	possibleStates.clear()  
 	_notifyNeighbors()
 
-#func collapse() -> void:
-	#var potentialIndexes = []
-	#
-	#for i in range(possibleStates.size()):
-		#if possibleStates[i]:
-			#potentialIndexes.append(i)
-	#
-	#if potentialIndexes.size() > 0:
-		#var randomIndex = randi() % potentialIndexes.size() 
-		#
-		#collapsedState = potentialIndexes[randomIndex]
-		#entropy = 1
-		#
-		#if Globals.DEBUG_MODE:
-			#print("↳ Tile at: ", position, " collapsed to: ", Tiles.getName(collapsedState), " (", collapsedState, ")")
-		#
-		#possibleStates.clear()  
-		## notify neighbors about collapse
-		#_notifyNeighbors()
-	##else:
-		##print("No potential states:", possibleStates, " at: ", position)
-		##push_error("Stopping execution from Object class")
-		#
-		##assert(false)
+func collapseTo(index: int):
+	if not possibleStates[index]:
+		push_warning("failed to collapse invalid index: %d at position %s" % [index, str(position)])
+		return
+
+	collapsedState = index
+	entropy = 1
+	
+	for i in range(possibleStates.size()):
+		possibleStates[i] = (i == index)
 
 func _notifyNeighbors():
 	for direction in neighbors.keys():

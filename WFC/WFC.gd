@@ -8,9 +8,9 @@ var gridMatrix: Array[Array]  = []
 func _init(grid_width: int, grid_height: int) -> void:
 	self.GRID_WIDTH = grid_width
 	self.GRID_HEIGHT = grid_height
+	_gridInit()  # Initialize grid for WFC
 
 func calculateWFC() -> Array[Array]:	
-	_gridInit()  # Initialize grid for WFC
 	_runWFC()  # Start WFC algorithm
 	
 	return gridMatrix
