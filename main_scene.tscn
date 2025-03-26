@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bd28sv8yutm07"]
+[gd_scene load_steps=10 format=3 uid="uid://bd28sv8yutm07"]
 
 [ext_resource type="Script" path="res://GridRendering/TileMap.gd" id="2_b4q31"]
 [ext_resource type="Texture2D" uid="uid://btcdpcpn41jpo" path="res://ordered_tiles.png" id="2_el5gr"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://UiControllers/UiController.gd" id="4_4e0j1"]
 [ext_resource type="Script" path="res://Player/Player.gd" id="4_achjb"]
 [ext_resource type="Texture2D" uid="uid://c1ey603ufdrd1" path="res://icon.svg" id="5_48tht"]
+[ext_resource type="Script" path="res://GridOverlay/GridOverlay.gd" id="7_tb6b5"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_d2ome"]
 texture = ExtResource("2_el5gr")
@@ -158,6 +159,20 @@ text = "zoom out (-)"
 [node name="ZoomLabel" type="Label" parent="UiLayer/UiRoot/ZoomButtons"]
 layout_mode = 2
 
+[node name="HBoxContainer" type="HBoxContainer" parent="UiLayer/UiRoot"]
+layout_mode = 0
+offset_left = 23.0
+offset_top = 85.0
+offset_right = 160.0
+offset_bottom = 125.0
+
+[node name="Label" type="Label" parent="UiLayer/UiRoot/HBoxContainer"]
+layout_mode = 2
+text = "Debug grid:"
+
+[node name="DisplayGrid" type="CheckButton" parent="UiLayer/UiRoot/HBoxContainer"]
+layout_mode = 2
+
 [node name="Player" type="CharacterBody2D" parent="."]
 script = ExtResource("4_achjb")
 
@@ -172,6 +187,10 @@ position_smoothing_enabled = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 
+[node name="GridOverlay" type="Node2D" parent="."]
+script = ExtResource("7_tb6b5")
+
 [connection signal="pressed" from="UiLayer/UiRoot/RegenButton" to="." method="_on_regen_button_pressed"]
 [connection signal="pressed" from="UiLayer/UiRoot/ZoomButtons/ZoomIn" to="UiLayer/UiRoot" method="_on_zoom_in_pressed"]
 [connection signal="pressed" from="UiLayer/UiRoot/ZoomButtons/ZoomOut" to="UiLayer/UiRoot" method="_on_zoom_out_pressed"]
+[connection signal="toggled" from="UiLayer/UiRoot/HBoxContainer/DisplayGrid" to="UiLayer/UiRoot" method="_on_display_grid_toggled"]

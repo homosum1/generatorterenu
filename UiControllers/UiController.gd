@@ -1,6 +1,7 @@
 extends Node
 
 @onready var camera = get_node("/root/Node2D/Player/Camera2D")
+@onready var grid_overlay := $"../../GridOverlay"
 @onready var zoom_label: Label = $ZoomButtons/ZoomLabel  # Adjust path if needed
 
 
@@ -37,3 +38,6 @@ func _on_zoom_out_pressed() -> void:
 		clampf(new_zoom.x, min_zoom, max_zoom),
 		clampf(new_zoom.y, min_zoom, max_zoom)
 	)
+
+func _on_display_grid_toggled(toggled_on: bool) -> void:
+	grid_overlay.toggle_grid()
