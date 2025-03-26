@@ -5,11 +5,11 @@ var tileMapRenderer
 
 const CHUNK_GAP = 1
 
-const CHUNKS_COUNT_WIDTH = 2
-const CHUNKS_COUNT_HEIGHT = 2
+const CHUNKS_COUNT_WIDTH = 4
+const CHUNKS_COUNT_HEIGHT = 4
 
-const CHUNK_WIDTH = 20
-const CHUNK_HEIGHT = 20
+const CHUNK_WIDTH = 10
+const CHUNK_HEIGHT = 10
 
 var worldMap = []
 
@@ -27,12 +27,14 @@ func _ready() -> void:
 	_initializeEmptyWorldMap()
 	
 	# generation
-	_generateStitchingEdges()
+	if Globals.USE_STICHING:
+		_generateStitchingEdges()
 	_calculateWFCForWorldMap()
 	
 	# rendering
 	_renderWFCGrid()
-	_rednerStiches()
+	if Globals.USE_STICHING:
+		_rednerStiches()
 
 func _clearWorldMap() -> void:
 	worldMap = []
@@ -90,49 +92,50 @@ func _calculateWFCForWorldMap() -> void:
 		for y in range(CHUNKS_COUNT_HEIGHT):
 			var chunk = WFC.new(CHUNK_WIDTH, CHUNK_HEIGHT)
 			
-			# --- Stitching context ---
-			#1. Top edge (horizontal stitching)
-				
-			var horizontalRowBelow = null
-			var horizontalRowAbove = null
-		
-			if y < (CHUNKS_COUNT_HEIGHT - 1):
-				horizontalRowBelow = horizontalStiches[y]
+			if Globals.USE_STICHING:
+				# --- Stitching context ---
+				#1. Top edge (horizontal stitching)
+					
+				var horizontalRowBelow = null
+				var horizontalRowAbove = null
 			
-			if y > 0:
-				horizontalRowAbove = horizontalStiches[y-1]
-							
-			for i in range(CHUNK_WIDTH):
 				if y < (CHUNKS_COUNT_HEIGHT - 1):
-					var collapsedTileAbove = horizontalRowBelow[x * CHUNK_WIDTH + x + i][0]
-					collapsedTileAbove.neighbors["top"]  = chunk.gridMatrix[i][CHUNK_HEIGHT-1]
-					collapsedTileAbove._notifyNeighbors()
+					horizontalRowBelow = horizontalStiches[y]
 				
 				if y > 0:
-					var collapsedTileBelow = horizontalRowAbove[x * CHUNK_WIDTH + x + i][0]
-					collapsedTileBelow.neighbors["bottom"]  = chunk.gridMatrix[i][0]
-					collapsedTileBelow._notifyNeighbors()
+					horizontalRowAbove = horizontalStiches[y-1]
+								
+				for i in range(CHUNK_WIDTH):
+					if y < (CHUNKS_COUNT_HEIGHT - 1):
+						var collapsedTileAbove = horizontalRowBelow[x * CHUNK_WIDTH + x + i][0]
+						collapsedTileAbove.neighbors["top"]  = chunk.gridMatrix[i][CHUNK_HEIGHT-1]
+						collapsedTileAbove._notifyNeighbors()
 					
-			#2. Righ edge (vertical stitching)
-			var verticalRowRight = null
-			var verticalRowLeft = null
-		
-			if x < (CHUNKS_COUNT_WIDTH - 1):
-				verticalRowRight = verticalStiches[x]
+					if y > 0:
+						var collapsedTileBelow = horizontalRowAbove[x * CHUNK_WIDTH + x + i][0]
+						collapsedTileBelow.neighbors["bottom"]  = chunk.gridMatrix[i][0]
+						collapsedTileBelow._notifyNeighbors()
+						
+				#2. Righ edge (vertical stitching)
+				var verticalRowRight = null
+				var verticalRowLeft = null
 			
-			if x > 0:
-				verticalRowLeft = verticalStiches[x-1]
-			
-			for i in range(CHUNK_HEIGHT):
 				if x < (CHUNKS_COUNT_WIDTH - 1):
-					var collapsedTileRight = verticalRowRight[0][y * CHUNK_HEIGHT + y + i]
-					collapsedTileRight.neighbors["left"]  = chunk.gridMatrix[CHUNK_WIDTH-1][i]
-					collapsedTileRight._notifyNeighbors()
+					verticalRowRight = verticalStiches[x]
 				
 				if x > 0:
-					var collapsedTileLeft = verticalRowLeft[0][y * CHUNK_HEIGHT + y + i]
-					collapsedTileLeft.neighbors["right"]  = chunk.gridMatrix[0][i]
-					collapsedTileLeft._notifyNeighbors()
+					verticalRowLeft = verticalStiches[x-1]
+				
+				for i in range(CHUNK_HEIGHT):
+					if x < (CHUNKS_COUNT_WIDTH - 1):
+						var collapsedTileRight = verticalRowRight[0][y * CHUNK_HEIGHT + y + i]
+						collapsedTileRight.neighbors["left"]  = chunk.gridMatrix[CHUNK_WIDTH-1][i]
+						collapsedTileRight._notifyNeighbors()
+					
+					if x > 0:
+						var collapsedTileLeft = verticalRowLeft[0][y * CHUNK_HEIGHT + y + i]
+						collapsedTileLeft.neighbors["right"]  = chunk.gridMatrix[0][i]
+						collapsedTileLeft._notifyNeighbors()
 					
 			var calculatedWFC = chunk.calculateWFC()
 			worldMap[x][y] = calculatedWFC
@@ -166,6 +169,13 @@ func _on_regen_button_pressed() -> void:
 	
 	_clearWorldMap()
 	_initializeEmptyWorldMap()
+	
+	# generation
+	if Globals.USE_STICHING:
+		_generateStitchingEdges()
 	_calculateWFCForWorldMap()
+	
+	# rendering
 	_renderWFCGrid()
-	_rednerStiches() 
+	if Globals.USE_STICHING:
+		_rednerStiches()
