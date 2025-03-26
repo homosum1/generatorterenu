@@ -91,45 +91,48 @@ func _calculateWFCForWorldMap() -> void:
 			var chunk = WFC.new(CHUNK_WIDTH, CHUNK_HEIGHT)
 			
 			# --- Stitching context ---
-			 #1. Top edge (horizontal stitching)
-			if y < CHUNKS_COUNT_HEIGHT:
+			#1. Top edge (horizontal stitching)
 				
-				var horizontalRowBelow = null
-				var horizontalRowAbove = null
+			var horizontalRowBelow = null
+			var horizontalRowAbove = null
+		
+			if y < (CHUNKS_COUNT_HEIGHT - 1):
+				horizontalRowBelow = horizontalStiches[y]
 			
+			if y > 0:
+				horizontalRowAbove = horizontalStiches[y-1]
+							
+			for i in range(CHUNK_WIDTH):
 				if y < (CHUNKS_COUNT_HEIGHT - 1):
-					horizontalRowBelow = horizontalStiches[y]
+					var collapsedTileAbove = horizontalRowBelow[x * CHUNK_WIDTH + x + i][0]
+					collapsedTileAbove.neighbors["top"]  = chunk.gridMatrix[i][CHUNK_HEIGHT-1]
+					collapsedTileAbove._notifyNeighbors()
 				
 				if y > 0:
-					horizontalRowAbove = horizontalStiches[y-1]
-								
-				for i in range(CHUNK_WIDTH):
-					if y < (CHUNKS_COUNT_HEIGHT - 1):
-						var collapsedTileAbove = horizontalRowBelow[x * CHUNK_WIDTH + x + i][0]
-						collapsedTileAbove.neighbors["top"]  = chunk.gridMatrix[i][CHUNK_HEIGHT-1]
-						collapsedTileAbove._notifyNeighbors()
+					var collapsedTileBelow = horizontalRowAbove[x * CHUNK_WIDTH + x + i][0]
+					collapsedTileBelow.neighbors["bottom"]  = chunk.gridMatrix[i][0]
+					collapsedTileBelow._notifyNeighbors()
 					
-					if y > 0:
-						var collapsedTileBelow = horizontalRowAbove[x * CHUNK_WIDTH + x + i][0]
-						collapsedTileBelow.neighbors["bottom"]  = chunk.gridMatrix[i][0]
-						collapsedTileBelow._notifyNeighbors()
-					
-					#print(tileIndex)
-					#chunk.gridMatrix[i][CHUNK_HEIGHT-1].collapseTo(tileIndex)
-					
+			#2. Righ edge (vertical stitching)
+			var verticalRowRight = null
+			var verticalRowLeft = null
+		
+			if x < (CHUNKS_COUNT_WIDTH - 1):
+				verticalRowRight = verticalStiches[x]
+			
+			if x > 0:
+				verticalRowLeft = verticalStiches[x-1]
+			
+			for i in range(CHUNK_HEIGHT):
+				if x < (CHUNKS_COUNT_WIDTH - 1):
+					var collapsedTileRight = verticalRowRight[0][y * CHUNK_HEIGHT + y + i]
+					collapsedTileRight.neighbors["left"]  = chunk.gridMatrix[CHUNK_WIDTH-1][i]
+					collapsedTileRight._notifyNeighbors()
 				
-			#else if y > 0:
-				#var horizontalRow = horizontalStiches[y - 1]
-				#for i in range(CHUNK_WIDTH):
-					#var tileIndex = horizontalRow[x * CHUNK_WIDTH + x][0].collapsedState
-					#chunk.gridMatrix[i][0].collapseTo(tileIndex)
-
-			# 2. Left edge (vertical stitching)
-			#if x > 0:
-				#var verticalCol = verticalStiches[x - 1]
-				#for j in range(CHUNK_HEIGHT):
-					#var tileIndex = verticalCol[0][y * CHUNK_HEIGHT + y].collapsedState
-					#chunk.gridMatrix[0][j].collapseTo(tileIndex)
+				if x > 0:
+					var collapsedTileLeft = verticalRowLeft[0][y * CHUNK_HEIGHT + y + i]
+					collapsedTileLeft.neighbors["right"]  = chunk.gridMatrix[0][i]
+					collapsedTileLeft._notifyNeighbors()
 					
 			var calculatedWFC = chunk.calculateWFC()
 			worldMap[x][y] = calculatedWFC
