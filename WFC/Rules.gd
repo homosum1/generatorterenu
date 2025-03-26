@@ -84,6 +84,7 @@ const adjacencyRules = {
 	"grass-dirt_right": {
 		"left": [
 			"grass", 
+			"grass-dirt_left",
 			"grass-dirt_corner_bottom-left",
 			"grass-dirt_corner_top-left"
 		],
@@ -137,6 +138,7 @@ const adjacencyRules = {
 		],
 		"right": [
 			"grass",
+			"grass-dirt_right",
 			"grass-dirt_corner_bottom-right",
 			"grass-dirt_corner_top-right"
 		],
