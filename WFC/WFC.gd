@@ -11,7 +11,6 @@ func _init(grid_width: int, grid_height: int) -> void:
 	_gridInit()  # Initialize grid for WFC
 
 func calculateWFC() -> Array[Array]:	
-	_printEntropyMap()
 	_runWFC()  # Start WFC algorithm
 	
 	return gridMatrix
