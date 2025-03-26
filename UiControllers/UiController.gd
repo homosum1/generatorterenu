@@ -5,7 +5,6 @@ extends Node
 @onready var zoom_label: Label = $ZoomButtons/ZoomLabel  # Adjust path if needed
 
 
-
 var zoom_step := 0.1
 var min_zoom := 0.2
 var max_zoom := 3.0
@@ -41,3 +40,7 @@ func _on_zoom_out_pressed() -> void:
 
 func _on_display_grid_toggled(toggled_on: bool) -> void:
 	grid_overlay.toggle_grid()
+
+
+func _on_entropy_display_toggled(toggled_on: bool) -> void:
+	grid_overlay.toggle_entropy() 

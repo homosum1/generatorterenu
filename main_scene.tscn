@@ -159,18 +159,31 @@ text = "zoom out (-)"
 [node name="ZoomLabel" type="Label" parent="UiLayer/UiRoot/ZoomButtons"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UiLayer/UiRoot"]
+[node name="DebugSettings" type="VBoxContainer" parent="UiLayer/UiRoot"]
 layout_mode = 0
-offset_left = 23.0
-offset_top = 85.0
-offset_right = 160.0
-offset_bottom = 125.0
+offset_left = 21.0
+offset_top = 88.0
+offset_right = 158.0
+offset_bottom = 139.0
 
-[node name="Label" type="Label" parent="UiLayer/UiRoot/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="UiLayer/UiRoot/DebugSettings"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UiLayer/UiRoot/DebugSettings/HBoxContainer"]
 layout_mode = 2
 text = "Debug grid:"
 
-[node name="DisplayGrid" type="CheckButton" parent="UiLayer/UiRoot/HBoxContainer"]
+[node name="DisplayGrid" type="CheckButton" parent="UiLayer/UiRoot/DebugSettings/HBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="UiLayer/UiRoot/DebugSettings"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UiLayer/UiRoot/DebugSettings/HBoxContainer2"]
+layout_mode = 2
+text = "Entropy display:"
+
+[node name="EntropyDisplay" type="CheckButton" parent="UiLayer/UiRoot/DebugSettings/HBoxContainer2"]
 layout_mode = 2
 
 [node name="Player" type="CharacterBody2D" parent="."]
@@ -193,4 +206,5 @@ script = ExtResource("7_tb6b5")
 [connection signal="pressed" from="UiLayer/UiRoot/RegenButton" to="." method="_on_regen_button_pressed"]
 [connection signal="pressed" from="UiLayer/UiRoot/ZoomButtons/ZoomIn" to="UiLayer/UiRoot" method="_on_zoom_in_pressed"]
 [connection signal="pressed" from="UiLayer/UiRoot/ZoomButtons/ZoomOut" to="UiLayer/UiRoot" method="_on_zoom_out_pressed"]
-[connection signal="toggled" from="UiLayer/UiRoot/HBoxContainer/DisplayGrid" to="UiLayer/UiRoot" method="_on_display_grid_toggled"]
+[connection signal="toggled" from="UiLayer/UiRoot/DebugSettings/HBoxContainer/DisplayGrid" to="UiLayer/UiRoot" method="_on_display_grid_toggled"]
+[connection signal="toggled" from="UiLayer/UiRoot/DebugSettings/HBoxContainer2/EntropyDisplay" to="UiLayer/UiRoot" method="_on_entropy_display_toggled"]

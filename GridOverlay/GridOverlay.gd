@@ -1,6 +1,11 @@
 extends Node2D
 
+var default_font = null
+var default_font_size = null
+
 var visible_grid := false
+var entropy_displayed := false
+
 var tile_size := 16 
 var grid_width := 0
 var grid_height := 0
@@ -9,8 +14,12 @@ var CHUNK_HEIGHT := 0
 var CHUNKS_COUNT_WIDTH := 0
 var CHUNKS_COUNT_HEIGHT := 0
 
+var debug_font: Font = preload("res://fonts/DebugFont.tres")
 
 func _ready():
+	default_font = ThemeDB.fallback_font
+	default_font_size = 10
+	
 	var chunk_rendering = get_parent()
 
 	if chunk_rendering:
@@ -54,6 +63,45 @@ func _draw() -> void:
 		var y_pos = y * tile_size
 		draw_line(Vector2(0, y_pos), Vector2(grid_width * tile_size, y_pos), color)
 
+	if entropy_displayed:
+		_draw_entropy_values()
+
+func _draw_entropy_values():
+	var chunk_rendering = get_parent()
+	
+	print("here 1")
+	if not chunk_rendering:
+		return
+		
+		
+	print("here")
+
+	var world_map = chunk_rendering.worldMap
+	var font = debug_font
+	var text_color = Color(0.3, 1, 0.3, 0.8)
+
+	for chunk_x in range(world_map.size()):
+		for chunk_y in range(world_map[chunk_x].size()):
+			var chunk = world_map[chunk_x][chunk_y]
+			if chunk == null:
+				continue
+
+			for x in range(chunk.size()):
+				for y in range(chunk[x].size()):
+					var tile = chunk[x][y]
+					var entropy = tile.entropy
+					
+					var global_tile_x = (chunk_x * (CHUNK_WIDTH + 1)) + x
+					var global_tile_y = (chunk_y * (CHUNK_HEIGHT + 1)) + y
+					
+					var pos = Vector2(global_tile_x, global_tile_y) * tile_size + Vector2(5, 12)
+					draw_string(default_font, pos, str(entropy), HORIZONTAL_ALIGNMENT_LEFT, -1, default_font_size)
+
 func toggle_grid():
 	visible_grid = !visible_grid
 	queue_redraw()
+	
+func toggle_entropy():
+	entropy_displayed = !entropy_displayed
+	queue_redraw()
+	

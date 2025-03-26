@@ -134,7 +134,7 @@ func _propagateWave():
 				
 
 func _runWFC():
-	const MAX_ITERATIONS = 10000 # MAKE IT SMALLER AFTER TESTS
+	const MAX_ITERATIONS = 1500 # MAKE IT SMALLER AFTER TESTS
 	var iterations = 0
 	while true and (iterations <= MAX_ITERATIONS):
 		if Globals.DEBUG_MODE:

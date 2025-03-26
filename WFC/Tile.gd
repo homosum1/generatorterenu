@@ -22,7 +22,7 @@ func collapse() -> void:
 	var potentialIndexes = []
 	var weightedIndexes = [] 
 	
-	const boostsMap = {0: 10, 1: 6, 6: 1, 7: 1, 8: 1, 9: 1}
+	const boostsMap = {0: 15, 1: 6, 6: 1, 7: 1, 8: 1, 9: 1}
 	
 	
 	# miejsce na bardziej złozony system, gdzie przewaga jednego z dwoch tile'i
@@ -34,6 +34,10 @@ func collapse() -> void:
 			potentialIndexes.append(i)
 
 	if potentialIndexes.size() == 0:
+		if(entropy != -100):
+			print("❌ unable to collapse, entropy: ", entropy)
+			entropy = -100;
+		
 		return
 
 	var neighborStatesCounts = {}
