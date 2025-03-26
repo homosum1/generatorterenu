@@ -22,7 +22,7 @@ func collapse() -> void:
 	var potentialIndexes = []
 	var weightedIndexes = [] 
 	
-	const boostsMap = {0: 15, 1: 6, 6: 1, 7: 1, 8: 1, 9: 1}
+	const boostsMap = {0: 15, 1: 3, 6: 1, 7: 1, 8: 1, 9: 1}
 	
 	
 	# miejsce na bardziej złozony system, gdzie przewaga jednego z dwoch tile'i

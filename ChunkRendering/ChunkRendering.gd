@@ -1,17 +1,21 @@
 extends Node
 
 @export var tileMapRendererPath: NodePath 
+@export var natureMapRendererPath: NodePath
+
 var tileMapRenderer
+var natureMapRenderer
 
 const CHUNK_GAP = 1
 
-const CHUNKS_COUNT_WIDTH = 3
-const CHUNKS_COUNT_HEIGHT = 3
+const CHUNKS_COUNT_WIDTH = 2
+const CHUNKS_COUNT_HEIGHT = 2
 
-const CHUNK_WIDTH = 10
-const CHUNK_HEIGHT = 10
+const CHUNK_WIDTH = 20
+const CHUNK_HEIGHT = 20
 
 var worldMap = []
+var finalWorldMap = []
 
 var horizontalStiches = []  
 var verticalStiches = []
@@ -22,7 +26,11 @@ func _ready() -> void:
 	Rules.initialize() # Map rules to index based system
 	
 	_getChunkRenderer()
+	_getNatureRenderer()
 	
+	_groupedGenerationAlgorithm()
+	
+func _groupedGenerationAlgorithm() -> void:
 	_clearWorldMap()
 	_initializeEmptyWorldMap()
 	
@@ -35,15 +43,28 @@ func _ready() -> void:
 	_renderWFCGrid()
 	if Globals.USE_STICHING:
 		_rednerStiches()
+	
+	finalWorldMap = build_combined_world_map()
+	natureMapRenderer.generate_grass()
 
 func _clearWorldMap() -> void:
 	worldMap = []
+	finalWorldMap = []
 
 func _getChunkRenderer() -> bool:
 	tileMapRenderer = get_node(tileMapRendererPath)
 
 	if not tileMapRenderer:
 		print("Missing map generator")
+		return false
+	
+	return true
+
+func _getNatureRenderer() -> bool:
+	natureMapRenderer = get_node(natureMapRendererPath)
+	
+	if not natureMapRenderer:
+		print("Missing nature map generator")
 		return false
 	
 	return true
@@ -164,18 +185,50 @@ func _rednerStiches() -> void:
 		var column = verticalStiches[x]
 		tileMapRenderer.renderWFCGrid(column, offset)
 
+
+func build_combined_world_map() -> Array:
+	var total_width = CHUNK_WIDTH * CHUNKS_COUNT_WIDTH + (CHUNKS_COUNT_WIDTH - 1)
+	var total_height = CHUNK_HEIGHT * CHUNKS_COUNT_HEIGHT + (CHUNKS_COUNT_HEIGHT - 1)
+
+	var combined_map = []
+	for x in range(total_width):
+		var column = []
+		for y in range(total_height):
+			column.append(null)
+		combined_map.append(column)
+
+	# --- Copy chunks to final world map ---
+	for chunk_x in range(CHUNKS_COUNT_WIDTH):
+		for chunk_y in range(CHUNKS_COUNT_HEIGHT):
+			var chunk = worldMap[chunk_x][chunk_y]
+			if chunk == null:
+				continue
+
+			var base_x = chunk_x * (CHUNK_WIDTH + 1)
+			var base_y = chunk_y * (CHUNK_HEIGHT + 1)
+
+			for x in range(CHUNK_WIDTH):
+				for y in range(CHUNK_HEIGHT):
+					combined_map[base_x + x][base_y + y] = chunk[x][y]
+
+	# --- Adding horizontal stitches to final world map ---
+	for y in range(CHUNKS_COUNT_HEIGHT - 1):
+		var row = horizontalStiches[y]
+		var row_y = (y + 1) * CHUNK_HEIGHT + y
+
+		for x in range(row.size()):
+			combined_map[x][row_y] = row[x][0]
+
+	# --- Add vertical stitches to final world map ---
+	for x in range(CHUNKS_COUNT_WIDTH - 1):
+		var column = verticalStiches[x]
+		var column_x = (x + 1) * CHUNK_WIDTH + x
+
+		for y in range(column[0].size()):
+			combined_map[column_x][y] = column[0][y]
+
+	return combined_map
+
 func _on_regen_button_pressed() -> void:
 	tileMapRenderer.clearMap()
-	
-	_clearWorldMap()
-	_initializeEmptyWorldMap()
-	
-	# generation
-	if Globals.USE_STICHING:
-		_generateStitchingEdges()
-	_calculateWFCForWorldMap()
-	
-	# rendering
-	_renderWFCGrid()
-	if Globals.USE_STICHING:
-		_rednerStiches()
+	_groupedGenerationAlgorithm()

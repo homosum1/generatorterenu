@@ -1,10 +1,12 @@
-[gd_scene load_steps=10 format=3 uid="uid://bd28sv8yutm07"]
+[gd_scene load_steps=14 format=3 uid="uid://bd28sv8yutm07"]
 
 [ext_resource type="Script" path="res://GridRendering/TileMap.gd" id="2_b4q31"]
 [ext_resource type="Texture2D" uid="uid://btcdpcpn41jpo" path="res://ordered_tiles.png" id="2_el5gr"]
 [ext_resource type="Script" path="res://ChunkRendering/ChunkRendering.gd" id="2_iue0x"]
 [ext_resource type="Script" path="res://UiControllers/UiController.gd" id="4_4e0j1"]
 [ext_resource type="Script" path="res://Player/Player.gd" id="4_achjb"]
+[ext_resource type="Texture2D" uid="uid://wi1xfkqxkim3" path="res://plants.png" id="4_ptvjg"]
+[ext_resource type="Script" path="res://NatureGenerator/NatureGenerator.gd" id="4_ysm0d"]
 [ext_resource type="Texture2D" uid="uid://c1ey603ufdrd1" path="res://icon.svg" id="5_48tht"]
 [ext_resource type="Script" path="res://GridOverlay/GridOverlay.gd" id="7_tb6b5"]
 
@@ -109,14 +111,30 @@ texture = ExtResource("2_el5gr")
 [sub_resource type="TileSet" id="TileSet_rtv2r"]
 sources/0 = SubResource("TileSetAtlasSource_d2ome")
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wrknk"]
+texture = ExtResource("4_ptvjg")
+0:0/size_in_atlas = Vector2i(1, 2)
+0:0/0 = 0
+0:0/0/texture_origin = Vector2i(0, 8)
+
+[sub_resource type="TileSet" id="TileSet_xl716"]
+sources/0 = SubResource("TileSetAtlasSource_wrknk")
+
 [node name="Node2D" type="Node2D"]
 script = ExtResource("2_iue0x")
 tileMapRendererPath = NodePath("TileMapLayer")
+natureMapRendererPath = NodePath("GrassLayer")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 texture_filter = 1
 tile_set = SubResource("TileSet_rtv2r")
 script = ExtResource("2_b4q31")
+
+[node name="GrassLayer" type="TileMapLayer" parent="."]
+texture_filter = 1
+tile_set = SubResource("TileSet_xl716")
+script = ExtResource("4_ysm0d")
+chunk_renderer_path = NodePath("..")
 
 [node name="UiLayer" type="CanvasLayer" parent="."]
 
