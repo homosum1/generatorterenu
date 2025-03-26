@@ -5,7 +5,7 @@ var entropy = -1 # number of possible outcomes
 var collapsedState = -1 # storing collapsed state if collapse() was executed
 var possibleStates = [] # array of all possible states
 
-var neighbors = {} # dictionary of 8 neighbors
+var neighbors = {} # dictionary of 4 neighbors
 
 var position = Vector2(-1, -1)
 
@@ -79,8 +79,8 @@ func collapseTo(index: int):
 	collapsedState = index
 	entropy = 1
 	
-	for i in range(possibleStates.size()):
-		possibleStates[i] = (i == index)
+	possibleStates.clear()  
+	_notifyNeighbors()
 
 func _notifyNeighbors():
 	for direction in neighbors.keys():

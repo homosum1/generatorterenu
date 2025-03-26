@@ -5,8 +5,8 @@ var tileMapRenderer
 
 const CHUNK_GAP = 1
 
-const CHUNKS_COUNT_WIDTH = 3
-const CHUNKS_COUNT_HEIGHT = 3
+const CHUNKS_COUNT_WIDTH = 2
+const CHUNKS_COUNT_HEIGHT = 2
 
 const CHUNK_WIDTH = 20
 const CHUNK_HEIGHT = 20
@@ -27,9 +27,10 @@ func _ready() -> void:
 	_initializeEmptyWorldMap()
 	
 	# generation
-	_calculateWFCForWorldMap()
 	_generateStitchingEdges()
+	_calculateWFCForWorldMap()
 	
+	# rendering
 	_renderWFCGrid()
 	_rednerStiches()
 
@@ -88,6 +89,48 @@ func _calculateWFCForWorldMap() -> void:
 	for x in range(CHUNKS_COUNT_WIDTH):
 		for y in range(CHUNKS_COUNT_HEIGHT):
 			var chunk = WFC.new(CHUNK_WIDTH, CHUNK_HEIGHT)
+			
+			# --- Stitching context ---
+			 #1. Top edge (horizontal stitching)
+			if y < CHUNKS_COUNT_HEIGHT:
+				
+				var horizontalRowBelow = null
+				var horizontalRowAbove = null
+			
+				if y < (CHUNKS_COUNT_HEIGHT - 1):
+					horizontalRowBelow = horizontalStiches[y]
+				
+				if y > 0:
+					horizontalRowAbove = horizontalStiches[y-1]
+								
+				for i in range(CHUNK_WIDTH):
+					if y < (CHUNKS_COUNT_HEIGHT - 1):
+						var collapsedTileAbove = horizontalRowBelow[x * CHUNK_WIDTH + x + i][0]
+						collapsedTileAbove.neighbors["top"]  = chunk.gridMatrix[i][CHUNK_HEIGHT-1]
+						collapsedTileAbove._notifyNeighbors()
+					
+					if y > 0:
+						var collapsedTileBelow = horizontalRowAbove[x * CHUNK_WIDTH + x + i][0]
+						collapsedTileBelow.neighbors["bottom"]  = chunk.gridMatrix[i][0]
+						collapsedTileBelow._notifyNeighbors()
+					
+					#print(tileIndex)
+					#chunk.gridMatrix[i][CHUNK_HEIGHT-1].collapseTo(tileIndex)
+					
+				
+			#else if y > 0:
+				#var horizontalRow = horizontalStiches[y - 1]
+				#for i in range(CHUNK_WIDTH):
+					#var tileIndex = horizontalRow[x * CHUNK_WIDTH + x][0].collapsedState
+					#chunk.gridMatrix[i][0].collapseTo(tileIndex)
+
+			# 2. Left edge (vertical stitching)
+			#if x > 0:
+				#var verticalCol = verticalStiches[x - 1]
+				#for j in range(CHUNK_HEIGHT):
+					#var tileIndex = verticalCol[0][y * CHUNK_HEIGHT + y].collapsedState
+					#chunk.gridMatrix[0][j].collapseTo(tileIndex)
+					
 			var calculatedWFC = chunk.calculateWFC()
 			worldMap[x][y] = calculatedWFC
 
