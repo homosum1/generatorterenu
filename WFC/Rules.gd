@@ -233,12 +233,14 @@ const adjacencyRules = {
 			"grass-dirt_top-right",
 		]
 	},
+	# L-ki narozniki
 	"grass-dirt_corner_top-left": {
 		"left": ["grass-dirt_top", "grass-dirt_top-left", "grass-dirt_corner_top-right"],
 		"right": [
 			"grass", 
 			"grass-dirt_right",
-			"grass-dirt_corner_top-right"
+			"grass-dirt_corner_top-right",
+			"grass-dirt_corner_bottom-right"
 		],
 		"top": [
 			"grass-dirt_left", 
@@ -255,7 +257,8 @@ const adjacencyRules = {
 		"left": [
 			"grass", 
 			"grass-dirt_left",
-			"grass-dirt_corner_top-left"
+			"grass-dirt_corner_top-left",
+			"grass-dirt_corner_bottom-left"
 		],
 		"right": ["grass-dirt_top", "grass-dirt_top-right", "grass-dirt_corner_top-left"],
 		"top": [
@@ -277,7 +280,8 @@ const adjacencyRules = {
 		],
 		"right": [
 			"grass",  
-			"grass-dirt_right"
+			"grass-dirt_right",
+			"grass-dirt_corner_top-right"
 		],
 		"top": [
 			"grass", 
@@ -293,7 +297,8 @@ const adjacencyRules = {
 		"left": [
 			"grass", 
 			"grass-dirt_left",
-			"grass-dirt_corner_bottom-left"
+			"grass-dirt_corner_bottom-left",
+			"grass-dirt_corner_top-left"
 		],
 		"right": [
 			"grass-dirt_bottom", 

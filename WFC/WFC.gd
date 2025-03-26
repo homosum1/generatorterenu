@@ -11,6 +11,7 @@ func _init(grid_width: int, grid_height: int) -> void:
 	_gridInit()  # Initialize grid for WFC
 
 func calculateWFC() -> Array[Array]:	
+	_printEntropyMap()
 	_runWFC()  # Start WFC algorithm
 	
 	return gridMatrix
@@ -134,7 +135,7 @@ func _propagateWave():
 				
 
 func _runWFC():
-	const MAX_ITERATIONS = 1500
+	const MAX_ITERATIONS = 10000 # MAKE IT SMALLER AFTER TESTS
 	var iterations = 0
 	while true and (iterations <= MAX_ITERATIONS):
 		if Globals.DEBUG_MODE:

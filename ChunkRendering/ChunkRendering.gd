@@ -5,8 +5,8 @@ var tileMapRenderer
 
 const CHUNK_GAP = 1
 
-const CHUNKS_COUNT_WIDTH = 4
-const CHUNKS_COUNT_HEIGHT = 4
+const CHUNKS_COUNT_WIDTH = 3
+const CHUNKS_COUNT_HEIGHT = 3
 
 const CHUNK_WIDTH = 10
 const CHUNK_HEIGHT = 10
