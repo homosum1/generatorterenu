@@ -5,7 +5,8 @@ extends CharacterBody2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	z_index = 10
+	z_index = 0
+
 
 
 func _process(delta: float) -> void:
@@ -24,3 +25,5 @@ func _process(delta: float) -> void:
 		direction = direction.normalized()
 
 	position += direction * speed * delta
+
+	#z_index = int(global_position.y / 16.0)

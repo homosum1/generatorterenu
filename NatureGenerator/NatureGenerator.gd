@@ -1,19 +1,20 @@
 extends TileMapLayer
 
 @export var chunk_renderer_path: NodePath
-
 @export var grass_tile_id := 0  # grass ID in tileSet
 @export var grass_density := 0.4
 
-
 var chunk_renderer
 var noise := FastNoiseLite.new()
+
+# Twoja dodatkowa mapa trawy: true = jest trawa, false = brak
+var grassMap: Array[Array] = []
 
 func _ready():
 	chunk_renderer = get_node(chunk_renderer_path)
 
 	if not chunk_renderer:
-		push_error("nature generator -  ChunkRenderer not found!")
+		push_error("nature generator - ChunkRenderer not found!")
 		return
 	
 	noise.frequency = 0.1
@@ -32,6 +33,14 @@ func generate_grass():
 	clear()
 	noise.seed = randi()
 
+	# grass map initialization
+	grassMap.clear()
+	for x in range(final_map.size()):
+		grassMap.append([])
+		for y in range(final_map[x].size()):
+			grassMap[x].append(false)
+
+	# grass generating
 	for x in range(final_map.size()):
 		for y in range(final_map[x].size()):
 			var tile = final_map[x][y]
@@ -42,3 +51,4 @@ func generate_grass():
 				var n = noise.get_noise_2d(x, y)
 				if n > grass_density:
 					set_cell(Vector2i(x, y), 0, Vector2i(grass_tile_id, 0))
+					grassMap[x][y] = true
