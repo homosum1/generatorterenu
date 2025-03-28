@@ -121,6 +121,15 @@ texture = ExtResource("4_ptvjg")
 0:0/0 = 0
 0:0/0/texture_origin = Vector2i(0, 8)
 0:0/0/y_sort_origin = -4
+1:0/size_in_atlas = Vector2i(1, 2)
+1:0/0 = 0
+1:0/0/texture_origin = Vector2i(0, 8)
+1:0/0/y_sort_origin = -4
+2:0/size_in_atlas = Vector2i(4, 8)
+2:0/0 = 0
+2:0/0/texture_origin = Vector2i(0, 56)
+2:0/0/y_sort_origin = -9
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
 [sub_resource type="TileSet" id="TileSet_xl716"]
 physics_layer_0/collision_layer = 1

@@ -109,9 +109,7 @@ func _propagateWave():
 			var neighbor = tile.neighbors[direction]
 
 			if neighbor and neighbor.entropy > 1:
-				var old_entropy = neighbor.entropy
-				
-				
+
 				# if current tile is collapsed
 				if tile.collapsedState != -1:
 					if neighbor.onNeighborCollapse(tile.collapsedState, direction):
