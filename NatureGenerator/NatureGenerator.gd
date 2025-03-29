@@ -4,7 +4,7 @@ extends TileMapLayer
 
 const GRASS_TILE_ID := 0  # grass ID in tileSet
 const SMALL_GRASS_TILE_ID := 1 
-const TREE_TILE_ID := 2
+const TREE_TILES_ID := [2, 6]
 
 const TREE_MIN_DISTANCE := 2
 const TREE_GRASS_RANGE := 1
@@ -134,7 +134,7 @@ func _generate_trees():
 						var nx = x + dx
 						var ny = y + dy
 						if nx >= 0 and ny >= 0 and nx < finalMapWidth and ny < finalMapHeigth:
-							if natureMap[nx][ny] == TREE_TILE_ID:
+							if natureMap[nx][ny] in TREE_TILES_ID:
 								#print(' deleted tree cand because tree already exist')
 								can_place = false
 								break
@@ -156,7 +156,7 @@ func _generate_trees():
 						break
 				
 				if can_place:
-					natureMap[x][y] = TREE_TILE_ID
+					natureMap[x][y] = TREE_TILES_ID[randi() % TREE_TILES_ID.size()]
 
 func _renderNatureMap():
 	clear()
@@ -164,6 +164,7 @@ func _renderNatureMap():
 	for x in range(finalMapWidth):
 		for y in range(finalMapHeigth):
 			var tileID = natureMap[x][y]
-			if(tileID == 2):
-				print("rendering tree")
-			set_cell(Vector2i(x, y), 0, Vector2i(tileID, 0))
+			if tileID != -1:
+				if tileID in TREE_TILES_ID:
+					print("Selected tree: ", tileID)
+				set_cell(Vector2i(x, y), 0, Vector2i(tileID, 0))
