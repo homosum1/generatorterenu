@@ -37,6 +37,7 @@ func collapse() -> void:
 		if(entropy != -100):
 			print("❌ unable to collapse, entropy: ", entropy)
 			entropy = -100;
+			collapsedState = 99
 		
 		return
 

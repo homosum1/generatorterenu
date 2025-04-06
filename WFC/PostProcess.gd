@@ -3,33 +3,10 @@ extends Object
 
 
 static func _recalculate_collapse(recalculate_queue) -> void:
-	# remove duplicates
-	#var unique_tiles := {}
-	#for tile in recalculate_queue:
-		#unique_tiles[tile.position] = tile
-	#
-	#recalculate_queue = unique_tiles.values()
-	
-		
-	# recalculate entropy
-	
-	print("\n\n\n----------------------------\n\n")
-	print(recalculate_queue.size())
 	
 	for tile in recalculate_queue:
 		tile.reset_possible_states()
 		
-		#print("--- tile: ", tile.position, " possible states: ↓")
-		#var true_indexes := []
-		#for i in tile.possibleStates.size():
-			#if tile.possibleStates[i]:
-				#true_indexes.append(i)
-		#
-		#var names = []
-		#for index in true_indexes:
-			#names.append(Tiles.getName(index))
-		#
-		#print(names)
 		
 	# find tile with minimal entropy, collapse it and cremove from queue
 	while recalculate_queue.size() > 0:
@@ -38,8 +15,9 @@ static func _recalculate_collapse(recalculate_queue) -> void:
 		for tile in recalculate_queue:
 			if tile.entropy < min_entropy_tile.entropy:
 				min_entropy_tile = tile
-
-		min_entropy_tile.collapse()
+		
+		if(min_entropy_tile.collapsedState == -1):
+			min_entropy_tile.collapse()
 		recalculate_queue.erase(min_entropy_tile)
 
 

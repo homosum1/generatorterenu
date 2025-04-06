@@ -256,6 +256,24 @@ func build_combined_world_map() -> Array:
 		for y in range(column[0].size()):
 			combined_map[column_x][y] = column[0][y]
 
+	# --- Assign neihbours (with deleting old ones) ---
+	for x in range(total_width):
+		for y in range (total_height):
+			combined_map[x][y].neighbors.clear()
+	
+	for x in range(total_width):
+		for y in range (total_height):
+			var processedTile = combined_map[x][y]
+			
+			if x > 0:
+				processedTile.neighbors["left"] = combined_map[x-1][y]
+			if x < total_width -1:
+				processedTile.neighbors["right"] = combined_map[x + 1][y]
+			if y > 0:
+				processedTile.neighbors["top"] = combined_map[x][y - 1]
+			if y < total_height - 1:
+				processedTile.neighbors["bottom"] = combined_map[x][y + 1]
+
 	return combined_map
 
 func _on_regen_button_pressed() -> void:
