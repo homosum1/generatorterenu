@@ -46,10 +46,12 @@ static func initialize():
 		getIndex("grass-dirt_right"),
 		getIndex("grass-dirt_top"),
 		getIndex("grass-dirt_bottom"),
+		
 		getIndex("grass-dirt_top-left"),
 		getIndex("grass-dirt_top-right"),
 		getIndex("grass-dirt_bottom-left"),
 		getIndex("grass-dirt_bottom-right"),
+		
 		getIndex("grass-dirt_corner_top-left"),
 		getIndex("grass-dirt_corner_top-right"),
 		getIndex("grass-dirt_corner_bottom-left"),

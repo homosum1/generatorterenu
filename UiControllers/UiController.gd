@@ -44,3 +44,7 @@ func _on_display_grid_toggled(toggled_on: bool) -> void:
 
 func _on_entropy_display_toggled(toggled_on: bool) -> void:
 	grid_overlay.toggle_entropy() 
+
+
+func _on_position_display_toggled(toggled_on: bool) -> void:
+	grid_overlay.toggle_position()

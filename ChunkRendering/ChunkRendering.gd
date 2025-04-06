@@ -8,11 +8,11 @@ var natureMapRenderer
 
 const CHUNK_GAP = 1
 
-const CHUNKS_COUNT_WIDTH = 2
-const CHUNKS_COUNT_HEIGHT = 2
+const CHUNKS_COUNT_WIDTH = 3
+const CHUNKS_COUNT_HEIGHT = 3
 
-const CHUNK_WIDTH = 5
-const CHUNK_HEIGHT = 5
+const CHUNK_WIDTH = 20
+const CHUNK_HEIGHT = 20
 
 var worldMap = []
 var finalWorldMap = []
@@ -141,11 +141,13 @@ func _calculateWFCForWorldMap() -> void:
 					if y < (CHUNKS_COUNT_HEIGHT - 1):
 						var collapsedTileAbove = horizontalRowBelow[x * CHUNK_WIDTH + x + i][0]
 						collapsedTileAbove.neighbors["top"]  = chunk.gridMatrix[i][CHUNK_HEIGHT-1]
+						chunk.gridMatrix[i][CHUNK_HEIGHT-1].neighbors["bottom"] = collapsedTileAbove
 						collapsedTileAbove._notifyNeighbors()
 					
 					if y > 0:
 						var collapsedTileBelow = horizontalRowAbove[x * CHUNK_WIDTH + x + i][0]
 						collapsedTileBelow.neighbors["bottom"]  = chunk.gridMatrix[i][0]
+						chunk.gridMatrix[i][0].neighbors["top"] = collapsedTileBelow
 						collapsedTileBelow._notifyNeighbors()
 						
 				#2. Righ edge (vertical stitching)
@@ -162,11 +164,13 @@ func _calculateWFCForWorldMap() -> void:
 					if x < (CHUNKS_COUNT_WIDTH - 1):
 						var collapsedTileRight = verticalRowRight[0][y * CHUNK_HEIGHT + y + i]
 						collapsedTileRight.neighbors["left"]  = chunk.gridMatrix[CHUNK_WIDTH-1][i]
+						chunk.gridMatrix[CHUNK_WIDTH-1][i].neighbors["right"] = collapsedTileRight
 						collapsedTileRight._notifyNeighbors()
 					
 					if x > 0:
 						var collapsedTileLeft = verticalRowLeft[0][y * CHUNK_HEIGHT + y + i]
 						collapsedTileLeft.neighbors["right"]  = chunk.gridMatrix[0][i]
+						chunk.gridMatrix[0][i].neighbors["left"] = collapsedTileLeft
 						collapsedTileLeft._notifyNeighbors()
 					
 			var calculatedWFC = chunk.calculateWFC()

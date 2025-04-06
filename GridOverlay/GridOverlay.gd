@@ -5,6 +5,8 @@ var default_font_size = null
 
 var visible_grid := false
 var entropy_displayed := false
+var position_displayed := false
+
 
 var tile_size := 16 
 var grid_width := 0
@@ -65,16 +67,16 @@ func _draw() -> void:
 
 	if entropy_displayed:
 		_draw_entropy_values()
+	
+	if position_displayed:
+		_draw_position_values()
 
 func _draw_entropy_values():
 	var chunk_rendering = get_parent()
 	
-	print("here 1")
 	if not chunk_rendering:
 		return
 		
-		
-	print("here")
 
 	var world_map = chunk_rendering.worldMap
 	var font = debug_font
@@ -97,6 +99,34 @@ func _draw_entropy_values():
 					var pos = Vector2(global_tile_x, global_tile_y) * tile_size + Vector2(5, 12)
 					draw_string(default_font, pos, str(entropy), HORIZONTAL_ALIGNMENT_LEFT, -1, default_font_size)
 
+func _draw_position_values():
+	var chunk_rendering = get_parent()
+	if not chunk_rendering:
+		return
+
+	var world_map = chunk_rendering.worldMap
+	var font = debug_font
+	var text_color = Color(1.0, 0.0, 0.0, 1)
+
+	for chunk_x in range(world_map.size()):
+		for chunk_y in range(world_map[chunk_x].size()):
+			var chunk = world_map[chunk_x][chunk_y]
+			if chunk == null:
+				continue
+
+			for x in range(chunk.size()):
+				for y in range(chunk[x].size()):
+					
+					var tile = chunk[x][y]
+					var position = tile.position
+					var label = str(position.x, ", ", position.y)
+					
+					var global_tile_x = (chunk_x * (CHUNK_WIDTH + 1)) + x
+					var global_tile_y = (chunk_y * (CHUNK_HEIGHT + 1)) + y
+					var pos = Vector2(global_tile_x, global_tile_y) * tile_size + Vector2(2, 12)
+					draw_string(default_font, pos, label, HORIZONTAL_ALIGNMENT_LEFT, -1, 8, text_color)
+
+
 func toggle_grid():
 	visible_grid = !visible_grid
 	queue_redraw()
@@ -104,4 +134,7 @@ func toggle_grid():
 func toggle_entropy():
 	entropy_displayed = !entropy_displayed
 	queue_redraw()
-	
+
+func toggle_position():
+	position_displayed = !position_displayed
+	queue_redraw()

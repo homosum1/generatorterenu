@@ -163,9 +163,7 @@ func getPossibleNeighbors(collapsedNeighborState: int, direction: String) -> Arr
 	return possibleNeighbors
 	
 	
-func reset_possible_states() -> void:
-	possibleStates.clear()
-	
+func reset_possible_states() -> void:	
 	var oppositeDirection = {
 		"top": "bottom",
 		"bottom": "top",
@@ -173,22 +171,16 @@ func reset_possible_states() -> void:
 		"right": "left"
 	}
 
-	# calculate possible states based on neighbours
-	var possibleTilesCount = Tiles.tiles.size()
-	for i in range(possibleTilesCount):
-		possibleStates.append(true)
-	
 	# update possible states based on neighbours
 	for direction in neighbors.keys():
 		var neighbor = neighbors[direction]
 		if neighbor and (neighbor.collapsedState != -1):
 			var state = neighbor.collapsedState
 			var allowedStates = getPossibleNeighbors(state, oppositeDirection[direction])
-
-			#for i in range(possibleStates.size()):
-				#if possibleStates[i] and not i in allowedStates:
-					#possibleStates[i] = false
-	#
+			
+			for i in range(possibleStates.size()):
+				if possibleStates[i] and not i in allowedStates:
+					possibleStates[i] = false
+	
 	
 	entropy = possibleStates.count(true)
-	collapsedState = -1
