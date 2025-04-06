@@ -1,10 +1,12 @@
 extends TileMapLayer
 
 @export var chunk_renderer_path: NodePath
+@export var shadow_generator_path: NodePath
 
-const GRASS_TILE_ID := 0  # grass ID in tileSet
-const SMALL_GRASS_TILE_ID := 1 
-const TREE_TILES_ID := [2, 6]
+
+const GRASS_TILE_ID := Vector2i(0, 0)  # grass ID in tileSet
+const SMALL_GRASS_TILE_ID := Vector2i(1, 0) 
+const TREE_TILES_ID := [Vector2i(2, 0), Vector2i(6, 0)]
 
 const TREE_MIN_DISTANCE := 2
 const TREE_GRASS_RANGE := 1
@@ -13,6 +15,8 @@ var grass_density := 0.4
 var tree_density := 0.1
 
 var chunk_renderer
+var shadow_generator
+
 var noise := FastNoiseLite.new()
 
 # Twoja dodatkowa mapa trawy: true = jest trawa, false = brak
@@ -27,7 +31,11 @@ func _ready():
 	if not chunk_renderer:
 		push_error("nature generator - ChunkRenderer not found!")
 		return
-		
+	
+	shadow_generator = get_node(shadow_generator_path)
+	if not shadow_generator:
+		push_error("nature generator - ShadowGenerator not found!")
+		return
 
 func generate_nature():
 	final_map = chunk_renderer.finalWorldMap
@@ -43,12 +51,15 @@ func generate_nature():
 	for x in range(finalMapWidth):
 		natureMap.append([])
 		for y in range(finalMapHeigth):
-			natureMap[x].append(-1)
+			natureMap[x].append(null)
 	
 	_generate_trees()
 	_generate_grass()
 	_generate_small_grass()
 	_renderNatureMap()
+	
+	shadow_generator.renderTreeShadows(natureMap, TREE_TILES_ID)
+
 
 func _generate_grass():	
 	
@@ -76,7 +87,7 @@ func _generate_small_grass():
 	for x in range(finalMapWidth):
 		for y in range(finalMapHeigth):
 			# leve positions where grass is already planted
-			if natureMap[x][y] != -1:
+			if natureMap[x][y] != null:
 				continue
 			
 			# leave positions without grass
@@ -124,7 +135,7 @@ func _generate_trees():
 
 			
 			# tree candidate
-			if n > tree_density and natureMap[x][y] == -1:
+			if n > tree_density and natureMap[x][y] == null:
 				#print('TREE CANDIDAT FOUND AT:', x, ' ', y, '] with noise: ', n)
 				
 				var can_place = true
@@ -164,7 +175,5 @@ func _renderNatureMap():
 	for x in range(finalMapWidth):
 		for y in range(finalMapHeigth):
 			var tileID = natureMap[x][y]
-			if tileID != -1:
-				if tileID in TREE_TILES_ID:
-					print("Selected tree: ", tileID)
-				set_cell(Vector2i(x, y), 0, Vector2i(tileID, 0))
+			if tileID != null:
+				set_cell(Vector2i(x, y), 0, tileID)
