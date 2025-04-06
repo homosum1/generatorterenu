@@ -17,7 +17,7 @@ func _ready() -> void:
 func clearMap():
 	clear() 
 
-func renderWFCGrid(gridMatrix: Array[Array], offset: Vector2i):
+func renderWFCGrid(gridMatrix: Array, offset: Vector2i):
 
 	for x in range(gridMatrix.size()):
 		for y in range(gridMatrix[x].size()):

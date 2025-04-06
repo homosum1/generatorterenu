@@ -38,16 +38,27 @@ func _groupedGenerationAlgorithm() -> void:
 	if Globals.USE_STICHING:
 		_generateStitchingEdges()
 	_calculateWFCForWorldMap()
-	
-	# rendering
-	_renderWFCGrid()
-	if Globals.USE_STICHING:
-		_rednerStiches()
-	
+		
 	finalWorldMap = build_combined_world_map()
+	
+	# post processing
+	PostProcess.clean_up_edges(finalWorldMap)
+
+	# rendering - legacy
+	
+	#_renderWFCGrid()
+	#if Globals.USE_STICHING:
+		#_rednerStiches()
+	
+	tileMapRenderer.renderWFCGrid(finalWorldMap, Vector2i(0,0))
+	
 	natureMapRenderer.generate_nature()
 
+		
+
 func _clearWorldMap() -> void:
+	horizontalStiches = []  
+	verticalStiches = []
 	worldMap = []
 	finalWorldMap = []
 
@@ -160,6 +171,20 @@ func _calculateWFCForWorldMap() -> void:
 					
 			var calculatedWFC = chunk.calculateWFC()
 			worldMap[x][y] = calculatedWFC
+
+
+#func _renderFinalMap() -> void:
+	#var width = finalWorldMap.size()
+	#var height = finalWorldMap[0].size() if width > 0 else 0
+#
+	#for x in range(width):
+		#for y in range(height):
+			#var tile: Tile = finalWorldMap[x][y]
+			#if tile == null:
+				#continue
+#
+			#tileMapRenderer.set_cell(Vector2i(x, y), 0, Vector2i(tile.collapsedState, 0))
+
 
 func _renderWFCGrid() -> void:
 	for x in range(CHUNKS_COUNT_WIDTH):

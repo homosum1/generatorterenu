@@ -22,8 +22,13 @@ const tiles = [
 ]
 
 
+
 static var nameToIndex := {}
 static var indexToName := {}
+
+static var GRASS_TILE_ID := -1
+static var DIRT_TILE_ID := -1
+static var EDGE_TILE_IDS := []
 
 static func initialize():
 	nameToIndex.clear()
@@ -32,6 +37,24 @@ static func initialize():
 	for tile in tiles:
 		nameToIndex[tile.name] = tile.index
 		indexToName[tile.index] = tile.name
+		
+	GRASS_TILE_ID = getIndex("grass")
+	DIRT_TILE_ID = getIndex("dirt")
+
+	EDGE_TILE_IDS = [
+		getIndex("grass-dirt_left"),
+		getIndex("grass-dirt_right"),
+		getIndex("grass-dirt_top"),
+		getIndex("grass-dirt_bottom"),
+		getIndex("grass-dirt_top-left"),
+		getIndex("grass-dirt_top-right"),
+		getIndex("grass-dirt_bottom-left"),
+		getIndex("grass-dirt_bottom-right"),
+		getIndex("grass-dirt_corner_top-left"),
+		getIndex("grass-dirt_corner_top-right"),
+		getIndex("grass-dirt_corner_bottom-left"),
+		getIndex("grass-dirt_corner_bottom-right"),
+	]
 		
 	print("\n------- Tiles mapping after initialization -------")
 	for tile_name in nameToIndex.keys():
