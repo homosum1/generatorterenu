@@ -8,11 +8,11 @@ var natureMapRenderer
 
 const CHUNK_GAP = 1
 
-const CHUNKS_COUNT_WIDTH = 3
-const CHUNKS_COUNT_HEIGHT = 3
+const CHUNKS_COUNT_WIDTH = 2
+const CHUNKS_COUNT_HEIGHT = 2
 
-const CHUNK_WIDTH = 20
-const CHUNK_HEIGHT = 20
+const CHUNK_WIDTH = 5
+const CHUNK_HEIGHT = 5
 
 var worldMap = []
 var finalWorldMap = []
@@ -45,11 +45,11 @@ func _groupedGenerationAlgorithm() -> void:
 	PostProcess.clean_up_edges(finalWorldMap)
 
 	# rendering - legacy
-	
 	#_renderWFCGrid()
 	#if Globals.USE_STICHING:
 		#_rednerStiches()
 	
+	# rendering current
 	tileMapRenderer.renderWFCGrid(finalWorldMap, Vector2i(0,0))
 	
 	natureMapRenderer.generate_nature()
