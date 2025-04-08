@@ -9,7 +9,11 @@ var neighbors = {} # dictionary of 4 neighbors
 
 var position = Vector2(-1, -1)
 
+var grassines = GlobalsSingleton.debug_settings.get_grassines()
+var earthness = GlobalsSingleton.debug_settings.get_earthness()
+
 func _init(x: int, y: int):
+	
 	position = Vector2(x, y)
 	var possibleTilesCount = Tiles.tiles.size()
 	
@@ -21,9 +25,11 @@ func _init(x: int, y: int):
 func collapse() -> void:
 	var potentialIndexes = []
 	var weightedIndexes = [] 
+
 	
-	const boostsMap = {0: 15, 1: 3, 6: 1, 7: 1, 8: 1, 9: 1}
-	
+	#const boostsMap = {0: 15, 1: 3, 6: 1, 7: 1, 8: 1, 9: 1}
+	#const boostsMap = {0: 3, 1: 30, 6: 1, 7: 1, 8: 1, 9: 1}	
+	var boostsMap = {0: grassines, 1: earthness, 6: 1, 7: 1, 8: 1, 9: 1}
 	
 	# miejsce na bardziej złozony system, gdzie przewaga jednego z dwoch tile'i
 	# boostuje prawdopodobienstwo krawedzi dla drugiego tile'a, tak aby przeszedl
@@ -36,7 +42,7 @@ func collapse() -> void:
 	if potentialIndexes.size() == 0:
 		if(entropy != -100):
 			print("❌ unable to collapse, entropy: ", entropy)
-			entropy = -100;
+			entropy = 0;
 			collapsedState = 99
 		
 		return
@@ -163,7 +169,14 @@ func getPossibleNeighbors(collapsedNeighborState: int, direction: String) -> Arr
 	
 	return possibleNeighbors
 	
-	
+
+# needs adjustments
+func reset_possible_states_v2() -> void:
+	for direction in neighbors.keys():
+		var neighbor = neighbors[direction]
+		if neighbor and (neighbor.collapsedState != -1):
+			neighbor._notifyNeighbors()
+
 func reset_possible_states() -> void:	
 	var oppositeDirection = {
 		"top": "bottom",

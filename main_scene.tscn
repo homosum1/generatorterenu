@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bd28sv8yutm07"]
+[gd_scene load_steps=19 format=3 uid="uid://bd28sv8yutm07"]
 
 [ext_resource type="Script" path="res://GridRendering/TileMap.gd" id="2_b4q31"]
 [ext_resource type="Texture2D" uid="uid://btcdpcpn41jpo" path="res://ordered_tiles.png" id="2_el5gr"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://c1ey603ufdrd1" path="res://icon.svg" id="5_48tht"]
 [ext_resource type="Script" path="res://NatureGenerator/ShadowGenerator.gd" id="7_bth1q"]
 [ext_resource type="Script" path="res://GridOverlay/GridOverlay.gd" id="7_tb6b5"]
+[ext_resource type="Script" path="res://UiControllers/AdvancedMenu.gd" id="10_uef0b"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wrknk"]
 texture = ExtResource("4_ptvjg")
@@ -278,6 +279,58 @@ layout_mode = 2
 text = "Position display:"
 
 [node name="PositionDisplay" type="CheckButton" parent="UiLayer/UiRoot/DebugSettings/HBoxContainer3"]
+layout_mode = 2
+
+[node name="Sliders" type="Panel" parent="UiLayer/UiRoot"]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 186.0
+offset_right = 221.0
+offset_bottom = 386.0
+script = ExtResource("10_uef0b")
+
+[node name="Close" type="Button" parent="UiLayer/UiRoot/Sliders"]
+layout_mode = 2
+offset_left = 36.0
+offset_top = 150.0
+offset_right = 165.0
+offset_bottom = 181.0
+text = "Close menu"
+
+[node name="MenuContainer" type="VBoxContainer" parent="UiLayer/UiRoot/Sliders"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 16.0
+offset_right = 171.0
+offset_bottom = 253.0
+theme_override_constants/separation = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UiLayer/UiRoot/Sliders/MenuContainer"]
+layout_mode = 2
+
+[node name="Grassines" type="Label" parent="UiLayer/UiRoot/Sliders/MenuContainer/HBoxContainer"]
+layout_mode = 2
+text = "Grassines:"
+
+[node name="GrassinesVal" type="Label" parent="UiLayer/UiRoot/Sliders/MenuContainer/HBoxContainer"]
+layout_mode = 2
+text = "30"
+
+[node name="GrassSlider" type="HSlider" parent="UiLayer/UiRoot/Sliders/MenuContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="UiLayer/UiRoot/Sliders/MenuContainer"]
+layout_mode = 2
+
+[node name="Earthness" type="Label" parent="UiLayer/UiRoot/Sliders/MenuContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Earthness:"
+
+[node name="EarthnessVal" type="Label" parent="UiLayer/UiRoot/Sliders/MenuContainer/HBoxContainer2"]
+layout_mode = 2
+text = "30"
+
+[node name="EarthSlider" type="HSlider" parent="UiLayer/UiRoot/Sliders/MenuContainer"]
 layout_mode = 2
 
 [node name="GridOverlay" type="Node2D" parent="."]

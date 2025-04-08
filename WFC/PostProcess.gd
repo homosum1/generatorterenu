@@ -6,6 +6,7 @@ static func _recalculate_collapse(recalculate_queue) -> void:
 	
 	for tile in recalculate_queue:
 		tile.reset_possible_states()
+		#tile.reset_possible_states_v2()
 		
 		
 	# find tile with minimal entropy, collapse it and cremove from queue

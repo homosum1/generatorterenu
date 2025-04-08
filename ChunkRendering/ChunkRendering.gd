@@ -11,8 +11,8 @@ const CHUNK_GAP = 1
 const CHUNKS_COUNT_WIDTH = 3
 const CHUNKS_COUNT_HEIGHT = 3
 
-const CHUNK_WIDTH = 20
-const CHUNK_HEIGHT = 20
+const CHUNK_WIDTH = 10
+const CHUNK_HEIGHT = 10
 
 var worldMap = []
 var finalWorldMap = []
