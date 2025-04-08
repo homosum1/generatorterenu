@@ -281,28 +281,30 @@ text = "Position display:"
 [node name="PositionDisplay" type="CheckButton" parent="UiLayer/UiRoot/DebugSettings/HBoxContainer3"]
 layout_mode = 2
 
+[node name="HBoxContainer4" type="HBoxContainer" parent="UiLayer/UiRoot/DebugSettings"]
+layout_mode = 2
+
+[node name="AdvancedSettings" type="Label" parent="UiLayer/UiRoot/DebugSettings/HBoxContainer4"]
+layout_mode = 2
+text = "Rendering Settings:"
+
+[node name="MenuOpened" type="CheckButton" parent="UiLayer/UiRoot/DebugSettings/HBoxContainer4"]
+layout_mode = 2
+
 [node name="Sliders" type="Panel" parent="UiLayer/UiRoot"]
 layout_mode = 0
-offset_left = 22.0
-offset_top = 186.0
-offset_right = 221.0
-offset_bottom = 386.0
+offset_left = 23.0
+offset_top = 212.0
+offset_right = 223.0
+offset_bottom = 617.0
 script = ExtResource("10_uef0b")
-
-[node name="Close" type="Button" parent="UiLayer/UiRoot/Sliders"]
-layout_mode = 2
-offset_left = 36.0
-offset_top = 150.0
-offset_right = 165.0
-offset_bottom = 181.0
-text = "Close menu"
 
 [node name="MenuContainer" type="VBoxContainer" parent="UiLayer/UiRoot/Sliders"]
 layout_mode = 0
 offset_left = 18.0
 offset_top = 16.0
 offset_right = 171.0
-offset_bottom = 253.0
+offset_bottom = 142.0
 theme_override_constants/separation = 10
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UiLayer/UiRoot/Sliders/MenuContainer"]
@@ -333,6 +335,78 @@ text = "30"
 [node name="EarthSlider" type="HSlider" parent="UiLayer/UiRoot/Sliders/MenuContainer"]
 layout_mode = 2
 
+[node name="WhiteSpacer" type="ColorRect" parent="UiLayer/UiRoot/Sliders"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 0
+offset_left = 18.0
+offset_top = 140.0
+offset_right = 182.0
+offset_bottom = 141.0
+
+[node name="SecondMenuContainer" type="VBoxContainer" parent="UiLayer/UiRoot/Sliders"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 158.0
+offset_right = 186.0
+offset_bottom = 404.0
+theme_override_constants/separation = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UiLayer/UiRoot/Sliders/SecondMenuContainer"]
+layout_mode = 2
+
+[node name="GrassDensity" type="Label" parent="UiLayer/UiRoot/Sliders/SecondMenuContainer/HBoxContainer"]
+layout_mode = 2
+text = "Grass density:"
+
+[node name="GrassDensityVal" type="Label" parent="UiLayer/UiRoot/Sliders/SecondMenuContainer/HBoxContainer"]
+layout_mode = 2
+text = "10"
+
+[node name="GrassDensitySlider" type="HSlider" parent="UiLayer/UiRoot/Sliders/SecondMenuContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="UiLayer/UiRoot/Sliders/SecondMenuContainer"]
+layout_mode = 2
+
+[node name="GrassFrequency" type="Label" parent="UiLayer/UiRoot/Sliders/SecondMenuContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Grass frequency:"
+
+[node name="GrassFrequencyVal" type="Label" parent="UiLayer/UiRoot/Sliders/SecondMenuContainer/HBoxContainer2"]
+layout_mode = 2
+text = "10"
+
+[node name="GrassFreqSlider" type="HSlider" parent="UiLayer/UiRoot/Sliders/SecondMenuContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="UiLayer/UiRoot/Sliders/SecondMenuContainer"]
+layout_mode = 2
+
+[node name="TreesDensity" type="Label" parent="UiLayer/UiRoot/Sliders/SecondMenuContainer/HBoxContainer3"]
+layout_mode = 2
+text = "Trees density:"
+
+[node name="TreesDensityVal" type="Label" parent="UiLayer/UiRoot/Sliders/SecondMenuContainer/HBoxContainer3"]
+layout_mode = 2
+text = "10"
+
+[node name="TreesDensitySlider" type="HSlider" parent="UiLayer/UiRoot/Sliders/SecondMenuContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="UiLayer/UiRoot/Sliders/SecondMenuContainer"]
+layout_mode = 2
+
+[node name="TreesFrequency" type="Label" parent="UiLayer/UiRoot/Sliders/SecondMenuContainer/HBoxContainer4"]
+layout_mode = 2
+text = "Trees frequency:"
+
+[node name="TreesFrequencyVal" type="Label" parent="UiLayer/UiRoot/Sliders/SecondMenuContainer/HBoxContainer4"]
+layout_mode = 2
+text = "10"
+
+[node name="TreesFreqSlider" type="HSlider" parent="UiLayer/UiRoot/Sliders/SecondMenuContainer"]
+layout_mode = 2
+
 [node name="GridOverlay" type="Node2D" parent="."]
 script = ExtResource("7_tb6b5")
 
@@ -342,3 +416,4 @@ script = ExtResource("7_tb6b5")
 [connection signal="toggled" from="UiLayer/UiRoot/DebugSettings/HBoxContainer/DisplayGrid" to="UiLayer/UiRoot" method="_on_display_grid_toggled"]
 [connection signal="toggled" from="UiLayer/UiRoot/DebugSettings/HBoxContainer2/EntropyDisplay" to="UiLayer/UiRoot" method="_on_entropy_display_toggled"]
 [connection signal="toggled" from="UiLayer/UiRoot/DebugSettings/HBoxContainer3/PositionDisplay" to="UiLayer/UiRoot" method="_on_position_display_toggled"]
+[connection signal="toggled" from="UiLayer/UiRoot/DebugSettings/HBoxContainer4/MenuOpened" to="UiLayer/UiRoot" method="_on_menu_opened_toggled"]

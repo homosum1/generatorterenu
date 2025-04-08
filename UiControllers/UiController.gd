@@ -2,7 +2,8 @@ extends Node
 
 @onready var camera = get_node("/root/Node2D/Player/Camera2D")
 @onready var grid_overlay := $"../../GridOverlay"
-@onready var zoom_label: Label = $ZoomButtons/ZoomLabel  # Adjust path if needed
+@onready var zoom_label: Label = $ZoomButtons/ZoomLabel
+@onready var sliders_panel: Panel = $"Sliders"
 
 
 var zoom_step := 0.1
@@ -12,8 +13,8 @@ var max_zoom := 3.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
-
+	sliders_panel.visible = false
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -48,3 +49,7 @@ func _on_entropy_display_toggled(toggled_on: bool) -> void:
 
 func _on_position_display_toggled(toggled_on: bool) -> void:
 	grid_overlay.toggle_position()
+
+
+func _on_menu_opened_toggled(toggled_on: bool) -> void:
+	sliders_panel.visible = toggled_on

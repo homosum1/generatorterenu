@@ -14,6 +14,9 @@ const TREE_GRASS_RANGE := 1
 var grass_density := 0.4
 var tree_density := 0.1
 
+var grass_frequency := 0.1
+var tree_frequency := 0.03
+
 var chunk_renderer
 var shadow_generator
 
