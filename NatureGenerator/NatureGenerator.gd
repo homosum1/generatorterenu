@@ -10,12 +10,12 @@ const TREE_TILES_ID := [Vector2i(2, 0), Vector2i(6, 0)]
 
 const TREE_MIN_DISTANCE := 2
 const TREE_GRASS_RANGE := 1
-
-var grass_density := 0.4
-var tree_density := 0.1
-
-var grass_frequency := 0.1
-var tree_frequency := 0.03
+#
+#var grass_density := 0.4
+#var tree_density := 0.1
+#
+#var grass_frequency := 0.1
+#var tree_frequency := 0.03
 
 var chunk_renderer
 var shadow_generator
@@ -69,8 +69,13 @@ func _generate_grass():
 	if chunk_renderer == null:
 		push_error("nature generator - ChunkRenderer not found")
 		return
+	
+	var grass_density = GlobalsSingleton.debug_settings.get_grass_density()
+	var grass_frequency = GlobalsSingleton.debug_settings.get_grass_frequency()
 
-	noise.frequency = 0.1
+
+	noise.frequency = grass_frequency
+	#noise.frequency = 0.1
 	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
 	noise.seed = randi()
 
@@ -119,7 +124,13 @@ func _generate_small_grass():
 					natureMap[x][y] = SMALL_GRASS_TILE_ID
 
 func _generate_trees():
-	noise.frequency = 0.03
+	
+	var tree_density = GlobalsSingleton.debug_settings.get_tree_density()
+	var tree_frequency = GlobalsSingleton.debug_settings.get_tree_frequency()
+
+	
+	noise.frequency = tree_frequency
+	#noise.frequency = 0.03
 	var noise := FastNoiseLite.new()
 	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
 	noise.seed = randi()
