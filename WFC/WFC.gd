@@ -4,8 +4,11 @@ var GRID_WIDTH = 0
 var GRID_HEIGHT = 0
 var gridMatrix: Array[Array]  = []
 
+var range = "default"
 
-func _init(grid_width: int, grid_height: int) -> void:
+func _init(grid_width: int, grid_height: int, tilesRange: String = "default") -> void:
+	range = tilesRange
+
 	self.GRID_WIDTH = grid_width
 	self.GRID_HEIGHT = grid_height
 	_gridInit()  # Initialize grid for WFC
@@ -20,7 +23,7 @@ func _gridInit() -> void:
 	for x in range(GRID_WIDTH):
 		var gridColumn = []
 		for y in range(GRID_HEIGHT):
-			gridColumn.append(Tile.new(x, y))
+			gridColumn.append(Tile.new(x, y, range))
 			
 		gridMatrix.append(gridColumn)
 

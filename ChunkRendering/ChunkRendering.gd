@@ -2,9 +2,11 @@ extends Node
 
 @export var tileMapRendererPath: NodePath 
 @export var natureMapRendererPath: NodePath
+@export var hillMapRendererPath: NodePath
 
 var tileMapRenderer
 var natureMapRenderer
+var hillMapRenderer
 
 const CHUNK_GAP = 1
 
@@ -27,6 +29,7 @@ func _ready() -> void:
 	
 	_getChunkRenderer()
 	_getNatureRenderer()
+	_getHillsGenerator()
 	
 	_groupedGenerationAlgorithm()
 	
@@ -43,6 +46,9 @@ func _groupedGenerationAlgorithm() -> void:
 	
 	# post processing
 	PostProcess.clean_up_edges(finalWorldMap)
+
+	# have to move this to the top later
+	hillMapRenderer.generate_mountains()
 
 	# rendering - legacy
 	#_renderWFCGrid()
@@ -79,7 +85,16 @@ func _getNatureRenderer() -> bool:
 		return false
 	
 	return true
+
+func _getHillsGenerator() -> bool:
+	hillMapRenderer = get_node(hillMapRendererPath)
 	
+	if not hillMapRenderer:
+		print("Missing hill map generator")
+		return false
+	
+	return true
+
 
 func _initializeEmptyWorldMap() -> void:
 	for x in range(CHUNKS_COUNT_WIDTH):

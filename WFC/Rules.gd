@@ -323,6 +323,231 @@ const adjacencyRules = {
 			"grass-dirt_corner_top-right"
 		]
 	},
+	
+	# WALLS
+	"dirt-wall": {
+		"left": [
+			"dirt-wall", 
+			"dirt-wall_left",
+		],
+		"right": [
+			"dirt-wall",
+			"dirt-wall_right",
+			
+		],
+		"top": [
+			"dirt-wall",
+			"dirt-wall_top",
+			"dirt-wall_corner_top-left",
+			"dirt-wall_corner_top-right"
+		],
+		"bottom": [
+			"dirt-wall",
+			"dirt-wall_bottom",
+			"dirt-wall_corner_bottom-left",
+			"dirt-wall_corner_bottom-right"
+		]
+	},
+	
+# WALL SIDES
+	"dirt-wall_top": {
+		"left": [
+			"dirt-wall_top",
+			"dirt-wall_top-left"
+		],
+		"right": [
+			"dirt-wall_top",
+			"dirt-wall_top-right"
+		],
+		"top": [
+			"empty-wall"
+		],
+		"bottom": [
+			"dirt-wall",
+		]
+	},
+	
+	"dirt-wall_bottom": {
+		"left": [
+			"dirt-wall_bottom",
+			"dirt-wall_bottom-left"
+		],
+		"right": [
+			"dirt-wall_bottom",
+			"dirt-wall_bottom-right"
+		],
+		"top": [
+			"dirt-wall",
+		],
+		"bottom": [
+			"empty-wall"
+		]
+	},
+	
+	"dirt-wall_left": {
+		"left": [
+			"empty-wall"
+		],
+		"right": [
+			"dirt-wall",
+		],
+		"top": [
+			"dirt-wall_left",
+			"dirt-wall_top-left"
+		],
+		"bottom": [
+			"dirt-wall_left",
+			"dirt-wall_bottom-left"
+		]
+	},
+	
+	"dirt-wall_right": {
+		"left": [
+			"dirt-wall",
+		],
+		"right": [
+			"empty-wall"
+		],
+		"top": [
+			"dirt-wall_right",
+			"dirt-wall_top-right"
+		],
+		"bottom": [
+			"dirt-wall_right",
+			"dirt-wall_bottom-right"
+		]
+	},
+	
+# WALL EDGES
+	"dirt-wall_top-left": {
+		"left": [
+			"empty-wall"
+		],
+		"right": [
+			"dirt-wall_top"
+		],
+		"top": [
+			"empty-wall"
+		],
+		"bottom": [
+			"dirt-wall_left"
+		]
+	},
+	
+	"dirt-wall_top-right": {
+		"left": [
+			"dirt-wall_top"
+		],
+		"right": [
+			"empty-wall"
+		],
+		"top": [
+			"empty-wall"
+		],
+		"bottom": [
+			"dirt-wall_right"
+		]
+	},
+	
+	"dirt-wall_bottom-left": {
+		"left": [
+			"empty-wall"
+		],
+		"right": [
+			"dirt-wall_bottom"
+		],
+		"top": [
+			"dirt-wall_left"
+		],
+		"bottom": [
+			"empty-wall"
+		]
+	},
+	
+	"dirt-wall_bottom-right": {
+		"left": [
+			"dirt-wall_bottom"
+		],
+		"right": [
+			"empty-wall"
+		],
+		"top": [
+			"dirt-wall_right"
+		],
+		"bottom": [
+			"empty-wall"
+		]
+	},
+
+# WALL CORNERS
+	"dirt-wall_corner_top-left": {
+		"left": [
+			"dirt-wall_top",
+			"dirt-wall_top-left"
+		],
+		"right": [
+			"dirt-wall"
+		],
+		"top": [
+			"dirt-wall_left",
+			"dirt-wall_top-left"
+		],
+		"bottom": [
+			"dirt-wall"
+		]
+	},
+	
+	"dirt-wall_corner_top-right": {
+		"left": [
+			"dirt-wall"
+		],
+		"right": [
+			"dirt-wall_top",
+			"dirt-wall_top-right"
+		],
+		"top": [
+			"dirt-wall_right",
+			"dirt-wall_top-right"
+		],
+		"bottom": [
+			"dirt-wall"
+		]
+	},
+	
+	"dirt-wall_corner_bottom-left": {
+		"left": [
+			"dirt-wall_bottom",
+			"dirt-wall_bottom-left"
+		],
+		"right": [
+			"dirt-wall"
+		],
+		"top": [
+			"dirt-wall"
+		],
+		"bottom": [
+			"dirt-wall_left",
+			"dirt-wall_bottom-left"
+		]
+	},
+	
+	"dirt-wall_corner_bottom-right": {
+		"left": [
+			"dirt-wall"
+		],
+		"right": [
+			"dirt-wall_bottom",
+			"dirt-wall_bottom-right"
+		],
+		"top": [
+			"dirt-wall"
+		],
+		"bottom": [
+			"dirt-wall_right",
+			"dirt-wall_bottom-right"
+		]
+	},
+
 }
 
 static var adjacencyRulesAsIndexes = {}
@@ -354,6 +579,7 @@ static func initialize():
 	_printRules()
 
 static func _printRules():
+	
 	print("\n------- Translated tiles rules -------")
 	for tileIndex in adjacencyRulesAsIndexes.keys():
 		print(Tiles.getName(tileIndex) + ": " + str(adjacencyRulesAsIndexes[tileIndex]))

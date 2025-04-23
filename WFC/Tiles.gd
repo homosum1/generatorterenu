@@ -18,7 +18,41 @@ const tiles = [
 	{"name": "grass-dirt_corner_top-left", "index": 10},
 	{"name": "grass-dirt_corner_top-right", "index": 11},
 	{"name": "grass-dirt_corner_bottom-left", "index": 12},
-	{"name": "grass-dirt_corner_bottom-right", "index": 13},	
+	{"name": "grass-dirt_corner_bottom-right", "index": 13},
+	
+	
+	# do 19 (potem zawiniecie mapy)
+	
+# walls	
+	{"name": "dirt-wall", "index": 100},
+	{"name": "empty-wall", "index": 101},
+	
+	# wall sides
+	{"name": "dirt-wall_right", "index": 102},
+	{"name": "dirt-wall_bottom", "index": 103},
+	{"name": "dirt-wall_left", "index": 104},
+	{"name": "dirt-wall_top", "index": 105},
+	 
+	# wall corners
+	{"name": "dirt-wall_corner_top-left", "index": 106},
+	{"name": "dirt-wall_corner_top-right", "index": 107},
+	{"name": "dirt-wall_corner_bottom-left", "index": 108},
+	{"name": "dirt-wall_corner_bottom-right", "index": 109},
+	
+	# wall edges
+	{"name": "dirt-wall_bottom-left", "index": 110},
+	{"name": "dirt-wall_bottom-right", "index": 111},
+	{"name": "dirt-wall_top-left", "index": 112},
+	{"name": "dirt-wall_top-right", "index": 113},
+		
+	
+	# wall step
+	{"name": "down-dirt-wall_left", "index": 114},
+	{"name": "down-dirt-wall_mid", "index": 115},
+	{"name": "down-dirt-wall_right", "index": 116},
+	{"name": "top-dirt-wall_left", "index": 117},
+	{"name": "top-dirt-wall_mid", "index": 118},
+	{"name": "top-dirt-wall_right", "index": 119},
 ]
 
 

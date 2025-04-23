@@ -12,15 +12,30 @@ var position = Vector2(-1, -1)
 var grassines = GlobalsSingleton.debug_settings.get_grassines()
 var earthness = GlobalsSingleton.debug_settings.get_earthness()
 
-func _init(x: int, y: int):
-	
+var tileType = "default"
+
+const TILE_TYPE_RANGES := {
+	"default": Vector2i(0, 13),
+	"wall": Vector2i(100, 119)   
+}
+
+func _init(x: int, y: int, tilesType: String = "default"):
 	position = Vector2(x, y)
-	var possibleTilesCount = Tiles.tiles.size()
 	
+	tileType = tilesType
+
+	#new possibleStatesCount (counting for future needed space)	
+	#var possibleTilesCount = Tiles.tiles.size() + 2
+	var possibleTilesCount = Tiles.tiles[Tiles.tiles.size() - 1]["index"] + 1
+	
+	var range = TILE_TYPE_RANGES.get(tilesType, Vector2i(0, 13))
+
 	for i in range(possibleTilesCount):
-		possibleStates.append(true)
-		
-	entropy = possibleTilesCount
+		if i >= range.x and i <= range.y:
+			possibleStates.append(true)
+			entropy += 1
+		else:
+			possibleStates.append(false)
 
 func collapse() -> void:
 	var potentialIndexes = []
@@ -34,6 +49,7 @@ func collapse() -> void:
 	# miejsce na bardziej złozony system, gdzie przewaga jednego z dwoch tile'i
 	# boostuje prawdopodobienstwo krawedzi dla drugiego tile'a, tak aby przeszedl
 	# on w inny tile
+	
 	
 	for i in range(possibleStates.size()):
 		if possibleStates[i]:
@@ -83,8 +99,12 @@ func collapse() -> void:
 	_notifyNeighbors()
 
 func collapseTo(index: int):
+
 	if not possibleStates[index]:
-		push_warning("failed to collapse invalid index: %d at position %s" % [index, str(position)])
+		
+		#print(entropy)
+		#print(possibleStates)
+		print("failed to collapse invalid index: %d at position %s" % [index, str(position)])
 		return
 
 	collapsedState = index
@@ -163,7 +183,9 @@ func onNeighborUpdate(possibleStatesFromNeighbor: Array, direction: String) -> b
 func getPossibleNeighbors(collapsedNeighborState: int, direction: String) -> Array:
 	var possibleNeighbors = []
 
-	for i in range(Tiles.tiles.size()):	
+	var possibleTilesCount = Tiles.tiles[Tiles.tiles.size() - 1]["index"] + 1
+	
+	for i in range(possibleTilesCount):	
 		if Rules.isPossibleNeighbor(collapsedNeighborState, i, direction):
 			possibleNeighbors.append(i) 
 	
