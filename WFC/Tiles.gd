@@ -40,10 +40,10 @@ const tiles = [
 	{"name": "dirt-wall_corner_bottom-right", "index": 109},
 	
 	# wall edges
-	{"name": "dirt-wall_bottom-left", "index": 110},
-	{"name": "dirt-wall_bottom-right", "index": 111},
-	{"name": "dirt-wall_top-left", "index": 112},
-	{"name": "dirt-wall_top-right", "index": 113},
+	{"name": "dirt-wall_bottom-right", "index": 110},
+	{"name": "dirt-wall_bottom-left", "index": 111},
+	{"name": "dirt-wall_top-right", "index": 112},
+	{"name": "dirt-wall_top-left", "index": 113},
 		
 	
 	# wall step

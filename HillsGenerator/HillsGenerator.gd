@@ -33,32 +33,20 @@ func generate_mountains():
 	
 	# generate terrain
 	generate_initial_sketch()
+	add_final_states()
+	#remove_possible_state()
+	
+	Rules.test_neighbor_rule_symmetry()
+
+	height_map_wfc._printGridStateAsNums()
+	
+	# // wyzeruj siatkę wokol generowanej gory 		
+	var generated_matrix = height_map_wfc.calculateWFC()
+
 	
 	# render terrain
 	render_mountains()
 
-#
-#func initialize_grid():
-	#height_map = []
-	#for x in range(finalMapWidth):
-		#var column = []
-		#for y in range(finalMapHeigth):
-			#column.append(Tile.new(x, y, "wall"))
-		#height_map.append(column)	
-#
-#func assign_neighbors():
-	#for x in range(finalMapWidth):
-		#for y in range (finalMapHeigth):
-			#var processedTile = height_map[x][y]
-			#
-			#if x > 0:
-				#processedTile.neighbors["left"] = height_map[x-1][y]
-			#if x < finalMapWidth -1:
-				#processedTile.neighbors["right"] = height_map[x + 1][y]
-			#if y > 0:
-				#processedTile.neighbors["top"] = height_map[x][y - 1]
-			#if y < finalMapHeigth - 1:
-				#processedTile.neighbors["bottom"] = height_map[x][y + 1]
 
 func generate_initial_sketch():
 	var wallTile = Tiles.getIndex("dirt-wall")
@@ -74,9 +62,60 @@ func generate_initial_sketch():
 		for y in range(finalMapHeigth):
 
 			var height = (noise.get_noise_2d(x, y) + 1.0) / 2.0
-			if height > 0.8:
+			if height > 0.7:
 				height_map_wfc.gridMatrix[x][y].collapseTo(wallTile)
+
+func remove_possible_state():
+	var wallTileIndex = Tiles.getIndex("dirt-wall")
+	
+	for x in range(finalMapWidth):
+		for y in range(finalMapHeigth):
+			if(height_map_wfc.gridMatrix[x][y].collapsedState == -1):
+				height_map_wfc.gridMatrix[x][y].possibleStates[wallTileIndex] = false
+
+func add_final_states():
+	var wallTileIndex = Tiles.getIndex("dirt-wall")
+	var emptyTileIndex = Tiles.getIndex("empty-wall")
+
+	var tiles_to_collapse = []
+
+	for x in range(finalMapWidth):
+		for y in range(finalMapHeigth):
+			var tile = height_map_wfc.gridMatrix[x][y]
+
+			if tile.collapsedState != -1:
+				continue 
+
+			var is_adjacent_to_shape = false
+			var is_diagonal_to_wall = false
+
+			# cardinal neighbors
+			for offset in [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
+				var nx = x + offset.x
+				var ny = y + offset.y
+				if nx >= 0 and ny >= 0 and nx < finalMapWidth and ny < finalMapHeigth:
+					var neighbor = height_map_wfc.gridMatrix[nx][ny]
+					if neighbor.collapsedState != -1:
+						is_adjacent_to_shape = true
+						break
 			
+			# diagonal neighbors
+			for offset in [Vector2i(1, 1), Vector2i(1, -1), Vector2i(-1, 1), Vector2i(-1, -1)]:
+				var nx = x + offset.x
+				var ny = y + offset.y
+				if nx >= 0 and ny >= 0 and nx < finalMapWidth and ny < finalMapHeigth:
+					var neighbor = height_map_wfc.gridMatrix[nx][ny]
+					if neighbor.collapsedState == wallTileIndex:
+						is_diagonal_to_wall = true
+						break
+
+			if not is_adjacent_to_shape and not is_diagonal_to_wall:
+				tiles_to_collapse.append(Vector2(x, y))
+
+	for coordinates in tiles_to_collapse:
+		height_map_wfc.gridMatrix[coordinates.x][coordinates.y].collapseTo(emptyTileIndex)
+
+	
 func render_mountains():
 	clear()
 		

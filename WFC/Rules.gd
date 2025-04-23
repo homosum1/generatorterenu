@@ -285,7 +285,8 @@ const adjacencyRules = {
 		"right": [
 			"grass",  
 			"grass-dirt_right",
-			"grass-dirt_corner_top-right"
+			"grass-dirt_corner_top-right",
+			"grass-dirt_corner_bottom-right"
 		],
 		"top": [
 			"grass", 
@@ -324,16 +325,19 @@ const adjacencyRules = {
 		]
 	},
 	
-	# WALLS
+# WALLS
 	"dirt-wall": {
 		"left": [
 			"dirt-wall", 
 			"dirt-wall_left",
+			"dirt-wall_corner_top-left",
+			"dirt-wall_corner_bottom-left"
 		],
 		"right": [
 			"dirt-wall",
 			"dirt-wall_right",
-			
+			"dirt-wall_corner_top-right",
+			"dirt-wall_corner_bottom-right"
 		],
 		"top": [
 			"dirt-wall",
@@ -349,18 +353,47 @@ const adjacencyRules = {
 		]
 	},
 	
+	"empty-wall": {
+		"left": [
+			"empty-wall",
+			"dirt-wall_right",
+			"dirt-wall_bottom-right",
+			"dirt-wall_top-right"
+		],
+		"right": [
+			"empty-wall",
+			"dirt-wall_left",
+			"dirt-wall_bottom-left",
+			"dirt-wall_top-left"
+		],
+		"top": [
+			"empty-wall",
+			"dirt-wall_bottom", # temp, replace with wall later
+			"dirt-wall_bottom-left", # temp, replace with wall later
+			"dirt-wall_bottom-right" # temp, replace with wall later
+		],
+		"bottom": [
+			"empty-wall",
+			"dirt-wall_top",
+			"dirt-wall_top-left",
+			"dirt-wall_top-right"
+		]
+	},
+	
 # WALL SIDES
 	"dirt-wall_top": {
 		"left": [
 			"dirt-wall_top",
-			"dirt-wall_top-left"
+			"dirt-wall_top-left",
+			"dirt-wall_corner_top-right"
 		],
 		"right": [
 			"dirt-wall_top",
-			"dirt-wall_top-right"
+			"dirt-wall_top-right",
+			"dirt-wall_corner_top-left"
 		],
 		"top": [
-			"empty-wall"
+			"empty-wall",
 		],
 		"bottom": [
 			"dirt-wall",
@@ -370,11 +403,13 @@ const adjacencyRules = {
 	"dirt-wall_bottom": {
 		"left": [
 			"dirt-wall_bottom",
-			"dirt-wall_bottom-left"
+			"dirt-wall_bottom-left",
+			"dirt-wall_corner_bottom-right"
 		],
 		"right": [
 			"dirt-wall_bottom",
-			"dirt-wall_bottom-right"
+			"dirt-wall_bottom-right",
+			"dirt-wall_corner_bottom-left"
 		],
 		"top": [
 			"dirt-wall",
@@ -393,11 +428,13 @@ const adjacencyRules = {
 		],
 		"top": [
 			"dirt-wall_left",
-			"dirt-wall_top-left"
+			"dirt-wall_top-left",
+			"dirt-wall_corner_bottom-left"
 		],
 		"bottom": [
 			"dirt-wall_left",
-			"dirt-wall_bottom-left"
+			"dirt-wall_bottom-left",
+			"dirt-wall_corner_top-left"
 		]
 	},
 	
@@ -410,11 +447,13 @@ const adjacencyRules = {
 		],
 		"top": [
 			"dirt-wall_right",
-			"dirt-wall_top-right"
+			"dirt-wall_top-right",
+			"dirt-wall_corner_bottom-right"
 		],
 		"bottom": [
 			"dirt-wall_right",
-			"dirt-wall_bottom-right"
+			"dirt-wall_bottom-right",			
+			"dirt-wall_corner_top-right"
 		]
 	},
 	
@@ -424,19 +463,24 @@ const adjacencyRules = {
 			"empty-wall"
 		],
 		"right": [
-			"dirt-wall_top"
+			"dirt-wall_top",
+			"dirt-wall_top-right",
+			"dirt-wall_corner_top-left"
 		],
 		"top": [
 			"empty-wall"
 		],
 		"bottom": [
-			"dirt-wall_left"
+			"dirt-wall_left",
+			"dirt-wall_corner_top-left"
 		]
 	},
 	
 	"dirt-wall_top-right": {
 		"left": [
-			"dirt-wall_top"
+			"dirt-wall_top",
+			"dirt-wall_top-left",
+			"dirt-wall_corner_top-right"
 		],
 		"right": [
 			"empty-wall"
@@ -445,7 +489,8 @@ const adjacencyRules = {
 			"empty-wall"
 		],
 		"bottom": [
-			"dirt-wall_right"
+			"dirt-wall_right",
+			"dirt-wall_corner_top-right"
 		]
 	},
 	
@@ -454,10 +499,12 @@ const adjacencyRules = {
 			"empty-wall"
 		],
 		"right": [
-			"dirt-wall_bottom"
+			"dirt-wall_bottom",
+			"dirt-wall_corner_bottom-left"
 		],
 		"top": [
-			"dirt-wall_left"
+			"dirt-wall_left",
+			"dirt-wall_corner_bottom-left"
 		],
 		"bottom": [
 			"empty-wall"
@@ -466,13 +513,15 @@ const adjacencyRules = {
 	
 	"dirt-wall_bottom-right": {
 		"left": [
-			"dirt-wall_bottom"
+			"dirt-wall_bottom",
+			"dirt-wall_corner_bottom-right"
 		],
 		"right": [
 			"empty-wall"
 		],
 		"top": [
-			"dirt-wall_right"
+			"dirt-wall_right",
+			"dirt-wall_corner_bottom-right"
 		],
 		"bottom": [
 			"empty-wall"
@@ -507,7 +556,7 @@ const adjacencyRules = {
 		],
 		"top": [
 			"dirt-wall_right",
-			"dirt-wall_top-right"
+			"dirt-wall_top-right",
 		],
 		"bottom": [
 			"dirt-wall"
@@ -588,3 +637,32 @@ static func isPossibleNeighbor(tileIndex: int, neighborIndex: int, direction: St
 	if adjacencyRulesAsIndexes.has(tileIndex) and adjacencyRulesAsIndexes[tileIndex].has(direction):
 		return neighborIndex in adjacencyRulesAsIndexes[tileIndex][direction]
 	return false
+
+
+static func test_neighbor_rule_symmetry():
+	var directions = {
+		"top": "bottom",
+		"bottom": "top",
+		"left": "right",
+		"right": "left"
+	}
+
+	for tile_name in adjacencyRules.keys():
+		var tile_rules = adjacencyRules[tile_name]
+		for dir in tile_rules.keys():
+			var neighbor_list = tile_rules[dir]
+			for neighbor in neighbor_list:
+				# sprawdź czy sąsiedni tile ma odwzajemnioną regułę
+				if not adjacencyRules.has(neighbor):
+					print("⚠️ Missing neighbor tile definition:", neighbor)
+					continue
+				if not directions.has(dir):
+					print("⚠️ Unknown direction:", dir)
+					continue
+				var opposite_dir = directions[dir]
+				var neighbor_rules = adjacencyRules[neighbor]
+
+				if not neighbor_rules.has(opposite_dir):
+					print("❌", neighbor, "has no", opposite_dir, "rule for", tile_name)
+				elif not tile_name in neighbor_rules[opposite_dir]:
+					print("❌", neighbor, ".", opposite_dir, "does not include", tile_name)
