@@ -654,15 +654,15 @@ static func test_neighbor_rule_symmetry():
 			for neighbor in neighbor_list:
 				# sprawdź czy sąsiedni tile ma odwzajemnioną regułę
 				if not adjacencyRules.has(neighbor):
-					print("⚠️ Missing neighbor tile definition:", neighbor)
+					print("missing neighbor tile definition: ", neighbor)
 					continue
 				if not directions.has(dir):
-					print("⚠️ Unknown direction:", dir)
+					print("unknown direction: ", dir)
 					continue
 				var opposite_dir = directions[dir]
 				var neighbor_rules = adjacencyRules[neighbor]
 
 				if not neighbor_rules.has(opposite_dir):
-					print("❌", neighbor, "has no", opposite_dir, "rule for", tile_name)
+					print("❌ ", neighbor, "has no: ", opposite_dir, "rule for: ", tile_name)
 				elif not tile_name in neighbor_rules[opposite_dir]:
-					print("❌", neighbor, ".", opposite_dir, "does not include", tile_name)
+					print("❌ ", neighbor, " - ", opposite_dir, "does not include: ", tile_name)
