@@ -596,7 +596,109 @@ const adjacencyRules = {
 			"dirt-wall_bottom-right"
 		]
 	},
-
+	
+# SLOPE TILES TOP
+	"top-dirt-wall_left": {
+		"left": [
+			"empty-wall",
+			"dirt-wall_bottom-right",
+			"dirt-wall_right"
+		],
+		"right": [
+			"top-dirt-wall_mid"
+		],
+		"top": [
+			"dirt-wall_bottom-left"
+		],
+		"bottom": [
+			"down-dirt-wall_left"
+		]
+	},
+	
+	"top-dirt-wall_mid": {
+		"left": [
+			"top-dirt-wall_left"
+		],
+		"right": [
+			"top-dirt-wall_right"
+		],
+		"top": [
+			"dirt-wall_bottom"
+		],
+		"bottom": [
+			"down-dirt-wall_mid"
+		]
+	},
+	
+	"top-dirt-wall_right": {
+		"left": [
+			"top-dirt-wall_mid"
+		],
+		"right": [
+			"empty-wall",
+			"dirt-wall_bottom-left",
+			"dirt-wall_left"
+		],
+		"top": [
+			"dirt-wall_bottom-right"
+		],
+		"bottom": [
+			"down-dirt-wall_right"
+		]
+	},
+	
+	# SLOPE TILES BOTTOM
+	
+	"down-dirt-wall_left": {
+		"left": [
+			"empty-wall",
+			"dirt-wall_right",
+			"top-dirt-wall_right",
+			"dirt-wall_bottom-right"
+		],
+		"right": [
+			"down-dirt-wall_mid"
+		],
+		"top": [
+			"top-dirt-wall_left"
+		],
+		"bottom": [
+			"empty-wall"
+		]
+	},
+	
+	"down-dirt-wall_mid": {
+		"left": [
+			"down-dirt-wall_left"
+		],
+		"right": [
+			"down-dirt-wall_right"
+		],
+		"top": [
+			"top-dirt-wall_mid"
+		],
+		"bottom": [
+			"empty-wall"
+		]
+	},
+	
+	"down-dirt-wall_right": {
+		"left": [
+			"down-dirt-wall_mid"
+		],
+		"right": [
+			"empty-wall",
+			"dirt-wall_left",
+			"top-dirt-wall_left",
+			"dirt-wall_bottom-left"
+		],
+		"top": [
+			"top-dirt-wall_right"
+		],
+		"bottom": [
+			"empty-wall"
+		]
+	},
 }
 
 static var adjacencyRulesAsIndexes = {}
