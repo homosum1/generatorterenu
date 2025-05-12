@@ -14,6 +14,105 @@ var finalMapHeigth = -1;
 
 var noise := FastNoiseLite.new()
 
+var replacement_rules = [	
+#	// CORNERS 
+	{
+		"pattern": [
+			["dirt-wall_corner_bottom-right", "dirt-wall_bottom"]
+		],
+		"size": Vector2i(2, 1),
+		"replacements": [
+			{ "offset": Vector2i(1, 1), "set_tile": "top-dirt-wall_left" },
+			{ "offset": Vector2i(1, 2), "set_tile": "down-dirt-wall_left" }
+		]
+	},
+	{
+		"pattern": [
+			["dirt-wall_bottom", "dirt-wall_corner_bottom-left"]
+		],
+		"size": Vector2i(2, 1),
+		"replacements": [
+			{ "offset": Vector2i(0, 1), "set_tile": "top-dirt-wall_right" },
+			{ "offset": Vector2i(0, 2), "set_tile": "down-dirt-wall_right" }
+		]
+	},
+	
+#	// SOLO EDGES
+	{
+		"pattern": [
+			["dirt-wall_bottom-left"]
+		],
+		"size": Vector2i(1, 1),
+		"replacements": [
+			{ "offset": Vector2i(0, 1), "set_tile": "top-dirt-wall_left" },
+			{ "offset": Vector2i(0, 2), "set_tile": "down-dirt-wall_left" }
+		]
+	},
+	{
+		"pattern": [
+			["dirt-wall_bottom-right"]
+		],
+		"size": Vector2i(1, 1),
+		"replacements": [
+			{ "offset": Vector2i(0, 1), "set_tile": "top-dirt-wall_right" },
+			{ "offset": Vector2i(0, 2), "set_tile": "down-dirt-wall_right" }
+		]
+	},
+	
+	#	// EMPTY NEIGHBOURS
+	{
+		"pattern": [
+			["dirt-wall_bottom"]
+		],
+		"size": Vector2i(1, 1),
+		"replacements": [
+			{ "offset": Vector2i(0, 1), "set_tile": "top-dirt-wall_mid" },
+			{ "offset": Vector2i(0, 2), "set_tile": "down-dirt-wall_mid" }
+		]
+	},
+]
+
+func _matches_pattern_at(x: int, y: int, pattern: Array) -> bool:
+	for dy in range(len(pattern)):
+		for dx in range(len(pattern[dy])):
+			var expected_tile_name = pattern[dy][dx]
+			if expected_tile_name == null:
+				continue
+			var px = x + dx
+			var py = y + dy
+			if px >= finalMapWidth or py >= finalMapHeigth:
+				return false
+			var actual_index = height_map_wfc.gridMatrix[px][py].collapsedState
+			var expected_index = Tiles.getIndex(expected_tile_name)
+			
+			#print("act: " + str(actual_index) + " fact: " + str(expected_index))
+			
+			#if actual_index == expected_index:
+				#print("matched index!")
+			
+			if actual_index != expected_index:
+				return false
+	return true
+
+func apply_tile_replacement_patterns():
+	for rule in replacement_rules:
+		var pattern = rule["pattern"]
+		var size = rule["size"]
+		var replacements = rule["replacements"]
+
+		for x in range(finalMapWidth - size.x + 1):
+			for y in range(finalMapHeigth - size.y + 1):
+				if _matches_pattern_at(x, y, pattern):
+					for rep in replacements:
+						var tx = x + rep["offset"].x
+						var ty = y + rep["offset"].y
+						if tx >= 0 and ty >= 0 and tx < finalMapWidth and ty < finalMapHeigth:
+							var tile_index = Tiles.getIndex(rep["set_tile"])
+							print("Matched pattern at:", tx, ty)
+							if height_map_wfc.gridMatrix[tx][ty].collapsedState == 101:
+								height_map_wfc.gridMatrix[tx][ty].collapsedState = tile_index
+
+
 func _ready():
 	chunk_renderer = get_node(chunk_renderer_path)
 	if not chunk_renderer:
@@ -35,14 +134,13 @@ func generate_mountains():
 	generate_initial_sketch()
 	add_final_states()
 	#remove_possible_state()
-	
+		
 	Rules.test_neighbor_rule_symmetry()
 
 	height_map_wfc._printGridStateAsNums()
-	
-	# // wyzeruj siatkę wokol generowanej gory 		
+	 		
 	var generated_matrix = height_map_wfc.calculateWFC()
-
+	apply_tile_replacement_patterns()
 	
 	# render terrain
 	render_mountains()
