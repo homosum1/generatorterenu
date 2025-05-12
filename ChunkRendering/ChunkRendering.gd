@@ -102,7 +102,19 @@ func _initializeEmptyWorldMap() -> void:
 			column.append(null)
 		worldMap.append(column)	
 
+func _get_hill_state(x: int, y: int) -> int:
+	if x >= 0 and y >= 0 and x < hillMapRenderer.height_map_wfc.GRID_WIDTH and y < hillMapRenderer.height_map_wfc.GRID_HEIGHT:
+		return hillMapRenderer.height_map_wfc.gridMatrix[x][y].collapsedState
+	return Tiles.getIndex("empty-wall")
 
+func _has_non_empty_neighbors(world_x: int, world_y: int, empty_wall_index: int) -> bool:
+	for offset in [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
+		var nx = world_x + offset.x
+		var ny = world_y + offset.y
+		if _get_hill_state(nx, ny) != empty_wall_index:
+			return true
+	return false
+	
 func _apply_mountain_mask_to_horizontal_stitch(row_index: int, edge: WFC) -> void:
 	var empty_wall = Tiles.getIndex("empty-wall")
 	var dirt_index = Tiles.getIndex("dirt")
@@ -112,7 +124,7 @@ func _apply_mountain_mask_to_horizontal_stitch(row_index: int, edge: WFC) -> voi
 		var world_y = (row_index + 1) * CHUNK_HEIGHT + row_index
 
 		var hill_cell = hillMapRenderer.height_map_wfc.gridMatrix[world_x][world_y]
-		if hill_cell.collapsedState != empty_wall:
+		if hill_cell.collapsedState != empty_wall or _has_non_empty_neighbors(world_x, world_y, empty_wall):
 			edge.gridMatrix[x][0].collapseTo(dirt_index)
 
 func _apply_mountain_mask_to_vertical_stitch(col_index: int, edge: WFC) -> void:
@@ -124,7 +136,7 @@ func _apply_mountain_mask_to_vertical_stitch(col_index: int, edge: WFC) -> void:
 		var world_y = y
 
 		var hill_cell = hillMapRenderer.height_map_wfc.gridMatrix[world_x][world_y]
-		if hill_cell.collapsedState != empty_wall:
+		if hill_cell.collapsedState != empty_wall or _has_non_empty_neighbors(world_x, world_y, empty_wall):
 			if edge.gridMatrix[0][y].collapsedState == -1:
 				edge.gridMatrix[0][y].collapseTo(dirt_index)
 
@@ -159,7 +171,6 @@ func _generateStitchingEdges():
 		var column = edge.calculateWFC()
 		verticalStiches.append(column)
 		
-
 func _apply_mountain_mask_to_chunk(chunk: WFC, chunk_x: int, chunk_y: int) -> void:
 	var empty_wall = Tiles.getIndex("empty-wall")
 	var dirt_index = Tiles.getIndex("dirt")
@@ -170,7 +181,7 @@ func _apply_mountain_mask_to_chunk(chunk: WFC, chunk_x: int, chunk_y: int) -> vo
 			var world_y = chunk_y * (CHUNK_HEIGHT + CHUNK_GAP) + cy
 
 			var hill_cell = hillMapRenderer.height_map_wfc.gridMatrix[world_x][world_y]
-			if hill_cell.collapsedState != empty_wall:
+			if hill_cell.collapsedState != empty_wall or _has_non_empty_neighbors(world_x, world_y, empty_wall):
 				chunk.gridMatrix[cx][cy].collapseTo(dirt_index)
 
 
