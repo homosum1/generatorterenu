@@ -7,6 +7,13 @@ extends Panel
 @onready var grass_val_label := $MenuContainer/HBoxContainer/GrassinesVal
 @onready var earth_val_label := $MenuContainer/HBoxContainer2/EarthnessVal
 
+@onready var hills_frequency_slider := $SecondMenuContainer2/HillsFrequencySlider
+@onready var hill_frequency_label := $SecondMenuContainer2/HBoxContainer/HillsFrequencyVal
+
+@onready var hills_threshold_slider := $SecondMenuContainer2/HillsThresholdSlider
+@onready var hills_threshold_label := $SecondMenuContainer2/HBoxContainer2/HillsThresholdVal
+
+
 # STRUCTURE GEN REFS:
 @onready var grass_density_slider := $SecondMenuContainer/GrassDensitySlider
 @onready var tree_density_slider := $SecondMenuContainer/TreesDensitySlider
@@ -20,6 +27,7 @@ extends Panel
 
 
 
+
 var grassines := 25
 var earthness := 3
 
@@ -28,6 +36,10 @@ var tree_density := 0.1
 
 var grass_frequency := 0.1
 var tree_frequency := 0.03
+
+var hills_frequency := 0.007
+var hills_threshold := 0.7
+var hillsGeneration := true
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -69,22 +81,41 @@ func _ready() -> void:
 	tree_frequency_slider.max_value = 0.2
 	tree_frequency_slider.step = 0.01
 	
+	hills_frequency_slider.min_value = 0.001
+	hills_frequency_slider.max_value = 0.050
+	hills_frequency_slider.step = 0.001
+
+	hills_threshold_slider.min_value = 0.1
+	hills_threshold_slider.max_value = 1.0
+	hills_threshold_slider.step = 0.05
+	
 	grass_density_slider.value = grass_density
 	tree_density_slider.value = tree_density
 	grass_frequency_slider.value = grass_frequency
 	tree_frequency_slider.value = tree_frequency
+	
+	hills_frequency_slider.value = hills_frequency
+	hills_threshold_slider.value = hills_threshold
+		
 
 	grass_density_label.text = "%.2f" % grass_density
 	tree_density_label.text = "%.2f" % tree_density
 	grass_frequency_label.text = "%.2f" % grass_frequency
 	tree_frequency_label.text = "%.2f" % tree_frequency
 
+	hill_frequency_label.text = "%.3f" % hills_frequency
+	hills_threshold_label.text = "%.2f" % hills_threshold
+
 	# Connect signals
 	grass_density_slider.connect("value_changed", _on_grass_density_changed)
 	tree_density_slider.connect("value_changed", _on_tree_density_changed)
 	grass_frequency_slider.connect("value_changed", _on_grass_frequency_changed)
 	tree_frequency_slider.connect("value_changed", _on_tree_frequency_changed)
+	
+	hills_frequency_slider.connect("value_changed", _on_hills_frequency_changed)
+	hills_threshold_slider.connect("value_changed", _on_hills_threshold_changed)
 
+	
 
 func _on_grass_slider_changed(value: float) -> void:
 	grassines = value
@@ -118,6 +149,15 @@ func _on_tree_frequency_changed(value: float) -> void:
 	tree_frequency = value
 	tree_frequency_label.text = "%.2f" % value
 
+func _on_hills_frequency_changed(value: float) -> void:
+	hills_frequency = value
+	hill_frequency_label.text = "%.3f" % value
+
+func _on_hills_threshold_changed(value: float) -> void:	
+	hills_threshold = value
+	hills_threshold_label.text = "%.2f" % value
+
+
 func get_grass_density() -> float:
 	return grass_density
 
@@ -129,3 +169,15 @@ func get_grass_frequency() -> float:
 
 func get_tree_frequency() -> float:
 	return tree_frequency
+	
+func get_hills_frequency() -> float:
+	return hills_frequency
+
+func get_hills_height_threshold() -> float:
+	return hills_threshold
+
+func get_are_hills_rendered() -> float:
+	return hillsGeneration
+
+func _on_position_display_toggled(toggled_on: bool) -> void:
+	hillsGeneration = !hillsGeneration

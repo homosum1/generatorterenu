@@ -425,9 +425,15 @@ layout_mode = 2
 layout_mode = 0
 offset_left = 23.0
 offset_top = 212.0
-offset_right = 223.0
+offset_right = 442.0
 offset_bottom = 617.0
 script = ExtResource("10_uef0b")
+
+[node name="WhiteSpacer2" type="ColorRect" parent="UiLayer/UiRoot/Sliders"]
+offset_left = 203.0
+offset_top = 20.0
+offset_right = 205.0
+offset_bottom = 388.0
 
 [node name="MenuContainer" type="VBoxContainer" parent="UiLayer/UiRoot/Sliders"]
 layout_mode = 0
@@ -537,6 +543,57 @@ text = "10"
 [node name="TreesFreqSlider" type="HSlider" parent="UiLayer/UiRoot/Sliders/SecondMenuContainer"]
 layout_mode = 2
 
+[node name="Columns" type="HBoxContainer" parent="UiLayer/UiRoot/Sliders"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SecondMenuContainer2" type="VBoxContainer" parent="UiLayer/UiRoot/Sliders"]
+offset_left = 226.985
+offset_top = 16.0
+offset_right = 381.985
+offset_bottom = 142.0
+theme_override_constants/separation = 10
+
+[node name="hillsToggle" type="HBoxContainer" parent="UiLayer/UiRoot/Sliders/SecondMenuContainer2"]
+layout_mode = 2
+
+[node name="Hills generation" type="Label" parent="UiLayer/UiRoot/Sliders/SecondMenuContainer2/hillsToggle"]
+layout_mode = 2
+text = "Hills generation:"
+
+[node name="PositionDisplay" type="CheckButton" parent="UiLayer/UiRoot/Sliders/SecondMenuContainer2/hillsToggle"]
+layout_mode = 2
+button_pressed = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UiLayer/UiRoot/Sliders/SecondMenuContainer2"]
+layout_mode = 2
+
+[node name="Grassines" type="Label" parent="UiLayer/UiRoot/Sliders/SecondMenuContainer2/HBoxContainer"]
+layout_mode = 2
+text = "Hills frequency:"
+
+[node name="HillsFrequencyVal" type="Label" parent="UiLayer/UiRoot/Sliders/SecondMenuContainer2/HBoxContainer"]
+layout_mode = 2
+text = "30"
+
+[node name="HillsFrequencySlider" type="HSlider" parent="UiLayer/UiRoot/Sliders/SecondMenuContainer2"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="UiLayer/UiRoot/Sliders/SecondMenuContainer2"]
+layout_mode = 2
+
+[node name="Earthness" type="Label" parent="UiLayer/UiRoot/Sliders/SecondMenuContainer2/HBoxContainer2"]
+layout_mode = 2
+text = "Hills threshold:"
+
+[node name="HillsThresholdVal" type="Label" parent="UiLayer/UiRoot/Sliders/SecondMenuContainer2/HBoxContainer2"]
+layout_mode = 2
+text = "30"
+
+[node name="HillsThresholdSlider" type="HSlider" parent="UiLayer/UiRoot/Sliders/SecondMenuContainer2"]
+layout_mode = 2
+
 [node name="GridOverlay" type="Node2D" parent="."]
 script = ExtResource("7_tb6b5")
 
@@ -547,3 +604,4 @@ script = ExtResource("7_tb6b5")
 [connection signal="toggled" from="UiLayer/UiRoot/DebugSettings/HBoxContainer2/EntropyDisplay" to="UiLayer/UiRoot" method="_on_entropy_display_toggled"]
 [connection signal="toggled" from="UiLayer/UiRoot/DebugSettings/HBoxContainer3/PositionDisplay" to="UiLayer/UiRoot" method="_on_position_display_toggled"]
 [connection signal="toggled" from="UiLayer/UiRoot/DebugSettings/HBoxContainer4/MenuOpened" to="UiLayer/UiRoot" method="_on_menu_opened_toggled"]
+[connection signal="toggled" from="UiLayer/UiRoot/Sliders/SecondMenuContainer2/hillsToggle/PositionDisplay" to="UiLayer/UiRoot/Sliders" method="_on_position_display_toggled"]

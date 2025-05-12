@@ -120,23 +120,27 @@ func _ready():
 func generate_mountains():
 	finalMapWidth = chunk_renderer.total_width
 	finalMapHeigth = chunk_renderer.total_height
-	#finalMapWidth = chunk_renderer.finalWorldMap.size()
-	#finalMapHeigth = chunk_renderer.finalWorldMap[0].size()
 
 	# initialize height map
 	height_map_wfc = WFC.new(finalMapWidth , finalMapHeigth, "wall")
 	
-	# generate terrain
-	generate_initial_sketch()
-	add_final_states()
-	#remove_possible_state()
-		
-	Rules.test_neighbor_rule_symmetry()
+	if GlobalsSingleton.debug_settings.get_are_hills_rendered():
+		# generate terrain
+		generate_initial_sketch()
+		add_final_states()
+		#remove_possible_state()
+			
+		Rules.test_neighbor_rule_symmetry()
 
-	#height_map_wfc._printGridStateAsNums()
-	 		
-	var generated_matrix = height_map_wfc.calculateWFC()
-	apply_tile_replacement_patterns()
+		#height_map_wfc._printGridStateAsNums()
+		 		
+		var generated_matrix = height_map_wfc.calculateWFC()
+		apply_tile_replacement_patterns()
+	else:
+		var emptyTileIndex = Tiles.getIndex("empty-wall")
+		for x in range(height_map_wfc.GRID_WIDTH):
+			for y in range(height_map_wfc.GRID_HEIGHT):
+				height_map_wfc.gridMatrix[x][y].collapsedState = emptyTileIndex
 	
 	# render terrain
 	render_mountains()
@@ -148,15 +152,17 @@ func generate_initial_sketch():
 	# noise params
 	noise.seed = randi()
 	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
-	noise.frequency = 0.007
+	noise.frequency = GlobalsSingleton.debug_settings.get_hills_frequency()
 	noise.fractal_octaves = 4
 	noise.fractal_gain = 0.5
+	
+	var threshold =  GlobalsSingleton.debug_settings.get_hills_height_threshold()
 	
 	for x in range(finalMapWidth):
 		for y in range(finalMapHeigth):
 
 			var height = (noise.get_noise_2d(x, y) + 1.0) / 2.0
-			if height > 0.7:
+			if height > threshold:
 				height_map_wfc.gridMatrix[x][y].collapseTo(wallTile)
 
 func remove_possible_state():
