@@ -22,6 +22,10 @@ var finalWorldMap = []
 var horizontalStiches = []  
 var verticalStiches = []
 
+var total_width = CHUNK_WIDTH * CHUNKS_COUNT_WIDTH + (CHUNKS_COUNT_WIDTH - 1)
+var total_height = CHUNK_HEIGHT * CHUNKS_COUNT_HEIGHT + (CHUNKS_COUNT_HEIGHT - 1)
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:	
 	Tiles.initialize() # Loading tiles
@@ -36,7 +40,10 @@ func _ready() -> void:
 func _groupedGenerationAlgorithm() -> void:
 	_clearWorldMap()
 	_initializeEmptyWorldMap()
-	
+
+	# hills generation
+	hillMapRenderer.generate_mountains()
+		
 	# generation
 	if Globals.USE_STICHING:
 		_generateStitchingEdges()
@@ -46,14 +53,6 @@ func _groupedGenerationAlgorithm() -> void:
 	
 	# post processing
 	PostProcess.clean_up_edges(finalWorldMap)
-
-	# have to move this to the top later
-	hillMapRenderer.generate_mountains()
-
-	# rendering - legacy
-	#_renderWFCGrid()
-	#if Globals.USE_STICHING:
-		#_rednerStiches()
 	
 	# rendering current
 	tileMapRenderer.renderWFCGrid(finalWorldMap, Vector2i(0,0))
@@ -103,6 +102,33 @@ func _initializeEmptyWorldMap() -> void:
 			column.append(null)
 		worldMap.append(column)	
 
+
+func _apply_mountain_mask_to_horizontal_stitch(row_index: int, edge: WFC) -> void:
+	var empty_wall = Tiles.getIndex("empty-wall")
+	var dirt_index = Tiles.getIndex("dirt")
+
+	for x in range(edge.GRID_WIDTH):
+		var world_x = x
+		var world_y = (row_index + 1) * CHUNK_HEIGHT + row_index
+
+		var hill_cell = hillMapRenderer.height_map_wfc.gridMatrix[world_x][world_y]
+		if hill_cell.collapsedState != empty_wall:
+			edge.gridMatrix[x][0].collapseTo(dirt_index)
+
+func _apply_mountain_mask_to_vertical_stitch(col_index: int, edge: WFC) -> void:
+	var empty_wall = Tiles.getIndex("empty-wall")
+	var dirt_index = Tiles.getIndex("dirt")
+
+	for y in range(edge.GRID_HEIGHT):
+		var world_x = (col_index + 1) * CHUNK_WIDTH + col_index
+		var world_y = y
+
+		var hill_cell = hillMapRenderer.height_map_wfc.gridMatrix[world_x][world_y]
+		if hill_cell.collapsedState != empty_wall:
+			if edge.gridMatrix[0][y].collapsedState == -1:
+				edge.gridMatrix[0][y].collapseTo(dirt_index)
+
+
 func _generateStitchingEdges():
 	const horizontalStichWidth = CHUNK_WIDTH * CHUNKS_COUNT_WIDTH + (CHUNKS_COUNT_WIDTH-1) 
 	const verticalStichHeigth = CHUNK_HEIGHT * CHUNKS_COUNT_HEIGHT + (CHUNKS_COUNT_HEIGHT-1) 
@@ -110,6 +136,7 @@ func _generateStitchingEdges():
 	# horizontal stitches
 	for i in range(CHUNKS_COUNT_HEIGHT - 1):
 		var edge = WFC.new(horizontalStichWidth , 1)
+		_apply_mountain_mask_to_horizontal_stitch(i, edge)
 		var row = edge.calculateWFC()
 		horizontalStiches.append(row)
 		
@@ -128,11 +155,24 @@ func _generateStitchingEdges():
 			var collapsedIndex = horizontalStiches[y][intersectX][0].collapsedState
 			edge.gridMatrix[0][intersectY].collapseTo(collapsedIndex)
 
+		_apply_mountain_mask_to_vertical_stitch(x, edge)
 		var column = edge.calculateWFC()
 		verticalStiches.append(column)
 		
 
-		
+func _apply_mountain_mask_to_chunk(chunk: WFC, chunk_x: int, chunk_y: int) -> void:
+	var empty_wall = Tiles.getIndex("empty-wall")
+	var dirt_index = Tiles.getIndex("dirt")
+	
+	for cx in range(CHUNK_WIDTH):
+		for cy in range(CHUNK_HEIGHT):
+			var world_x = chunk_x * (CHUNK_WIDTH + CHUNK_GAP) + cx
+			var world_y = chunk_y * (CHUNK_HEIGHT + CHUNK_GAP) + cy
+
+			var hill_cell = hillMapRenderer.height_map_wfc.gridMatrix[world_x][world_y]
+			if hill_cell.collapsedState != empty_wall:
+				chunk.gridMatrix[cx][cy].collapseTo(dirt_index)
+
 
 func _calculateWFCForWorldMap() -> void:
 	for x in range(CHUNKS_COUNT_WIDTH):
@@ -187,22 +227,12 @@ func _calculateWFCForWorldMap() -> void:
 						collapsedTileLeft.neighbors["right"]  = chunk.gridMatrix[0][i]
 						chunk.gridMatrix[0][i].neighbors["left"] = collapsedTileLeft
 						collapsedTileLeft._notifyNeighbors()
-					
+			
+			# here fill chumnk with data from: hillMapRenderer.height_map_wfc
+			_apply_mountain_mask_to_chunk(chunk, x, y)
+			
 			var calculatedWFC = chunk.calculateWFC()
 			worldMap[x][y] = calculatedWFC
-
-
-#func _renderFinalMap() -> void:
-	#var width = finalWorldMap.size()
-	#var height = finalWorldMap[0].size() if width > 0 else 0
-#
-	#for x in range(width):
-		#for y in range(height):
-			#var tile: Tile = finalWorldMap[x][y]
-			#if tile == null:
-				#continue
-#
-			#tileMapRenderer.set_cell(Vector2i(x, y), 0, Vector2i(tile.collapsedState, 0))
 
 
 func _renderWFCGrid() -> void:
@@ -231,9 +261,6 @@ func _rednerStiches() -> void:
 
 
 func build_combined_world_map() -> Array:
-	var total_width = CHUNK_WIDTH * CHUNKS_COUNT_WIDTH + (CHUNKS_COUNT_WIDTH - 1)
-	var total_height = CHUNK_HEIGHT * CHUNKS_COUNT_HEIGHT + (CHUNKS_COUNT_HEIGHT - 1)
-
 	var combined_map = []
 	for x in range(total_width):
 		var column = []

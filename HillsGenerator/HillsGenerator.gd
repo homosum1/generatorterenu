@@ -5,8 +5,6 @@ extends TileMapLayer
 var chunk_renderer
 var shadow_generator
 
-#var height_map = []
-
 var height_map_wfc = null
 
 var finalMapWidth = -1;
@@ -108,7 +106,7 @@ func apply_tile_replacement_patterns():
 						var ty = y + rep["offset"].y
 						if tx >= 0 and ty >= 0 and tx < finalMapWidth and ty < finalMapHeigth:
 							var tile_index = Tiles.getIndex(rep["set_tile"])
-							print("Matched pattern at:", tx, ty)
+							#print("Matched pattern at:", tx, ty)
 							if height_map_wfc.gridMatrix[tx][ty].collapsedState == 101:
 								height_map_wfc.gridMatrix[tx][ty].collapsedState = tile_index
 
@@ -120,12 +118,10 @@ func _ready():
 		return
 	
 func generate_mountains():
-	if chunk_renderer.finalWorldMap.is_empty():
-		push_warning("mountain generator - WorldMapIsEmpty")
-		return
-	
-	finalMapWidth = chunk_renderer.finalWorldMap.size()
-	finalMapHeigth = chunk_renderer.finalWorldMap[0].size()
+	finalMapWidth = chunk_renderer.total_width
+	finalMapHeigth = chunk_renderer.total_height
+	#finalMapWidth = chunk_renderer.finalWorldMap.size()
+	#finalMapHeigth = chunk_renderer.finalWorldMap[0].size()
 
 	# initialize height map
 	height_map_wfc = WFC.new(finalMapWidth , finalMapHeigth, "wall")
@@ -137,7 +133,7 @@ func generate_mountains():
 		
 	Rules.test_neighbor_rule_symmetry()
 
-	height_map_wfc._printGridStateAsNums()
+	#height_map_wfc._printGridStateAsNums()
 	 		
 	var generated_matrix = height_map_wfc.calculateWFC()
 	apply_tile_replacement_patterns()
