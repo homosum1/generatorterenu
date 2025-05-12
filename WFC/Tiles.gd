@@ -47,12 +47,12 @@ const tiles = [
 		
 	
 	# wall step
-	{"name": "down-dirt-wall_left", "index": 114},
-	{"name": "down-dirt-wall_mid", "index": 115},
-	{"name": "down-dirt-wall_right", "index": 116},
-	{"name": "top-dirt-wall_left", "index": 117},
-	{"name": "top-dirt-wall_mid", "index": 118},
-	{"name": "top-dirt-wall_right", "index": 119},
+	{"name": "top-dirt-wall_left", "index": 114},
+	{"name": "top-dirt-wall_mid", "index": 115},
+	{"name": "top-dirt-wall_right", "index": 116},
+	{"name": "down-dirt-wall_left", "index": 117},
+	{"name": "down-dirt-wall_mid", "index": 118},
+	{"name": "down-dirt-wall_right", "index": 119},
 ]
 
 

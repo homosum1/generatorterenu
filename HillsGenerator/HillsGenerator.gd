@@ -88,6 +88,7 @@ func add_final_states():
 
 			var is_adjacent_to_shape = false
 			var is_diagonal_to_wall = false
+			var is_under_wall = false
 
 			# cardinal neighbors
 			for offset in [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
@@ -108,8 +109,17 @@ func add_final_states():
 					if neighbor.collapsedState == wallTileIndex:
 						is_diagonal_to_wall = true
 						break
+			
+			# 3 tiles under the wall
+			for offset_y in range(1, 5): # should be 4
+				var ny = y - offset_y
+				if ny >= 0:
+					var neighbor_above = height_map_wfc.gridMatrix[x][ny]
+					if neighbor_above.collapsedState == wallTileIndex:
+						is_under_wall = true
+						break
 
-			if not is_adjacent_to_shape and not is_diagonal_to_wall:
+			if not is_adjacent_to_shape and not is_diagonal_to_wall and not is_under_wall:
 				tiles_to_collapse.append(Vector2(x, y))
 
 	for coordinates in tiles_to_collapse:
