@@ -358,29 +358,19 @@ const adjacencyRules = {
 			"empty-wall",
 			"dirt-wall_right",
 			"dirt-wall_bottom-right",
-			"dirt-wall_top-right",
-			
-			"down-dirt-wall_right",
-			"top-dirt-wall_right"
+			"dirt-wall_top-right"
 		],
 		"right": [
 			"empty-wall",
 			"dirt-wall_left",
 			"dirt-wall_bottom-left",
-			"dirt-wall_top-left",
-			
-			"down-dirt-wall_left",
-			"top-dirt-wall_left"
+			"dirt-wall_top-left"
 		],
 		"top": [
 			"empty-wall",
-
-			"down-dirt-wall_left",
-			"down-dirt-wall_mid",
-			"down-dirt-wall_right"
-			#"dirt-wall_bottom", # temp, replace with wall later
-			#"dirt-wall_bottom-left", # temp, replace with wall later
-			#"dirt-wall_bottom-right" # temp, replace with wall later
+			"dirt-wall_bottom", # temp, replace with wall later
+			"dirt-wall_bottom-left", # temp, replace with wall later
+			"dirt-wall_bottom-right" # temp, replace with wall later
 		],
 		"bottom": [
 			"empty-wall",
@@ -422,19 +412,16 @@ const adjacencyRules = {
 			"dirt-wall_corner_bottom-left"
 		],
 		"top": [
-			"dirt-wall", 
+			"dirt-wall",
 		],
 		"bottom": [
-			#"empty-wall" # - this was temporary
-			"top-dirt-wall_mid",
+			"empty-wall"
 		]
 	},
 	
 	"dirt-wall_left": {
 		"left": [
-			"empty-wall",
-			"top-dirt-wall_right",
-			"down-dirt-wall_right"
+			"empty-wall"
 		],
 		"right": [
 			"dirt-wall",
@@ -456,9 +443,7 @@ const adjacencyRules = {
 			"dirt-wall",
 		],
 		"right": [
-			"empty-wall",
-			"top-dirt-wall_left",
-			"down-dirt-wall_left",
+			"empty-wall"
 		],
 		"top": [
 			"dirt-wall_right",
@@ -511,11 +496,7 @@ const adjacencyRules = {
 	
 	"dirt-wall_bottom-left": {
 		"left": [
-			"empty-wall",
-			"top-dirt-wall_right",
-			"down-dirt-wall_right",
-			"top-dirt-wall_mid"
-			
+			"empty-wall"
 		],
 		"right": [
 			"dirt-wall_bottom",
@@ -526,10 +507,7 @@ const adjacencyRules = {
 			"dirt-wall_corner_bottom-left"
 		],
 		"bottom": [
-			#"empty-wall" # - this was temporary
-			"top-dirt-wall_left",
-			"top-dirt-wall_mid",
-			"top-dirt-wall_right"
+			"empty-wall"
 		]
 	},
 	
@@ -539,21 +517,14 @@ const adjacencyRules = {
 			"dirt-wall_corner_bottom-right"
 		],
 		"right": [
-			"empty-wall",
-			"top-dirt-wall_left",
-			"down-dirt-wall_left",
-			"top-dirt-wall_mid"
+			"empty-wall"
 		],
 		"top": [
 			"dirt-wall_right",
 			"dirt-wall_corner_bottom-right"
 		],
 		"bottom": [
-			#"empty-wall" # - this was temporary
-			"top-dirt-wall_right",
-			
-			"top-dirt-wall_mid",
-			"top-dirt-wall_left"
+			"empty-wall"
 		]
 	},
 
@@ -631,20 +602,13 @@ const adjacencyRules = {
 		"left": [
 			"empty-wall",
 			"dirt-wall_bottom-right",
-			"dirt-wall_right",
-			
-			"top-dirt-wall_mid",
-			"down-dirt-wall_mid",
-			"top-dirt-wall_right",
-			"down-dirt-wall_right"
+			"dirt-wall_right"
 		],
 		"right": [
-			"top-dirt-wall_mid",
-			"top-dirt-wall_right",
+			"top-dirt-wall_mid"
 		],
 		"top": [
-			"dirt-wall_bottom-left",
-			"dirt-wall_bottom-right"
+			"dirt-wall_bottom-left"
 		],
 		"bottom": [
 			"down-dirt-wall_left"
@@ -653,19 +617,13 @@ const adjacencyRules = {
 	
 	"top-dirt-wall_mid": {
 		"left": [
-			"top-dirt-wall_left",
-			"dirt-wall_bottom-right", # test
-			"top-dirt-wall_right" # test
+			"top-dirt-wall_left"
 		],
 		"right": [
-			"top-dirt-wall_right",
-			"dirt-wall_bottom-left", # test
-			"top-dirt-wall_left" # test
+			"top-dirt-wall_right"
 		],
 		"top": [
-			"dirt-wall_bottom",
-			"dirt-wall_bottom-left", # test
-			"dirt-wall_bottom-right" # test
+			"dirt-wall_bottom"
 		],
 		"bottom": [
 			"down-dirt-wall_mid"
@@ -674,22 +632,15 @@ const adjacencyRules = {
 	
 	"top-dirt-wall_right": {
 		"left": [
-			"top-dirt-wall_mid",
-			"top-dirt-wall_left"
+			"top-dirt-wall_mid"
 		],
 		"right": [
 			"empty-wall",
 			"dirt-wall_bottom-left",
-			"dirt-wall_left",
-			
-			"top-dirt-wall_mid",
-			"down-dirt-wall_mid",
-			"top-dirt-wall_left",
-			"down-dirt-wall_left",
+			"dirt-wall_left"
 		],
 		"top": [
-			"dirt-wall_bottom-right",
-			"dirt-wall_bottom-left" # test
+			"dirt-wall_bottom-right"
 		],
 		"bottom": [
 			"down-dirt-wall_right"
@@ -703,11 +654,10 @@ const adjacencyRules = {
 			"empty-wall",
 			"dirt-wall_right",
 			"top-dirt-wall_right",
-			"dirt-wall_bottom-right",
+			"dirt-wall_bottom-right"
 		],
 		"right": [
-			"down-dirt-wall_mid",
-			"down-dirt-wall_right"
+			"down-dirt-wall_mid"
 		],
 		"top": [
 			"top-dirt-wall_left"
@@ -719,12 +669,10 @@ const adjacencyRules = {
 	
 	"down-dirt-wall_mid": {
 		"left": [
-			"down-dirt-wall_left",
-			"top-dirt-wall_right" # test
+			"down-dirt-wall_left"
 		],
 		"right": [
-			"down-dirt-wall_right",
-			"top-dirt-wall_left"
+			"down-dirt-wall_right"
 		],
 		"top": [
 			"top-dirt-wall_mid"
@@ -736,19 +684,13 @@ const adjacencyRules = {
 	
 	"down-dirt-wall_right": {
 		"left": [
-			"down-dirt-wall_mid",
-			"down-dirt-wall_left",
-		
+			"down-dirt-wall_mid"
 		],
 		"right": [
 			"empty-wall",
 			"dirt-wall_left",
 			"top-dirt-wall_left",
-			"dirt-wall_bottom-left",
-			
-			"top-dirt-wall_left",
-			"top-dirt-wall_mid",
-			"top-dirt-wall_right"
+			"dirt-wall_bottom-left"
 		],
 		"top": [
 			"top-dirt-wall_right"
