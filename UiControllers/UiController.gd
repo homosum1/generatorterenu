@@ -5,6 +5,14 @@ extends Node
 @onready var zoom_label: Label = $ZoomButtons/ZoomLabel
 @onready var sliders_panel: Panel = $"Sliders"
 
+@onready var hills = $"../../Hills"
+@onready var nature = $"../../GrassLayer"
+@onready var land = $"../../TileMapLayer"
+
+#@onready var hillsVisibility = $"VisibilityToggles/Hill"
+#@onready var grassVisibility = $"VisibilityToggles/NatureCheckbox2"
+#@onready var landVisibility = $"VisibilityToggles/LandCheckbox3"
+
 
 var zoom_step := 0.1
 var min_zoom := 0.2
@@ -53,3 +61,13 @@ func _on_position_display_toggled(toggled_on: bool) -> void:
 
 func _on_menu_opened_toggled(toggled_on: bool) -> void:
 	sliders_panel.visible = toggled_on
+	
+
+func _on_hills_checkbox_toggled(toggled_on: bool) -> void:
+	hills.visible = toggled_on
+
+func _on_nature_checkbox_2_toggled(toggled_on: bool) -> void:
+	nature.visible = toggled_on
+
+func _on_land_checkbox_3_toggled(toggled_on: bool) -> void:
+	land.visible = toggled_on

@@ -28,6 +28,9 @@ var total_height = CHUNK_HEIGHT * CHUNKS_COUNT_HEIGHT + (CHUNKS_COUNT_HEIGHT - 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:	
+	#if OS.is_debug_build():
+		#DisplayServer.window_set_size(Vector2i(1280, 720))
+		
 	Tiles.initialize() # Loading tiles
 	Rules.initialize() # Map rules to index based system
 	
