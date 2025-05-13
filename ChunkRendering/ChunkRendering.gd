@@ -10,8 +10,8 @@ var hillMapRenderer
 
 const CHUNK_GAP = 1
 
-const CHUNKS_COUNT_WIDTH = 3
-const CHUNKS_COUNT_HEIGHT = 3
+const CHUNKS_COUNT_WIDTH = 2
+const CHUNKS_COUNT_HEIGHT = 2
 
 const CHUNK_WIDTH = 15
 const CHUNK_HEIGHT = 15
@@ -120,7 +120,7 @@ func _has_non_empty_neighbors(world_x: int, world_y: int, empty_wall_index: int)
 	
 func _apply_mountain_mask_to_horizontal_stitch(row_index: int, edge: WFC) -> void:
 	var empty_wall = Tiles.getIndex("empty-wall")
-	var dirt_index = Tiles.getIndex("dirt")
+	var stone_index = Tiles.getIndex("stone")
 
 	for x in range(edge.GRID_WIDTH):
 		var world_x = x
@@ -128,11 +128,11 @@ func _apply_mountain_mask_to_horizontal_stitch(row_index: int, edge: WFC) -> voi
 
 		var hill_cell = hillMapRenderer.height_map_wfc.gridMatrix[world_x][world_y]
 		if hill_cell.collapsedState != empty_wall or _has_non_empty_neighbors(world_x, world_y, empty_wall):
-			edge.gridMatrix[x][0].collapseTo(dirt_index)
+			edge.gridMatrix[x][0].collapseTo(stone_index)
 
 func _apply_mountain_mask_to_vertical_stitch(col_index: int, edge: WFC) -> void:
 	var empty_wall = Tiles.getIndex("empty-wall")
-	var dirt_index = Tiles.getIndex("dirt")
+	var stone_index = Tiles.getIndex("stone")
 
 	for y in range(edge.GRID_HEIGHT):
 		var world_x = (col_index + 1) * CHUNK_WIDTH + col_index
@@ -141,7 +141,7 @@ func _apply_mountain_mask_to_vertical_stitch(col_index: int, edge: WFC) -> void:
 		var hill_cell = hillMapRenderer.height_map_wfc.gridMatrix[world_x][world_y]
 		if hill_cell.collapsedState != empty_wall or _has_non_empty_neighbors(world_x, world_y, empty_wall):
 			if edge.gridMatrix[0][y].collapsedState == -1:
-				edge.gridMatrix[0][y].collapseTo(dirt_index)
+				edge.gridMatrix[0][y].collapseTo(stone_index)
 
 
 func _generateStitchingEdges():
@@ -152,6 +152,8 @@ func _generateStitchingEdges():
 	for i in range(CHUNKS_COUNT_HEIGHT - 1):
 		var edge = WFC.new(horizontalStichWidth , 1)
 		_apply_mountain_mask_to_horizontal_stitch(i, edge)
+		# disable redundant stone generation
+		edge.enforce_proximity_rule("stone", 2, 40, 53)
 		var row = edge.calculateWFC()
 		horizontalStiches.append(row)
 		
@@ -171,12 +173,15 @@ func _generateStitchingEdges():
 			edge.gridMatrix[0][intersectY].collapseTo(collapsedIndex)
 
 		_apply_mountain_mask_to_vertical_stitch(x, edge)
+		# disable redundant stone generation
+		edge.enforce_proximity_rule("stone", 2, 40, 53)
+		
 		var column = edge.calculateWFC()
 		verticalStiches.append(column)
 		
 func _apply_mountain_mask_to_chunk(chunk: WFC, chunk_x: int, chunk_y: int) -> void:
 	var empty_wall = Tiles.getIndex("empty-wall")
-	var dirt_index = Tiles.getIndex("dirt")
+	var stone_index = Tiles.getIndex("stone")
 	
 	for cx in range(CHUNK_WIDTH):
 		for cy in range(CHUNK_HEIGHT):
@@ -185,7 +190,7 @@ func _apply_mountain_mask_to_chunk(chunk: WFC, chunk_x: int, chunk_y: int) -> vo
 
 			var hill_cell = hillMapRenderer.height_map_wfc.gridMatrix[world_x][world_y]
 			if hill_cell.collapsedState != empty_wall or _has_non_empty_neighbors(world_x, world_y, empty_wall):
-				chunk.gridMatrix[cx][cy].collapseTo(dirt_index)
+				chunk.gridMatrix[cx][cy].collapseTo(stone_index)
 
 
 func _calculateWFCForWorldMap() -> void:
@@ -244,6 +249,8 @@ func _calculateWFCForWorldMap() -> void:
 			
 			# here fill chumnk with data from: hillMapRenderer.height_map_wfc
 			_apply_mountain_mask_to_chunk(chunk, x, y)
+			# disable redundant stone generation
+			chunk.enforce_proximity_rule("stone", 2, 40, 53)
 			
 			var calculatedWFC = chunk.calculateWFC()
 			worldMap[x][y] = calculatedWFC

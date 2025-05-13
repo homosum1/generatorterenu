@@ -107,7 +107,7 @@ func apply_tile_replacement_patterns():
 						if tx >= 0 and ty >= 0 and tx < finalMapWidth and ty < finalMapHeigth:
 							var tile_index = Tiles.getIndex(rep["set_tile"])
 							#print("Matched pattern at:", tx, ty)
-							if height_map_wfc.gridMatrix[tx][ty].collapsedState == 101:
+							if height_map_wfc.gridMatrix[tx][ty].collapsedState == Tiles.getIndex("empty-wall"):
 								height_map_wfc.gridMatrix[tx][ty].collapsedState = tile_index
 
 
@@ -131,11 +131,10 @@ func generate_mountains():
 		#remove_possible_state()
 			
 		Rules.test_neighbor_rule_symmetry()
-
-		#height_map_wfc._printGridStateAsNums()
 		 		
 		var generated_matrix = height_map_wfc.calculateWFC()
 		apply_tile_replacement_patterns()
+		#height_map_wfc._printGridStateAsNums()
 	else:
 		var emptyTileIndex = Tiles.getIndex("empty-wall")
 		for x in range(height_map_wfc.GRID_WIDTH):
@@ -221,9 +220,8 @@ func render_mountains():
 		
 	for x in range(finalMapWidth):
 		for y in range(finalMapHeigth):
-			if(height_map_wfc.gridMatrix[x][y].collapsedState != -1):
-				const CLIFF_ROW_NUM := 5
-				var indexToPrint = height_map_wfc.gridMatrix[x][y].collapsedState - CLIFF_ROW_NUM * 20
-				
-				#print("pos: (", x, ", ", y, ") render cell: (", CLIFF_ROW_NUM-1, ", ", indexToPrint, ")")
-				set_cell(Vector2i(x, y), 1, Vector2i(indexToPrint, CLIFF_ROW_NUM-1))
+			var tile_id = height_map_wfc.gridMatrix[x][y].collapsedState
+			if tile_id != -1:
+				var tile_x = tile_id % 20
+				var tile_y = tile_id / 20
+				set_cell(Vector2i(x, y), 1, Vector2i(tile_x, tile_y))

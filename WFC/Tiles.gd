@@ -24,55 +24,55 @@ const tiles = [
 	# do 19 (potem zawiniecie mapy)
 
 # cobblestone  
-	{"name": "stone", "index": 80},
+	{"name": "stone", "index": 40},
 	# stone - sides
-	{"name": "stone-dirt_left", "index": 81},
-	{"name": "stone-dirt_top", "index": 82},
-	{"name": "stone-dirt_right", "index": 83},
-	{"name": "stone-dirt_bottom", "index": 84},
+	{"name": "stone-dirt_left", "index": 42},
+	{"name": "stone-dirt_top", "index": 43},
+	{"name": "stone-dirt_right", "index": 44},
+	{"name": "stone-dirt_bottom", "index": 45},
 
 	# stone - edges
-	{"name": "stone-dirt_top-left", "index": 85},
-	{"name": "stone-dirt_top-right", "index": 86},
-	{"name": "stone-dirt_bottom-left", "index": 87},
-	{"name": "stone-dirt_bottom-right", "index": 88},	
+	{"name": "stone-dirt_top-left", "index": 46},
+	{"name": "stone-dirt_top-right", "index": 47},
+	{"name": "stone-dirt_bottom-left", "index": 48},
+	{"name": "stone-dirt_bottom-right", "index": 49},	
 
 	# stone - corners
-	{"name": "stone-dirt_corner_top-left", "index": 89},
-	{"name": "stone-dirt_corner_top-right", "index": 90},
-	{"name": "stone-dirt_corner_bottom-left", "index": 91},
-	{"name": "stone-dirt_corner_bottom-right", "index": 92},
+	{"name": "stone-dirt_corner_top-left", "index": 50},
+	{"name": "stone-dirt_corner_top-right", "index": 51},
+	{"name": "stone-dirt_corner_bottom-left", "index": 52},
+	{"name": "stone-dirt_corner_bottom-right", "index": 53},
 
 # walls	
-	{"name": "dirt-wall", "index": 100},
-	{"name": "empty-wall", "index": 101},
+	{"name": "dirt-wall", "index": 80},
+	{"name": "empty-wall", "index": 81},
 	
 	# wall sides
-	{"name": "dirt-wall_right", "index": 102},
-	{"name": "dirt-wall_bottom", "index": 103},
-	{"name": "dirt-wall_left", "index": 104},
-	{"name": "dirt-wall_top", "index": 105},
+	{"name": "dirt-wall_right", "index": 82},
+	{"name": "dirt-wall_bottom", "index": 83},
+	{"name": "dirt-wall_left", "index": 84},
+	{"name": "dirt-wall_top", "index": 85},
 	 
 	# wall corners
-	{"name": "dirt-wall_corner_top-left", "index": 106},
-	{"name": "dirt-wall_corner_top-right", "index": 107},
-	{"name": "dirt-wall_corner_bottom-left", "index": 108},
-	{"name": "dirt-wall_corner_bottom-right", "index": 109},
+	{"name": "dirt-wall_corner_top-left", "index": 86},
+	{"name": "dirt-wall_corner_top-right", "index": 87},
+	{"name": "dirt-wall_corner_bottom-left", "index": 88},
+	{"name": "dirt-wall_corner_bottom-right", "index": 89},
 	
 	# wall edges
-	{"name": "dirt-wall_bottom-right", "index": 110},
-	{"name": "dirt-wall_bottom-left", "index": 111},
-	{"name": "dirt-wall_top-right", "index": 112},
-	{"name": "dirt-wall_top-left", "index": 113},
+	{"name": "dirt-wall_bottom-right", "index": 90},
+	{"name": "dirt-wall_bottom-left", "index": 91},
+	{"name": "dirt-wall_top-right", "index": 92},
+	{"name": "dirt-wall_top-left", "index": 93},
 		
 	
 	# wall step
-	{"name": "top-dirt-wall_left", "index": 114},
-	{"name": "top-dirt-wall_mid", "index": 115},
-	{"name": "top-dirt-wall_right", "index": 116},
-	{"name": "down-dirt-wall_left", "index": 117},
-	{"name": "down-dirt-wall_mid", "index": 118},
-	{"name": "down-dirt-wall_right", "index": 119},
+	{"name": "top-dirt-wall_left", "index": 94},
+	{"name": "top-dirt-wall_mid", "index": 95},
+	{"name": "top-dirt-wall_right", "index": 96},
+	{"name": "down-dirt-wall_left", "index": 97},
+	{"name": "down-dirt-wall_mid", "index": 98},
+	{"name": "down-dirt-wall_right", "index": 99},
 	
 ]
 

@@ -166,6 +166,50 @@ func _runWFC():
 		_printEntropyMap()
 		_printGridStateAsNums()
 
+
+func enforce_proximity_rule(target_tile_name: String, max_distance: int,forbidden_range_start: int, forbidden_range_end: int) -> void:	
+	for x in range(GRID_WIDTH):
+		for y in range(GRID_HEIGHT):
+			var tile = gridMatrix[x][y]
+			
+			if tile.collapsedState != -1:
+				continue
+
+			var found = false
+
+			for dx in range(-max_distance, max_distance + 1):
+				for dy in range(-max_distance, max_distance + 1):
+					if abs(dx) + abs(dy) > max_distance:
+						continue
+
+					var nx = x + dx
+					var ny = y + dy
+
+					if nx >= 0 and nx < GRID_WIDTH and ny >= 0 and ny < GRID_HEIGHT:
+						var neighbor_tile = gridMatrix[nx][ny]
+						if neighbor_tile.collapsedState != -1:
+							if Tiles.getName(neighbor_tile.collapsedState) == target_tile_name:
+								found = true
+								break
+				if found:
+					break
+
+			#if not found:
+			var changed = false
+			for index in range(forbidden_range_start, forbidden_range_end + 1):
+				if tile.possibleStates[index]:
+					tile.possibleStates[index] = found
+					changed = true
+					if Globals.DEBUG_MODE:
+						print("Tile at ", tile.position, ": blocked state ", index, " (", Tiles.getName(index), " )")
+
+			if changed:
+				tile.entropy = tile.possibleStates.count(true)
+			tile._notifyNeighborsForNotCollapsed()
+					
+	_printEntropyMap()
+
+
 func _printGridState():
 	print("\n--- Grid State ---")
 	for y in range(GRID_HEIGHT):

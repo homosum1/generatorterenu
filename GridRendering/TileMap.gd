@@ -22,5 +22,9 @@ func renderWFCGrid(gridMatrix: Array, offset: Vector2i):
 	for x in range(gridMatrix.size()):
 		for y in range(gridMatrix[x].size()):
 			var tile = gridMatrix[x][y]
-			#set_cell(Vector2i(x, y), 0, Vector2i(tile.collapsedState, 0))
-			set_cell(Vector2i(x + offset.x, y + offset.y), 0, Vector2i(tile.collapsedState, 0))
+			#set_cell(Vector2i(x + offset.x, y + offset.y), 0, Vector2i(tile.collapsedState, 0))
+
+			var tile_id = tile.collapsedState
+			var tile_x = tile_id % 20
+			var tile_y = tile_id / 20
+			set_cell(Vector2i(x + offset.x, y + offset.y), 0, Vector2i(tile_x, tile_y))

@@ -15,8 +15,8 @@ var earthness = GlobalsSingleton.debug_settings.get_earthness()
 var tileType = "default"
 
 const TILE_TYPE_RANGES := {
-	"default": Vector2i(0, 13),
-	"wall": Vector2i(100, 119)   
+	"default": [Vector2i(0, 13), Vector2i(40, 53)],
+	"wall": [Vector2i(80, 99)]
 }
 
 func _init(x: int, y: int, tilesType: String = "default"):
@@ -28,14 +28,21 @@ func _init(x: int, y: int, tilesType: String = "default"):
 	#var possibleTilesCount = Tiles.tiles.size() + 2
 	var possibleTilesCount = Tiles.tiles[Tiles.tiles.size() - 1]["index"] + 1
 	
-	var range = TILE_TYPE_RANGES.get(tilesType, Vector2i(0, 13))
+	var ranges = TILE_TYPE_RANGES.get(tilesType, [Vector2i(0, 13), Vector2i(40, 53)])
 
 	for i in range(possibleTilesCount):
-		if i >= range.x and i <= range.y:
+		var matches_range = false
+		for r in ranges:
+			if i >= r.x and i <= r.y:
+				matches_range = true
+				break
+
+		if matches_range:
 			possibleStates.append(true)
 			entropy += 1
 		else:
 			possibleStates.append(false)
+	
 
 func collapse() -> void:
 	var potentialIndexes = []
@@ -59,7 +66,7 @@ func collapse() -> void:
 		if(entropy != -100):
 			print("❌ unable to collapse, entropy: ", entropy)
 			entropy = 0;
-			collapsedState = 99
+			collapsedState = 19
 		
 		return
 
@@ -190,7 +197,22 @@ func getPossibleNeighbors(collapsedNeighborState: int, direction: String) -> Arr
 			possibleNeighbors.append(i) 
 	
 	return possibleNeighbors
+
+# For updating possible neighbors states when tile is not yet collapsed
+func _notifyNeighborsForNotCollapsed():
 	
+	# do not propagate if entropy = 0
+	if entropy == 0:
+		return
+	
+	var trueIndexes = []
+	for i in range(possibleStates.size()):
+		if possibleStates[i]:
+			trueIndexes.append(i)
+	
+	for direction in neighbors.keys():
+		neighbors[direction].onNeighborUpdate(trueIndexes, direction)
+
 
 # needs adjustments
 func reset_possible_states_v2() -> void:
@@ -213,6 +235,7 @@ func reset_possible_states() -> void:
 		if neighbor and (neighbor.collapsedState != -1):
 			var state = neighbor.collapsedState
 			var allowedStates = getPossibleNeighbors(state, oppositeDirection[direction])
+			
 			
 			for i in range(possibleStates.size()):
 				if possibleStates[i] and not i in allowedStates:
