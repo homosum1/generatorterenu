@@ -26,22 +26,22 @@ const tiles = [
 # cobblestone  
 	{"name": "stone", "index": 80},
 	# stone - sides
-	{"name": "dirt-stone_left", "index": 81},
-	{"name": "dirt-stone_top", "index": 82},
-	{"name": "dirt-stone_right", "index": 83},
-	{"name": "dirt-stone_bottom", "index": 84},
-	
+	{"name": "stone-dirt_left", "index": 81},
+	{"name": "stone-dirt_top", "index": 82},
+	{"name": "stone-dirt_right", "index": 83},
+	{"name": "stone-dirt_bottom", "index": 84},
+
 	# stone - edges
-	{"name": "dirt-stone_top-left", "index": 85},
-	{"name": "dirt-stone_top-right", "index": 86},
-	{"name": "dirt-stone_bottom-left", "index": 87},
-	{"name": "dirt-stone_bottom-right", "index": 88},	
-	
+	{"name": "stone-dirt_top-left", "index": 85},
+	{"name": "stone-dirt_top-right", "index": 86},
+	{"name": "stone-dirt_bottom-left", "index": 87},
+	{"name": "stone-dirt_bottom-right", "index": 88},	
+
 	# stone - corners
-	{"name": "dirt-stone_corner_top-left", "index": 89},
-	{"name": "dirt-stone_corner_top-right", "index": 90},
-	{"name": "dirt-stone_corner_bottom-left", "index": 91},
-	{"name": "dirt-stone_corner_bottom-right", "index": 92},
+	{"name": "stone-dirt_corner_top-left", "index": 89},
+	{"name": "stone-dirt_corner_top-right", "index": 90},
+	{"name": "stone-dirt_corner_bottom-left", "index": 91},
+	{"name": "stone-dirt_corner_bottom-right", "index": 92},
 
 # walls	
 	{"name": "dirt-wall", "index": 100},

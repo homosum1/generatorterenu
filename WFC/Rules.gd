@@ -37,26 +37,43 @@ const adjacencyRules = {
 			"grass-dirt_right",
 			"grass-dirt_bottom-right",
 			"grass-dirt_top-right",
+			
+			"stone-dirt_right",
+			"stone-dirt_bottom-right",
+			"stone-dirt_top-right"
 		],
 		"right": [
 			"dirt",
 			"grass-dirt_left",
 			"grass-dirt_bottom-left",
 			"grass-dirt_top-left",
+			
+			"stone-dirt_left",
+			"stone-dirt_bottom-left",
+			"stone-dirt_top-left"
 		],
 		"top": [
 			"dirt",
 			"grass-dirt_bottom",
 			"grass-dirt_bottom-left",
 			"grass-dirt_bottom-right",
+			
+			"stone-dirt_bottom",
+			"stone-dirt_bottom-left",
+			"stone-dirt_bottom-right"
 		],
 		"bottom": [
 			"dirt",
 			"grass-dirt_top",
 			"grass-dirt_top-left",
 			"grass-dirt_top-right",
+			
+			"stone-dirt_top",
+			"stone-dirt_top-left",
+			"stone-dirt_top-right"
 		]
 	},	
+	
 	"grass-dirt_top": {
 		"left": [
 			"grass-dirt_top", 
@@ -324,8 +341,330 @@ const adjacencyRules = {
 			"grass-dirt_corner_top-right"
 		]
 	},
+
+# ----------- STONE TILES -----------
+
+	"stone": {
+		"left": [
+			"stone", 
+			"stone-dirt_left",
+			"stone-dirt_corner_top-left",
+			"stone-dirt_corner_bottom-left"
+		],
+		"right": [
+			"stone", 
+			"stone-dirt_right",
+			"stone-dirt_corner_top-right",
+			"stone-dirt_corner_bottom-right"
+		],
+		"top": [
+			"stone", 
+			"stone-dirt_top",
+			"stone-dirt_corner_top-left",
+			"stone-dirt_corner_top-right"
+		],
+		"bottom": [
+			"stone", 
+			"stone-dirt_bottom",
+			"stone-dirt_corner_bottom-left",
+			"stone-dirt_corner_bottom-right"
+		]
+	},
+
+	# STONE SIDES
+
+	"stone-dirt_top": {
+		"left": [
+			"stone-dirt_top", 
+			"stone-dirt_top-left",
+			"stone-dirt_corner_top-right"	
+		],
+		"right": [
+			"stone-dirt_top", 
+			"stone-dirt_top-right",
+			"stone-dirt_corner_top-left"	
+		],
+		"top": [
+			"dirt", 
+			"stone-dirt_bottom",
+			"stone-dirt_bottom-left",
+			"stone-dirt_bottom-right"
+		],
+		"bottom": [
+			"stone", 
+			"stone-dirt_bottom", 
+			"stone-dirt_corner_bottom-left",
+			"stone-dirt_corner_bottom-right"
+		]
+	},	
+	"stone-dirt_right": {
+		"left": [
+			"stone", 
+			"stone-dirt_left",
+			"stone-dirt_corner_bottom-left",
+			"stone-dirt_corner_top-left"
+		],
+		"right": [
+			"dirt", 
+			"stone-dirt_left",
+			"stone-dirt_bottom-left",
+			"stone-dirt_top-left"
+		],
+		"top": [
+			"stone-dirt_right", 
+			"stone-dirt_top-right",
+			"stone-dirt_corner_bottom-right"
+		],
+		"bottom": [
+			"stone-dirt_right", 
+			"stone-dirt_bottom-right",
+			"stone-dirt_corner_top-right"
+		]
+	},
+	"stone-dirt_bottom": {
+		"left": [
+			"stone-dirt_bottom", 
+			"stone-dirt_bottom-left",
+			"stone-dirt_corner_bottom-right"
+		],
+		"right": [
+			"stone-dirt_bottom", 
+			"stone-dirt_bottom-right",
+			"stone-dirt_corner_bottom-left"
+		],
+		"top": [
+			"stone", 
+			"stone-dirt_top",
+			"stone-dirt_corner_top-left",
+			"stone-dirt_corner_top-right"
+		],
+		"bottom": [
+			"dirt", 
+			"stone-dirt_top", 
+			"stone-dirt_top-left", 
+			"stone-dirt_top-right"
+		]
+	},
+	"stone-dirt_left": {
+		"left": [
+			"dirt", 
+			"stone-dirt_right",
+			"stone-dirt_bottom-right",
+			"stone-dirt_top-right"
+		],
+		"right": [
+			"stone",
+			"stone-dirt_right",
+			"stone-dirt_corner_bottom-right",
+			"stone-dirt_corner_top-right"
+		],
+		"top": [
+			"stone-dirt_left",
+			"stone-dirt_top-left",
+			"stone-dirt_corner_bottom-left"
+		],
+		"bottom": [
+			"stone-dirt_left",
+			"stone-dirt_bottom-left",
+			"stone-dirt_corner_top-left"
+		]
+	},
 	
-# WALLS
+	# STONE CORNERS
+	
+	"stone-dirt_top-right": {
+		"left": [
+			"stone-dirt_top", 
+			"stone-dirt_corner_top-right",
+			"stone-dirt_top-left"
+		],
+		"right": [
+			"dirt", 
+			"stone-dirt_left",
+			"stone-dirt_top-left",
+			"stone-dirt_bottom-left"
+		],
+		"top": [
+			"dirt", 
+			"stone-dirt_bottom",
+			"stone-dirt_bottom-left",
+			"stone-dirt_bottom-right",
+			"stone-dirt_bottom-left"
+		],
+		"bottom": [
+			"stone-dirt_right", 
+			"stone-dirt_corner_top-right", 
+			"stone-dirt_bottom-right"
+		]
+	},
+	"stone-dirt_top-left": {
+		"left": [
+			"dirt", 
+			"stone-dirt_right",
+			"stone-dirt_top-right",
+			"stone-dirt_bottom-right"
+		],
+		"right": [
+			"stone-dirt_top", 
+			"stone-dirt_corner_top-left",
+			"stone-dirt_top-right"
+		],
+		"top": [
+			"dirt", 
+			"stone-dirt_bottom",
+			"stone-dirt_bottom-left",
+			"stone-dirt_bottom-right"
+		],
+		"bottom": [
+			"stone-dirt_left", 
+			"stone-dirt_corner_top-left", 
+			"stone-dirt_bottom-left"
+		]
+	},
+	"stone-dirt_bottom-right": {
+		"left": [
+			"stone-dirt_bottom", 
+			"stone-dirt_bottom-left",
+			"stone-dirt_corner_bottom-right"
+		],
+		"right": [
+			"dirt", 
+			"stone-dirt_left",
+			"stone-dirt_bottom-left",
+			"stone-dirt_top-left"
+		],
+		"top": [
+			"stone-dirt_right", 
+			"stone-dirt_corner_bottom-right", 
+			"stone-dirt_top-right"
+		],
+		"bottom": [
+			"dirt", 
+			"stone-dirt_top",
+			"stone-dirt_top-left",
+			"stone-dirt_top-right"
+		]
+	},
+	"stone-dirt_bottom-left": {
+		"left": [
+			"dirt", 
+			"stone-dirt_right",
+			"stone-dirt_bottom-right",
+			"stone-dirt_top-right"
+		],
+		"right": [
+			"stone-dirt_bottom", 
+			"stone-dirt_corner_bottom-left",
+			"stone-dirt_bottom-right"
+		],
+		"top": [
+			"stone-dirt_left", 
+			"stone-dirt_corner_bottom-left", 
+			"stone-dirt_top-left"
+		],
+		"bottom": [
+			"dirt", 
+			"stone-dirt_top",
+			"stone-dirt_top-left",
+			"stone-dirt_top-right"
+		]
+	},
+
+	
+	# STONE L-ki narożniki
+
+	"stone-dirt_corner_top-left": {
+		"left": ["stone-dirt_top", "stone-dirt_top-left", "stone-dirt_corner_top-right"],
+		"right": [
+			"stone", 
+			"stone-dirt_right",
+			"stone-dirt_corner_top-right",
+			"stone-dirt_corner_bottom-right"
+		],
+		"top": [
+			"stone-dirt_left", 
+			"stone-dirt_top-left", 
+			"stone-dirt_corner_bottom-left"
+		],
+		"bottom": [
+			"stone", 
+			"stone-dirt_bottom",
+			"stone-dirt_corner_bottom-left",
+			"stone-dirt_corner_bottom-right"
+		]
+	},
+	"stone-dirt_corner_top-right": {
+		"left": [
+			"stone", 
+			"stone-dirt_left",
+			"stone-dirt_corner_top-left",
+			"stone-dirt_corner_bottom-left"
+		],
+		"right": ["stone-dirt_top", "stone-dirt_top-right", "stone-dirt_corner_top-left"],
+		"top": [
+			"stone-dirt_right", 
+			"stone-dirt_top-right", 
+			"stone-dirt_corner_bottom-right"
+		],
+		"bottom": [
+			"stone", 
+			"stone-dirt_bottom",
+			"stone-dirt_corner_bottom-right",
+			"stone-dirt_corner_bottom-left"
+		]
+	},
+	"stone-dirt_corner_bottom-left": {
+		"left": [
+			"stone-dirt_bottom", 
+			"stone-dirt_bottom-left", 
+			"stone-dirt_corner_bottom-right"
+		],
+		"right": [
+			"stone",  
+			"stone-dirt_right",
+			"stone-dirt_corner_top-right",
+			"stone-dirt_corner_bottom-right"
+		],
+		"top": [
+			"stone", 
+			"stone-dirt_top",
+			"stone-dirt_corner_top-left",
+			"stone-dirt_corner_top-right"
+		],
+		"bottom": [
+			"stone-dirt_left", 
+			"stone-dirt_bottom-left", 
+			"stone-dirt_corner_top-left"
+		]
+	},
+	"stone-dirt_corner_bottom-right": {
+		"left": [
+			"stone", 
+			"stone-dirt_left",
+			"stone-dirt_corner_bottom-left",
+			"stone-dirt_corner_top-left"
+		],
+		"right": [
+			"stone-dirt_bottom", 
+			"stone-dirt_bottom-right", 
+			"stone-dirt_corner_bottom-left"
+		],
+		"top": [
+			"stone", 
+			"stone-dirt_top",
+			"stone-dirt_corner_top-right",
+			"stone-dirt_corner_top-left"
+		],
+		"bottom": [
+			"stone-dirt_right", 
+			"stone-dirt_bottom-right", 
+			"stone-dirt_corner_top-right"
+		]
+	},
+
+
+# ------------- WALLS -------------
+
 	"dirt-wall": {
 		"left": [
 			"dirt-wall", 

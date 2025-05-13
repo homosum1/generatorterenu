@@ -18,6 +18,7 @@ var max_zoom := 3.0
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	sliders_panel.visible = false
+	camera.zoom = Vector2(1.0, 1.0) 
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
