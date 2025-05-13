@@ -22,7 +22,27 @@ const tiles = [
 	
 	
 	# do 19 (potem zawiniecie mapy)
+
+# cobblestone  
+	{"name": "stone", "index": 80},
+	# stone - sides
+	{"name": "dirt-stone_left", "index": 81},
+	{"name": "dirt-stone_top", "index": 82},
+	{"name": "dirt-stone_right", "index": 83},
+	{"name": "dirt-stone_bottom", "index": 84},
 	
+	# stone - edges
+	{"name": "dirt-stone_top-left", "index": 85},
+	{"name": "dirt-stone_top-right", "index": 86},
+	{"name": "dirt-stone_bottom-left", "index": 87},
+	{"name": "dirt-stone_bottom-right", "index": 88},	
+	
+	# stone - corners
+	{"name": "dirt-stone_corner_top-left", "index": 89},
+	{"name": "dirt-stone_corner_top-right", "index": 90},
+	{"name": "dirt-stone_corner_bottom-left", "index": 91},
+	{"name": "dirt-stone_corner_bottom-right", "index": 92},
+
 # walls	
 	{"name": "dirt-wall", "index": 100},
 	{"name": "empty-wall", "index": 101},
@@ -53,6 +73,7 @@ const tiles = [
 	{"name": "down-dirt-wall_left", "index": 117},
 	{"name": "down-dirt-wall_mid", "index": 118},
 	{"name": "down-dirt-wall_right", "index": 119},
+	
 ]
 
 

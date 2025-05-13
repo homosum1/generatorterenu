@@ -9,10 +9,6 @@ extends Node
 @onready var nature = $"../../GrassLayer"
 @onready var land = $"../../TileMapLayer"
 
-#@onready var hillsVisibility = $"VisibilityToggles/Hill"
-#@onready var grassVisibility = $"VisibilityToggles/NatureCheckbox2"
-#@onready var landVisibility = $"VisibilityToggles/LandCheckbox3"
-
 
 var zoom_step := 0.1
 var min_zoom := 0.2
