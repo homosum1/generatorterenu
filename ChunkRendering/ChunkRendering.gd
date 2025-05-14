@@ -10,8 +10,8 @@ var hillMapRenderer
 
 const CHUNK_GAP = 1
 
-const CHUNKS_COUNT_WIDTH = 2
-const CHUNKS_COUNT_HEIGHT = 2
+const CHUNKS_COUNT_WIDTH = 3
+const CHUNKS_COUNT_HEIGHT = 3
 
 const CHUNK_WIDTH = 15
 const CHUNK_HEIGHT = 15
@@ -56,6 +56,8 @@ func _groupedGenerationAlgorithm() -> void:
 	
 	# post processing
 	PostProcess.clean_up_edges(finalWorldMap)
+	PostProcess.fix_tiles(finalWorldMap, 1)
+	#PostProcess.fix_uncollapsed_tiles(finalWorldMap)
 	
 	# rendering current
 	tileMapRenderer.renderWFCGrid(finalWorldMap, Vector2i(0,0))

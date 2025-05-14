@@ -14,6 +14,8 @@ var earthness = GlobalsSingleton.debug_settings.get_earthness()
 
 var tileType = "default"
 
+const EMPTY_STATE = 19
+
 const TILE_TYPE_RANGES := {
 	"default": [Vector2i(0, 13), Vector2i(40, 53)],
 	"wall": [Vector2i(80, 99)]
@@ -25,7 +27,6 @@ func _init(x: int, y: int, tilesType: String = "default"):
 	tileType = tilesType
 
 	#new possibleStatesCount (counting for future needed space)	
-	#var possibleTilesCount = Tiles.tiles.size() + 2
 	var possibleTilesCount = Tiles.tiles[Tiles.tiles.size() - 1]["index"] + 1
 	
 	var ranges = TILE_TYPE_RANGES.get(tilesType, [Vector2i(0, 13), Vector2i(40, 53)])
@@ -66,7 +67,7 @@ func collapse() -> void:
 		if(entropy != -100):
 			print("❌ unable to collapse, entropy: ", entropy)
 			entropy = 0;
-			collapsedState = 19
+			collapsedState = EMPTY_STATE
 		
 		return
 
@@ -229,13 +230,21 @@ func reset_possible_states() -> void:
 		"right": "left"
 	}
 
+	var stonedetected = false # for testing
+	
 	# update possible states based on neighbours
 	for direction in neighbors.keys():
 		var neighbor = neighbors[direction]
-		if neighbor and (neighbor.collapsedState != -1):
+		if neighbor and ( (neighbor.collapsedState != -1) and (neighbor.collapsedState != EMPTY_STATE) ):
 			var state = neighbor.collapsedState
-			var allowedStates = getPossibleNeighbors(state, oppositeDirection[direction])
 			
+			var allowedStates = getPossibleNeighbors(state, oppositeDirection[direction])
+			if(state == Tiles.getIndex("stone")):
+				print("allowed states for stone: ")
+				print(allowedStates)
+				#print(" Before enabled states: ")
+				#print(possibleStates)
+				stonedetected = true
 			
 			for i in range(possibleStates.size()):
 				if possibleStates[i] and not i in allowedStates:
@@ -243,3 +252,8 @@ func reset_possible_states() -> void:
 	
 	
 	entropy = possibleStates.count(true)
+	
+	if(stonedetected):
+		print("entropy for stone: " + str(entropy))
+		#print("After change states for stone: ")
+		#print(possibleStates)

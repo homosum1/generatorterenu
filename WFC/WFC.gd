@@ -132,7 +132,7 @@ func _propagateWave():
 							if Globals.DEBUG_MODE:
 								print("- adding tile: ",  neighbor.position, " to the queue")
 							queue.append(neighbor)
-				
+
 
 func _runWFC():
 	const MAX_ITERATIONS = 1500 # MAKE IT SMALLER AFTER TESTS
@@ -207,7 +207,7 @@ func enforce_proximity_rule(target_tile_name: String, max_distance: int,forbidde
 				tile.entropy = tile.possibleStates.count(true)
 			tile._notifyNeighborsForNotCollapsed()
 					
-	_printEntropyMap()
+	#_printEntropyMap()
 
 
 func _printGridState():
@@ -219,7 +219,8 @@ func _printGridState():
 			var tile_name = Tiles.getName(tile.collapsedState) if tile.entropy == 1 else "?"
 			row += tile_name + "\t"
 		print(row)
-		
+
+
 func _printGridStateAsNums():
 	print("\n--- Grid State ---")
 	for y in range(GRID_HEIGHT):
