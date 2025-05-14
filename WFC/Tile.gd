@@ -230,8 +230,6 @@ func reset_possible_states() -> void:
 		"right": "left"
 	}
 
-	var stonedetected = false # for testing
-	
 	# update possible states based on neighbours
 	for direction in neighbors.keys():
 		var neighbor = neighbors[direction]
@@ -239,12 +237,6 @@ func reset_possible_states() -> void:
 			var state = neighbor.collapsedState
 			
 			var allowedStates = getPossibleNeighbors(state, oppositeDirection[direction])
-			if(state == Tiles.getIndex("stone")):
-				print("allowed states for stone: ")
-				print(allowedStates)
-				#print(" Before enabled states: ")
-				#print(possibleStates)
-				stonedetected = true
 			
 			for i in range(possibleStates.size()):
 				if possibleStates[i] and not i in allowedStates:
@@ -253,7 +245,3 @@ func reset_possible_states() -> void:
 	
 	entropy = possibleStates.count(true)
 	
-	if(stonedetected):
-		print("entropy for stone: " + str(entropy))
-		#print("After change states for stone: ")
-		#print(possibleStates)

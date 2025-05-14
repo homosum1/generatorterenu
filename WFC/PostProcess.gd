@@ -3,12 +3,11 @@ extends Object
 
 
 static func _recalculate_collapse(recalculate_queue) -> void:
-	
-	for tile in recalculate_queue:
+	for tile in recalculate_queue:	# temp 
 		tile.reset_possible_states()
-		#tile.reset_possible_states_v2()
-		
-		
+	for tile in recalculate_queue:
+		tile._notifyNeighborsForNotCollapsed()
+
 	# find tile with minimal entropy, collapse it and cremove from queue
 	while recalculate_queue.size() > 0:
 		var min_entropy_tile = recalculate_queue[0]
@@ -141,7 +140,7 @@ static func fix_uncollapsed_tiles(map: Array) -> void:
 		for y in range(height):
 			var tile = map[x][y]
 			
-			if tile.entropy == 0 or tile.collapsedState == 19:
+			if tile.entropy == 0 or tile.collapsedState == Tile.EMPTY_STATE:
 				print("tile: " + str(tile.position) + " added to queue")
 				uncollapsed_tiles.append(tile)
 	
@@ -171,20 +170,17 @@ static func fix_uncollapsed_tiles(map: Array) -> void:
 				tile.entropy = tile.possibleStates.count(true)
 				
 #				disable selected generations
-				#tile.possibleStates[Tiles.getIndex("stone")] = false
+				tile.possibleStates[Tiles.getIndex("stone")] = false
 
 				recalculate_queue.append(tile)
 				print("tile: " + str(tile.position) + " cleared")
 						
 		uncollapsed_tiles.erase(uncollapsedTile)
 							
-	#_recalculate_collapse(recalculate_queue)
-	for tile in recalculate_queue:	# temp 
-		tile.reset_possible_states()
-	for tile in recalculate_queue:
-		tile._notifyNeighborsForNotCollapsed()
+	_recalculate_collapse(recalculate_queue)
+
 
 static func fix_tiles(map: Array, loops: int):
 	for i in range(0, loops):
-		fix_uncollapsed_tiles(map)
 		print("-> FIXING LOOP: " + str(i))
+		fix_uncollapsed_tiles(map)

@@ -56,7 +56,7 @@ func _groupedGenerationAlgorithm() -> void:
 	
 	# post processing
 	PostProcess.clean_up_edges(finalWorldMap)
-	PostProcess.fix_tiles(finalWorldMap, 1)
+	PostProcess.fix_tiles(finalWorldMap, 3)
 	#PostProcess.fix_uncollapsed_tiles(finalWorldMap)
 	
 	# rendering current
