@@ -40,7 +40,11 @@ const adjacencyRules = {
 			
 			"stone-dirt_right",
 			"stone-dirt_bottom-right",
-			"stone-dirt_top-right"
+			"stone-dirt_top-right",
+			
+			"water-dirt_right",
+			"water-dirt_corner_top-right",
+			"water-dirt_corner_bottom-right"
 		],
 		"right": [
 			"dirt",
@@ -50,7 +54,11 @@ const adjacencyRules = {
 			
 			"stone-dirt_left",
 			"stone-dirt_bottom-left",
-			"stone-dirt_top-left"
+			"stone-dirt_top-left",
+			
+			"water-dirt_left",
+			"water-dirt_corner_top-left",
+			"water-dirt_corner_bottom-left"
 		],
 		"top": [
 			"dirt",
@@ -60,7 +68,11 @@ const adjacencyRules = {
 			
 			"stone-dirt_bottom",
 			"stone-dirt_bottom-left",
-			"stone-dirt_bottom-right"
+			"stone-dirt_bottom-right",
+			
+			"water-dirt_bottom",
+			"water-dirt_corner_bottom-right",
+			"water-dirt_corner_bottom-left"
 		],
 		"bottom": [
 			"dirt",
@@ -70,7 +82,11 @@ const adjacencyRules = {
 			
 			"stone-dirt_top",
 			"stone-dirt_top-left",
-			"stone-dirt_top-right"
+			"stone-dirt_top-right",
+			
+			"water-dirt_top",
+			"water-dirt_corner_top-right",
+			"water-dirt_corner_top-left"
 		]
 	},	
 	
@@ -943,13 +959,13 @@ const adjacencyRules = {
 			"water", 
 			"water-dirt_left",
 			"water-dirt_top-right",
-			"stone-dirt_bottom-right"
+			"water-dirt_bottom-right"
 		],
 		"right": [
 			"water", 
 			"water-dirt_right",
 			"water-dirt_top-left",
-			"stone-dirt_bottom-left"
+			"water-dirt_bottom-left"
 		],
 		"top": [
 			"water", 
@@ -960,30 +976,35 @@ const adjacencyRules = {
 		"bottom": [
 			"water", 
 			"water-dirt_bottom",
-			"stone-dirt_bottom-left",
-			"stone-dirt_bottom-right"
+			"water-dirt_bottom-left",
+			"water-dirt_bottom-right"
 		]
 	},
 
-# STONE SIDES
+# WATER SIDES
 
 	"water-dirt_top": {
 		"left": [
 			"water-dirt_top", 
 			"water-dirt_top-left",
-			"water-dirt_corner_top-right"	
+			"water-dirt_corner_top-left"	
 		],
 		"right": [
 			"water-dirt_top", 
 			"water-dirt_top-right",
-			"water-dirt_corner_top-left"	
+			"water-dirt_corner_top-right"	
 		],
 		"top": [
 			"dirt", 
 			"water-dirt_bottom",
+			"water-dirt_corner_bottom-right",
+			"water-dirt_corner_bottom-left"
 		],
 		"bottom": [
 			"water", 
+			"water-dirt_bottom",
+			"water-dirt_bottom-right",
+			"water-dirt_bottom-left"
 		]
 	},
 
@@ -991,8 +1012,8 @@ const adjacencyRules = {
 		"left": [
 			"water", 
 			"water-dirt_left",
-			"water-dirt_top-left",
-			"water-dirt_bottom-left",
+			"water-dirt_top-right",
+			"water-dirt_bottom-right",
 		],
 		"right": [
 			"dirt", 
@@ -1031,21 +1052,26 @@ const adjacencyRules = {
 		],
 		"bottom": [
 			"dirt", 
+			"water-dirt_top",
+			"water-dirt_corner_top-left",
+			"water-dirt_corner_top-right"
 		]
 	},
 
 	"water-dirt_left": {
 		"left": [
-			"water", 
-			"water-dirt_right",
-			"water-dirt_top-right",
-			"water-dirt_bottom-right",
-		],
-		"right": [
 			"dirt", 
 			"water-dirt_right",
+
 			"water-dirt_corner_top-right",
 			"water-dirt_corner_bottom-right"
+						
+		],
+		"right": [
+			"water", 
+			"water-dirt_right",
+			"water-dirt_top-left",
+			"water-dirt_bottom-left",
 		],
 		"top": [
 			"water-dirt_left", 
@@ -1068,40 +1094,46 @@ const adjacencyRules = {
 			"water-dirt_corner_top-left",
 		],
 		"right": [
-			"water-dirt_top-right",
-			"water-dirt_top", 
-			"water-dirt_corner_top-right",
+			"water",
+			"water-dirt_right",
+			"water-dirt_top-left",
+			"water-dirt_bottom-left"
 		],
 		"top": [
-			"water-dirt_top-left",
-			"water-dirt_right-left"
+			"water-dirt_left",
+			"water-dirt_bottom-right",
+			"water-dirt_corner_top-left",
 		],
 		"bottom": [
 			"water",
 			"water-dirt_bottom",
-			"water-dirt_top-right",
+			"water-dirt_bottom-right",
+			"water-dirt_bottom-left"
 		]
 	},
 
 	"water-dirt_top-left": {
 		"left": [
+			"water",
+			"water-dirt_left",
 			"water-dirt_top-right",
-			"water-dirt_top", 
-			"water-dirt_corner_top-right",
+			"water-dirt_bottom-right"
 		],
 		"right": [
-			"water-dirt_top-left",
-			"water-dirt_top", 
-			"water-dirt_corner_top-left",
+			"water-dirt_top-right",
+			"water-dirt_top",
+			"water-dirt_corner_top-right",
 		],
 		"top": [
-			"water-dirt_top-right",
-			"water-dirt_right-right"
+			"water-dirt_corner_top-right",
+			"water-dirt_bottom-left",
+			"water-dirt_right"
 		],
 		"bottom": [
 			"water",
 			"water-dirt_bottom",
-			"water-dirt_top-left",
+			"water-dirt_bottom-left",
+			"water-dirt_bottom-right"
 		]
 	},
 
@@ -1120,38 +1152,139 @@ const adjacencyRules = {
 		"top": [
 			"water",
 			"water-dirt_top",
+			"water-dirt_top-left",
 			"water-dirt_top-right"
 		],
 		"bottom": [
 			"water-dirt_left",
-			"water-dirt_bottom-left",
+			"water-dirt_top-right",
+			"water-dirt_corner_bottom-left"
 		]
 	},
 
 	"water-dirt_bottom-left": {
 		"left": [
+			"water",
+			"water-dirt_left", 
+			"water-dirt_bottom-right",
+			"water-dirt_top-right",
+		],
+		"right": [
 			"water-dirt_bottom", 
 			"water-dirt_bottom-right",
 			"water-dirt_corner_bottom-right"
 		],
-		"right": [
-			"water-dirt_left", 
-			"water-dirt_bottom-right",
-			"water-dirt_top-right",
-			"water"
-		],
 		"top": [
 			"water",
 			"water-dirt_top",
-			"water-dirt_top-left"
+			"water-dirt_top-left",
+			"water-dirt_top-right"
 		],
 		"bottom": [
 			"water-dirt_right",
-			"water-dirt_bottom-right",
+			"water-dirt_top-left",
+			"water-dirt_corner_bottom-right"
 		]
 	},
 
+# WATER L-ki narożniki
+
+	"water-dirt_corner_top-left": {
+		"left": [
+			"dirt",
+			
+			"water-dirt_corner_top-right",
+			"water-dirt_right",
+		],
+		"right": [
+			"water-dirt_top",
+			"water-dirt_top-right",
+			"water-dirt_corner_top-right",
+		],
+		"top": [
+			"dirt",
+			"water-dirt_bottom", 
+			"water-dirt_corner_bottom-left",
+			"water-dirt_corner_bottom-right"
+		],
+		"bottom": [
+			"water-dirt_left",
+			"water-dirt_top-right",
+			"water-dirt_corner_bottom-left"
+		]
+	},
+
+	"water-dirt_corner_top-right": {
+		"left": [			
+			"water-dirt_top",
+			"water-dirt_top-left",
+			"water-dirt_corner_top-left",
+		],
+		"right": [
+			"dirt",
+			"water-dirt_corner_top-left",
+			"water-dirt_left",
+		],
+		"top": [
+			"dirt",
+			"water-dirt_bottom", 
+			"water-dirt_corner_bottom-right",
+			"water-dirt_corner_bottom-left"
+		],
+		"bottom": [
+			"water-dirt_right",
+			"water-dirt_top-left",
+			"water-dirt_corner_bottom-right"
+		]
+	},
+
+	"water-dirt_corner_bottom-left": {
+		"left": [
+			"dirt",  
+			"water-dirt_right",
+		],
+		"right": [
+			"water-dirt_bottom", 
+			"water-dirt_bottom-right", 
+			"water-dirt_corner_bottom-right"
+		],
+		"top": [
+			"water-dirt_left",
+			"water-dirt_bottom-right",
+			"water-dirt_corner_top-left",
+		],
+		"bottom": [
+			"dirt",
+			"water-dirt_top",
+			"water-dirt_corner_top-left",
+			"water-dirt_corner_top-right"
+		]
+	},
 	
+	"water-dirt_corner_bottom-right": {
+		"left": [
+			"water-dirt_bottom", 
+			"water-dirt_bottom-left", 
+			"water-dirt_corner_bottom-left"
+		],
+		"right": [
+			"dirt",  
+			"water-dirt_left",
+		],
+		"top": [
+			"water-dirt_right",
+			"water-dirt_bottom-left",
+			"water-dirt_corner_top-right",
+		],
+		"bottom": [
+			"dirt",
+			"water-dirt_top",
+			"water-dirt_corner_top-right",
+			"water-dirt_corner_top-left"
+		]
+	},
+
+
 # SLOPE TILES TOP - this tiles need broader context to generate
 	#"top-dirt-wall_left": {
 		#"left": [
