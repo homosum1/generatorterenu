@@ -43,6 +43,27 @@ const tiles = [
 	{"name": "stone-dirt_corner_bottom-left", "index": 52},
 	{"name": "stone-dirt_corner_bottom-right", "index": 53},
 
+# lake  
+	{"name": "water", "index": 60},
+	# water - sides
+	{"name": "water-dirt_left", "index": 62},
+	{"name": "water-dirt_top", "index": 63},
+	{"name": "water-dirt_right", "index": 64},
+	{"name": "water-dirt_bottom", "index": 65},
+
+	# water - edges
+	{"name": "water-dirt_bottom-left", "index": 66},
+	{"name": "stone-dirt_bottom-right", "index": 67},
+	{"name": "water-dirt_top-left", "index": 68},
+	{"name": "water-dirt_top-right", "index": 69},	
+
+	# water - corners
+	{"name": "water-dirt_corner_top-left", "index": 70},
+	{"name": "water-dirt_corner_top-right", "index": 71},
+	{"name": "water-dirt_corner_bottom-left", "index": 71},
+	{"name": "water-dirt_corner_bottom-right", "index": 73},
+
+
 # walls	
 	{"name": "dirt-wall", "index": 80},
 	{"name": "empty-wall", "index": 81},
