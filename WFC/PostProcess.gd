@@ -135,6 +135,10 @@ static func fix_uncollapsed_tiles(map: Array) -> void:
 
 	var uncollapsed_tiles = []
 	var recalculate_queue = []
+	
+	var protected_tile_indices = [
+		Tiles.getIndex("stone"),
+	] + range(60, 74) # 74 is excluded
 
 	for x in range(width):
 		for y in range(height):
@@ -151,29 +155,31 @@ static func fix_uncollapsed_tiles(map: Array) -> void:
 		var surrounding_tiles = _get_surrounding_tiles_with_diagonals(uncollapsedTile)
 		
 		for tile in surrounding_tiles:
-			# don't delete stone walls
-			if tile.collapsedState != Tiles.getIndex("stone"):
-				# reset tile
-				var possibleTilesCount = Tiles.tiles[Tiles.tiles.size() - 1]["index"] + 1
-				tile.possibleStates = []
+			
+			if tile.collapsedState in protected_tile_indices:
+				continue
 
-				for i in range(possibleTilesCount):
-					tile.possibleStates.append(false)
-				
-				var ranges = [Vector2i(0, 13), Vector2i(40, 53)]
-				for range_pair in ranges:
-					for i in range(range_pair.x, range_pair.y + 1):
-						if i < tile.possibleStates.size():
-							tile.possibleStates[i] = true
-						
-				tile.collapsedState = -1
-				tile.entropy = tile.possibleStates.count(true)
-				
+			# reset tile
+			var possibleTilesCount = Tiles.tiles[Tiles.tiles.size() - 1]["index"] + 1
+			tile.possibleStates = []
+
+			for i in range(possibleTilesCount):
+				tile.possibleStates.append(false)
+			
+			var ranges = [Vector2i(0, 13), Vector2i(40, 53)]
+			for range_pair in ranges:
+				for i in range(range_pair.x, range_pair.y + 1):
+					if i < tile.possibleStates.size():
+						tile.possibleStates[i] = true
+					
+			tile.collapsedState = -1
+			tile.entropy = tile.possibleStates.count(true)
+			
 #				disable selected generations
-				tile.possibleStates[Tiles.getIndex("stone")] = false
+			tile.possibleStates[Tiles.getIndex("stone")] = false
 
-				recalculate_queue.append(tile)
-				#print("tile: " + str(tile.position) + " cleared")
+			recalculate_queue.append(tile)
+			#print("tile: " + str(tile.position) + " cleared")
 						
 		uncollapsed_tiles.erase(uncollapsedTile)
 							

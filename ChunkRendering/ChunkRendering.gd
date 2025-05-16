@@ -63,6 +63,7 @@ func _groupedGenerationAlgorithm() -> void:
 	# post processing
 	PostProcess.clean_up_edges(finalWorldMap)
 	PostProcess.fix_tiles(finalWorldMap, 3)
+	PostProcess.clean_up_edges(finalWorldMap)
 	
 	# rendering current
 	tileMapRenderer.renderWFCGrid(finalWorldMap, Vector2i(0,0))
