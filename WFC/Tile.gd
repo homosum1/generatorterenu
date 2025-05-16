@@ -110,7 +110,6 @@ func collapse() -> void:
 func collapseTo(index: int, forceCollapse: bool = false):
 
 	if (!possibleStates[index]) and (!forceCollapse):
-		
 		#print(entropy)
 		#print(possibleStates)
 		print("failed to collapse invalid index: %d at position %s" % [index, str(position)])

@@ -94,7 +94,7 @@ func _matches_pattern_at(x: int, y: int, pattern: Array) -> bool:
 				return false
 	return true
 
-func apply_tile_replacement_patterns():
+func _apply_tile_replacement_patterns():
 	for rule in replacement_rules:
 		var pattern = rule["pattern"]
 		var size = rule["size"]
@@ -128,14 +128,14 @@ func generate_mountains():
 	
 	if GlobalsSingleton.debug_settings.get_are_hills_rendered():
 		# generate terrain
-		generate_initial_sketch()
-		add_final_states()
+		_generate_initial_sketch()
+		_add_final_states()
 		#remove_possible_state()
 			
 		Rules.test_neighbor_rule_symmetry()
 		 		
 		var generated_matrix = height_map_wfc.calculateWFC()
-		apply_tile_replacement_patterns()
+		_apply_tile_replacement_patterns()
 		#height_map_wfc._printGridStateAsNums()
 	else:
 		var emptyTileIndex = Tiles.getIndex("empty-wall")
@@ -144,10 +144,10 @@ func generate_mountains():
 				height_map_wfc.gridMatrix[x][y].collapsedState = emptyTileIndex
 	
 	# render terrain
-	render_mountains()
+	_render_mountains()
 
 
-func generate_initial_sketch():
+func _generate_initial_sketch():
 	var wallTile = Tiles.getIndex("dirt-wall")
 	
 	noise_seed = randi()
@@ -168,7 +168,7 @@ func generate_initial_sketch():
 			if height > threshold:
 				height_map_wfc.gridMatrix[x][y].collapseTo(wallTile)
 
-func remove_possible_state():
+func _remove_possible_state():
 	var wallTileIndex = Tiles.getIndex("dirt-wall")
 	
 	for x in range(finalMapWidth):
@@ -176,7 +176,7 @@ func remove_possible_state():
 			if(height_map_wfc.gridMatrix[x][y].collapsedState == -1):
 				height_map_wfc.gridMatrix[x][y].possibleStates[wallTileIndex] = false
 
-func add_final_states():
+func _add_final_states():
 	var wallTileIndex = Tiles.getIndex("dirt-wall")
 	var emptyTileIndex = Tiles.getIndex("empty-wall")
 
@@ -218,8 +218,7 @@ func add_final_states():
 	for coordinates in tiles_to_collapse:
 		height_map_wfc.gridMatrix[coordinates.x][coordinates.y].collapseTo(emptyTileIndex)
 
-	
-func render_mountains():
+func _render_mountains():
 	clear()
 		
 	for x in range(finalMapWidth):
@@ -229,3 +228,30 @@ func render_mountains():
 				var tile_x = tile_id % 20
 				var tile_y = tile_id / 20
 				set_cell(Vector2i(x, y), 1, Vector2i(tile_x, tile_y))
+
+
+func _get_hill_state(x: int, y: int) -> int:
+	if x >= 0 and y >= 0 and x < height_map_wfc.GRID_WIDTH and y < height_map_wfc.GRID_HEIGHT:
+		return height_map_wfc.gridMatrix[x][y].collapsedState
+	return Tiles.getIndex("empty-wall")
+	
+func _has_non_empty_neighbors(world_x: int, world_y: int, empty_wall_index: int) -> bool:
+	for offset in [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
+		var nx = world_x + offset.x
+		var ny = world_y + offset.y
+		if _get_hill_state(nx, ny) != empty_wall_index:
+			return true
+	return false
+
+func apply_mountain_mask_to_chunk(chunk: WFC, chunk_x: int, chunk_y: int) -> void:
+	var empty_wall = Tiles.getIndex("empty-wall")
+	var stone_index = Tiles.getIndex("stone")
+	
+	for cx in range(chunk_renderer.CHUNK_WIDTH):
+		for cy in range(chunk_renderer.CHUNK_HEIGHT):
+			var world_x = chunk_x * (chunk_renderer.CHUNK_WIDTH + chunk_renderer.CHUNK_GAP) + cx
+			var world_y = chunk_y * (chunk_renderer.CHUNK_HEIGHT + chunk_renderer.CHUNK_GAP) + cy
+
+			var hill_cell = height_map_wfc.gridMatrix[world_x][world_y]
+			if hill_cell.collapsedState != empty_wall or _has_non_empty_neighbors(world_x, world_y, empty_wall):
+				chunk.gridMatrix[cx][cy].collapseTo(stone_index)

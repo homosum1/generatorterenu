@@ -8,7 +8,7 @@ extends Node
 @onready var hills = $"../../Hills"
 @onready var nature = $"../../GrassLayer"
 @onready var land = $"../../TileMapLayer"
-
+@onready var underground = $"../../Underground"
 
 var zoom_step := 0.1
 var min_zoom := 0.2
@@ -68,3 +68,6 @@ func _on_nature_checkbox_2_toggled(toggled_on: bool) -> void:
 
 func _on_land_checkbox_3_toggled(toggled_on: bool) -> void:
 	land.visible = toggled_on
+
+func _on_underground_checkbox_4_toggled(toggled_on: bool) -> void:
+	underground.visible = toggled_on

@@ -61,9 +61,8 @@ func _groupedGenerationAlgorithm() -> void:
 	finalWorldMap = build_combined_world_map()
 	
 	# post processing
-	PostProcess.clean_up_edges(finalWorldMap)
-	PostProcess.fix_tiles(finalWorldMap, 3)
-	#PostProcess.fix_uncollapsed_tiles(finalWorldMap)
+	#PostProcess.clean_up_edges(finalWorldMap)
+	#PostProcess.fix_tiles(finalWorldMap, 3)
 	
 	# rendering current
 	tileMapRenderer.renderWFCGrid(finalWorldMap, Vector2i(0,0))
@@ -168,6 +167,7 @@ func _generateStitchingEdges():
 	for i in range(CHUNKS_COUNT_HEIGHT - 1):
 		var edge = WFC.new(horizontalStichWidth , 1)
 		_apply_mountain_mask_to_horizontal_stitch(i, edge)
+		waterMapRenderer.apply_underground_mask_to_horizontal_stitch(i, edge)
 		# disable redundant stone generation
 		edge.enforce_proximity_rule("stone", 2, 40, 53)
 		var row = edge.calculateWFC()
@@ -189,26 +189,14 @@ func _generateStitchingEdges():
 			edge.gridMatrix[0][intersectY].collapseTo(collapsedIndex)
 
 		_apply_mountain_mask_to_vertical_stitch(x, edge)
+		waterMapRenderer.apply_underground_mask_to_vertical_stitch(x, edge)
+		
 		# disable redundant stone generation
 		edge.enforce_proximity_rule("stone", 2, 40, 53)
 		
 		var column = edge.calculateWFC()
 		verticalStiches.append(column)
 		
-func _apply_mountain_mask_to_chunk(chunk: WFC, chunk_x: int, chunk_y: int) -> void:
-	var empty_wall = Tiles.getIndex("empty-wall")
-	var stone_index = Tiles.getIndex("stone")
-	
-	for cx in range(CHUNK_WIDTH):
-		for cy in range(CHUNK_HEIGHT):
-			var world_x = chunk_x * (CHUNK_WIDTH + CHUNK_GAP) + cx
-			var world_y = chunk_y * (CHUNK_HEIGHT + CHUNK_GAP) + cy
-
-			var hill_cell = hillMapRenderer.height_map_wfc.gridMatrix[world_x][world_y]
-			if hill_cell.collapsedState != empty_wall or _has_non_empty_neighbors(world_x, world_y, empty_wall):
-				chunk.gridMatrix[cx][cy].collapseTo(stone_index)
-
-
 func _calculateWFCForWorldMap() -> void:
 	for x in range(CHUNKS_COUNT_WIDTH):
 		for y in range(CHUNKS_COUNT_HEIGHT):
@@ -263,8 +251,13 @@ func _calculateWFCForWorldMap() -> void:
 						chunk.gridMatrix[0][i].neighbors["left"] = collapsedTileLeft
 						collapsedTileLeft._notifyNeighbors()
 			
-			# here fill chumnk with data from: hillMapRenderer.height_map_wfc
-			_apply_mountain_mask_to_chunk(chunk, x, y)
+			# here fill chunk with the data from: hillMapRenderer.height_map_wfc
+			#_apply_mountain_mask_to_chunk(chunk, x, y)
+			hillMapRenderer.apply_mountain_mask_to_chunk(chunk, x, y)
+
+			# here fill chunk with the data from: waterMapRenderer
+			waterMapRenderer.apply_underground_mask_to_chunk(chunk, x, y)
+			
 			# disable redundant stone generation
 			chunk.enforce_proximity_rule("stone", 2, 40, 53)
 			

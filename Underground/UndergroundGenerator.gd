@@ -34,13 +34,13 @@ func generate_water():
 	
 	if GlobalsSingleton.debug_settings.get_is_underground_rendered():
 		# generate terrain
-		generate_initial_sketch()
+		_generate_initial_sketch()
 		
-		add_final_states()
+		_add_final_states()
 		#remove_possible_state()
 					 		
 		var generated_matrix = underground_map_wfc.calculateWFC()
-		underground_map_wfc._printGridStateAsNums()
+		#underground_map_wfc._printGridStateAsNums()
 	else:
 		var emptyTileIndex = Tiles.getIndex("empty-wall")
 		for x in range(underground_map_wfc.GRID_WIDTH):
@@ -48,10 +48,10 @@ func generate_water():
 				underground_map_wfc.gridMatrix[x][y].collapsedState = emptyTileIndex
 	
 	# render terrain
-	render_underground()
+	_render_underground()
 
 
-func generate_initial_sketch():
+func _generate_initial_sketch():
 	var waterTileIndex = Tiles.getIndex("water")
 	
 	# noise params
@@ -70,7 +70,7 @@ func generate_initial_sketch():
 			if height < threshold:
 				underground_map_wfc.gridMatrix[x][y].collapseTo(waterTileIndex)
 
-func remove_possible_state():
+func _remove_possible_state():
 	var waterTileIndex = Tiles.getIndex("water")
 	
 	for x in range(finalMapWidth):
@@ -78,7 +78,7 @@ func remove_possible_state():
 			if(underground_map_wfc.gridMatrix[x][y].collapsedState == -1):
 				underground_map_wfc.gridMatrix[x][y].possibleStates[waterTileIndex] = false
 
-func add_final_states():
+func _add_final_states():
 	var waterTileIndex = Tiles.getIndex("water")
 	var dirtTileIndex = Tiles.getIndex("dirt")
 
@@ -119,9 +119,8 @@ func add_final_states():
 
 	for coordinates in tiles_to_collapse:
 		underground_map_wfc.gridMatrix[coordinates.x][coordinates.y].collapseTo(dirtTileIndex)
-
 	
-func render_underground():
+func _render_underground():
 	clear()
 		
 	for x in range(finalMapWidth):
@@ -132,3 +131,38 @@ func render_underground():
 				var tile_y = tile_id / 20
 				#print("RENDERING: " + str(tile_x) + ", " + str(tile_y))
 				set_cell(Vector2i(x, y), 0, Vector2i(tile_x, tile_y))
+
+func apply_underground_mask_to_chunk(chunk: WFC, chunk_x: int, chunk_y: int) -> void:
+	var dirtTileIndex = Tiles.getIndex("dirt")
+	
+	for cx in range(chunk_renderer.CHUNK_WIDTH):
+		for cy in range(chunk_renderer.CHUNK_HEIGHT):
+			var world_x = chunk_x * (chunk_renderer.CHUNK_WIDTH + chunk_renderer.CHUNK_GAP) + cx
+			var world_y = chunk_y * (chunk_renderer.CHUNK_HEIGHT + chunk_renderer.CHUNK_GAP) + cy
+
+			var undeground_cell = underground_map_wfc.gridMatrix[world_x][world_y]
+			if undeground_cell.collapsedState != dirtTileIndex:
+				chunk.gridMatrix[cx][cy].collapseTo(undeground_cell.collapsedState, true)
+
+func apply_underground_mask_to_horizontal_stitch(row_index: int, edge: WFC) -> void:
+	var dirtTileIndex = Tiles.getIndex("dirt")
+	
+	for x in range(edge.GRID_WIDTH):
+		var world_x = x
+		var world_y = (row_index + 1) * chunk_renderer.CHUNK_HEIGHT + row_index
+
+		var underground_cell = underground_map_wfc.gridMatrix[world_x][world_y]
+		if underground_cell.collapsedState != dirtTileIndex:
+			edge.gridMatrix[x][0].collapseTo(underground_cell.collapsedState, true)
+
+func apply_underground_mask_to_vertical_stitch(col_index: int, edge: WFC) -> void:
+	var dirtTileIndex = Tiles.getIndex("dirt")
+	
+	for y in range(edge.GRID_HEIGHT):
+		var world_x = (col_index + 1) * chunk_renderer.CHUNK_WIDTH + col_index
+		var world_y = y
+
+		var underground_cell = underground_map_wfc.gridMatrix[world_x][world_y]
+		if underground_cell.collapsedState != dirtTileIndex:
+			if edge.gridMatrix[0][y].collapsedState == -1:
+				edge.gridMatrix[0][y].collapseTo(underground_cell.collapsedState, true)
