@@ -60,7 +60,7 @@ const tiles = [
 	# water - corners
 	{"name": "water-dirt_corner_top-left", "index": 70},
 	{"name": "water-dirt_corner_top-right", "index": 71},
-	{"name": "water-dirt_corner_bottom-left", "index": 71},
+	{"name": "water-dirt_corner_bottom-left", "index": 72},
 	{"name": "water-dirt_corner_bottom-right", "index": 73},
 
 

@@ -10,7 +10,9 @@ var height_map_wfc = null
 var finalMapWidth = -1;
 var finalMapHeigth = -1;
 
+var noise_seed = -1
 var noise := FastNoiseLite.new()
+
 
 var replacement_rules = [	
 #	// CORNERS 
@@ -148,8 +150,10 @@ func generate_mountains():
 func generate_initial_sketch():
 	var wallTile = Tiles.getIndex("dirt-wall")
 	
+	noise_seed = randi()
+	
 	# noise params
-	noise.seed = randi()
+	noise.seed = noise_seed
 	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
 	noise.frequency = GlobalsSingleton.debug_settings.get_hills_frequency()
 	noise.fractal_octaves = 4

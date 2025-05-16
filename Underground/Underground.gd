@@ -1,8 +1,10 @@
 extends TileMapLayer
 
 @export var chunk_renderer_path: NodePath
+@export var hills_generator_path: NodePath
 
 var chunk_renderer
+var hills_generator
 var shadow_generator
 
 var underground_map_wfc = null
@@ -17,6 +19,11 @@ func _ready():
 	if not chunk_renderer:
 		push_error("mountain generator - ChunkRenderer not found!")
 		return
+		
+	hills_generator = get_node(hills_generator_path)
+	if not hills_generator:
+		push_error("hills generator - hills generator not found!")
+		return
 	
 func generate_water():
 	finalMapWidth = chunk_renderer.total_width
@@ -29,11 +36,10 @@ func generate_water():
 		# generate terrain
 		generate_initial_sketch()
 		
-		
-		#add_final_states()
+		add_final_states()
 		#remove_possible_state()
 					 		
-		#var generated_matrix = underground_map_wfc.calculateWFC()
+		var generated_matrix = underground_map_wfc.calculateWFC()
 		underground_map_wfc._printGridStateAsNums()
 	else:
 		var emptyTileIndex = Tiles.getIndex("empty-wall")
@@ -49,7 +55,7 @@ func generate_initial_sketch():
 	var waterTileIndex = Tiles.getIndex("water")
 	
 	# noise params
-	noise.seed = randi()
+	noise.seed = hills_generator.noise_seed
 	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
 	noise.frequency = GlobalsSingleton.debug_settings.get_hills_frequency()
 	noise.fractal_octaves = 4
@@ -61,7 +67,7 @@ func generate_initial_sketch():
 		for y in range(finalMapHeigth):
 
 			var height = (noise.get_noise_2d(x, y) + 1.0) / 2.0
-			if height > threshold:
+			if height < threshold:
 				underground_map_wfc.gridMatrix[x][y].collapseTo(waterTileIndex)
 
 func remove_possible_state():
@@ -74,7 +80,7 @@ func remove_possible_state():
 
 func add_final_states():
 	var waterTileIndex = Tiles.getIndex("water")
-	var emptyTileIndex = Tiles.getIndex("empty-wall")
+	var dirtTileIndex = Tiles.getIndex("dirt")
 
 	var tiles_to_collapse = []
 
@@ -112,7 +118,7 @@ func add_final_states():
 				tiles_to_collapse.append(Vector2(x, y))
 
 	for coordinates in tiles_to_collapse:
-		underground_map_wfc.gridMatrix[coordinates.x][coordinates.y].collapseTo(emptyTileIndex)
+		underground_map_wfc.gridMatrix[coordinates.x][coordinates.y].collapseTo(dirtTileIndex)
 
 	
 func render_underground():
@@ -124,5 +130,5 @@ func render_underground():
 			if tile_id != -1:
 				var tile_x = tile_id % 20
 				var tile_y = tile_id / 20
-				print("RENDERING: " + str(tile_x) + ", " + str(tile_y))
+				#print("RENDERING: " + str(tile_x) + ", " + str(tile_y))
 				set_cell(Vector2i(x, y), 0, Vector2i(tile_x, tile_y))

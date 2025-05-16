@@ -42,7 +42,7 @@ var hills_threshold := 0.7
 var hillsGeneration := true
 
 
-var underground_threshold := 0.4
+var underground_threshold := 0.25
 var undergroundGeneration := true
 
 

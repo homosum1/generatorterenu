@@ -789,6 +789,7 @@ z_index = 5
 tile_set = SubResource("TileSet_kqipo")
 script = ExtResource("13_ywyej")
 chunk_renderer_path = NodePath("..")
+hills_generator_path = NodePath("../Hills")
 
 [connection signal="pressed" from="UiLayer/UiRoot/RegenButton" to="." method="_on_regen_button_pressed"]
 [connection signal="pressed" from="UiLayer/UiRoot/ZoomButtons/ZoomIn" to="UiLayer/UiRoot" method="_on_zoom_in_pressed"]
