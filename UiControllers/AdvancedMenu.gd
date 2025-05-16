@@ -13,6 +13,10 @@ extends Panel
 @onready var hills_threshold_slider := $SecondMenuContainer2/HillsThresholdSlider
 @onready var hills_threshold_label := $SecondMenuContainer2/HBoxContainer2/HillsThresholdVal
 
+@onready var water_threshold_slider := $WaterThresholdSlider
+@onready var water_threshold_label := $ForthMenuContainer/HBoxContainer/LakesThresholdVal
+
+
 
 # STRUCTURE GEN REFS:
 @onready var grass_density_slider := $SecondMenuContainer/GrassDensitySlider
@@ -94,6 +98,11 @@ func _ready() -> void:
 	hills_threshold_slider.max_value = 1.0
 	hills_threshold_slider.step = 0.05
 	
+	water_threshold_slider.min_value = 0.1
+	water_threshold_slider.max_value = 1.0
+	water_threshold_slider.step = 0.05
+	
+	
 	grass_density_slider.value = grass_density
 	tree_density_slider.value = tree_density
 	grass_frequency_slider.value = grass_frequency
@@ -101,7 +110,8 @@ func _ready() -> void:
 	
 	hills_frequency_slider.value = hills_frequency
 	hills_threshold_slider.value = hills_threshold
-		
+	
+	water_threshold_slider.value = underground_threshold
 
 	grass_density_label.text = "%.2f" % grass_density
 	tree_density_label.text = "%.2f" % tree_density
@@ -111,6 +121,9 @@ func _ready() -> void:
 	hill_frequency_label.text = "%.3f" % hills_frequency
 	hills_threshold_label.text = "%.2f" % hills_threshold
 
+	water_threshold_label.text = "%.2f" % underground_threshold
+	
+
 	# Connect signals
 	grass_density_slider.connect("value_changed", _on_grass_density_changed)
 	tree_density_slider.connect("value_changed", _on_tree_density_changed)
@@ -119,7 +132,8 @@ func _ready() -> void:
 	
 	hills_frequency_slider.connect("value_changed", _on_hills_frequency_changed)
 	hills_threshold_slider.connect("value_changed", _on_hills_threshold_changed)
-
+	
+	water_threshold_slider.connect("value_changed", _on_water_threshold_changed)
 	
 
 func _on_grass_slider_changed(value: float) -> void:
@@ -162,6 +176,9 @@ func _on_hills_threshold_changed(value: float) -> void:
 	hills_threshold = value
 	hills_threshold_label.text = "%.2f" % value
 
+func _on_water_threshold_changed(value: float) -> void:
+	underground_threshold = value
+	water_threshold_label.text = "%.2f" % value
 
 func get_grass_density() -> float:
 	return grass_density
@@ -192,3 +209,6 @@ func get_is_underground_rendered() -> float:
 
 func _on_position_display_toggled(toggled_on: bool) -> void:
 	hillsGeneration = !hillsGeneration
+
+func _on_lakes_generation_enabled_toggle_toggled(toggled_on: bool) -> void:
+	undergroundGeneration = !undergroundGeneration

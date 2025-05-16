@@ -593,7 +593,7 @@ layout_mode = 2
 layout_mode = 0
 offset_left = 23.0
 offset_top = 212.0
-offset_right = 442.0
+offset_right = 652.0
 offset_bottom = 617.0
 script = ExtResource("10_uef0b")
 
@@ -603,6 +603,27 @@ offset_left = 203.0
 offset_top = 20.0
 offset_right = 205.0
 offset_bottom = 388.0
+
+[node name="WhiteSpacer3" type="ColorRect" parent="UiLayer/UiRoot/Sliders"]
+offset_left = 417.585
+offset_top = 20.0
+offset_right = 419.585
+offset_bottom = 388.0
+
+[node name="HorizontalWhiteSpacer" type="ColorRect" parent="UiLayer/UiRoot/Sliders"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 0
+offset_left = 18.0
+offset_top = 140.0
+offset_right = 182.0
+offset_bottom = 142.0
+
+[node name="HorizontalWhiteSpacer2" type="ColorRect" parent="UiLayer/UiRoot/Sliders"]
+custom_minimum_size = Vector2(0, 2)
+offset_left = 234.0
+offset_top = 180.0
+offset_right = 398.0
+offset_bottom = 182.0
 
 [node name="MenuContainer" type="VBoxContainer" parent="UiLayer/UiRoot/Sliders"]
 layout_mode = 0
@@ -639,14 +660,6 @@ text = "30"
 
 [node name="EarthSlider" type="HSlider" parent="UiLayer/UiRoot/Sliders/MenuContainer"]
 layout_mode = 2
-
-[node name="WhiteSpacer" type="ColorRect" parent="UiLayer/UiRoot/Sliders"]
-custom_minimum_size = Vector2(0, 2)
-layout_mode = 0
-offset_left = 18.0
-offset_top = 140.0
-offset_right = 182.0
-offset_bottom = 141.0
 
 [node name="SecondMenuContainer" type="VBoxContainer" parent="UiLayer/UiRoot/Sliders"]
 layout_mode = 0
@@ -712,11 +725,6 @@ text = "10"
 [node name="TreesFreqSlider" type="HSlider" parent="UiLayer/UiRoot/Sliders/SecondMenuContainer"]
 layout_mode = 2
 
-[node name="Columns" type="HBoxContainer" parent="UiLayer/UiRoot/Sliders"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
 [node name="SecondMenuContainer2" type="VBoxContainer" parent="UiLayer/UiRoot/Sliders"]
 layout_mode = 0
 offset_left = 226.985
@@ -763,6 +771,44 @@ text = "30"
 
 [node name="HillsThresholdSlider" type="HSlider" parent="UiLayer/UiRoot/Sliders/SecondMenuContainer2"]
 layout_mode = 2
+
+[node name="WaterThresholdSlider" type="HSlider" parent="UiLayer/UiRoot/Sliders"]
+layout_mode = 2
+offset_left = 228.0
+offset_top = 269.0
+offset_right = 403.0
+offset_bottom = 285.0
+size_flags_stretch_ratio = 0.0
+
+[node name="ForthMenuContainer" type="VBoxContainer" parent="UiLayer/UiRoot/Sliders"]
+layout_mode = 0
+offset_left = 228.0
+offset_top = 202.0
+offset_right = 416.0
+offset_bottom = 344.0
+theme_override_constants/separation = 10
+
+[node name="LakesToggle" type="HBoxContainer" parent="UiLayer/UiRoot/Sliders/ForthMenuContainer"]
+layout_mode = 2
+
+[node name="Lakes generation" type="Label" parent="UiLayer/UiRoot/Sliders/ForthMenuContainer/LakesToggle"]
+layout_mode = 2
+text = "Water generation:"
+
+[node name="LakesGenerationEnabledToggle" type="CheckButton" parent="UiLayer/UiRoot/Sliders/ForthMenuContainer/LakesToggle"]
+layout_mode = 2
+button_pressed = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UiLayer/UiRoot/Sliders/ForthMenuContainer"]
+layout_mode = 2
+
+[node name="Earthness" type="Label" parent="UiLayer/UiRoot/Sliders/ForthMenuContainer/HBoxContainer"]
+layout_mode = 2
+text = "Water threshold:"
+
+[node name="LakesThresholdVal" type="Label" parent="UiLayer/UiRoot/Sliders/ForthMenuContainer/HBoxContainer"]
+layout_mode = 2
+text = "30"
 
 [node name="VisibilityToggles" type="VBoxContainer" parent="UiLayer/UiRoot"]
 layout_mode = 1
@@ -819,6 +865,7 @@ hills_generator_path = NodePath("../Hills")
 [connection signal="toggled" from="UiLayer/UiRoot/DebugSettings/HBoxContainer3/PositionDisplay" to="UiLayer/UiRoot" method="_on_position_display_toggled"]
 [connection signal="toggled" from="UiLayer/UiRoot/DebugSettings/HBoxContainer4/MenuOpened" to="UiLayer/UiRoot" method="_on_menu_opened_toggled"]
 [connection signal="toggled" from="UiLayer/UiRoot/Sliders/SecondMenuContainer2/hillsToggle/PositionDisplay" to="UiLayer/UiRoot/Sliders" method="_on_position_display_toggled"]
+[connection signal="toggled" from="UiLayer/UiRoot/Sliders/ForthMenuContainer/LakesToggle/LakesGenerationEnabledToggle" to="UiLayer/UiRoot/Sliders" method="_on_lakes_generation_enabled_toggle_toggled"]
 [connection signal="toggled" from="UiLayer/UiRoot/VisibilityToggles/HillsCheckbox" to="UiLayer/UiRoot" method="_on_hills_checkbox_toggled"]
 [connection signal="toggled" from="UiLayer/UiRoot/VisibilityToggles/NatureCheckbox2" to="UiLayer/UiRoot" method="_on_nature_checkbox_2_toggled"]
 [connection signal="toggled" from="UiLayer/UiRoot/VisibilityToggles/LandCheckbox3" to="UiLayer/UiRoot" method="_on_land_checkbox_3_toggled"]
