@@ -141,7 +141,7 @@ static func fix_uncollapsed_tiles(map: Array) -> void:
 			var tile = map[x][y]
 			
 			if tile.entropy == 0 or tile.collapsedState == Tile.EMPTY_STATE:
-				print("tile: " + str(tile.position) + " added to queue")
+				print(" - tile: " + str(tile.position) + " added to queue")
 				uncollapsed_tiles.append(tile)
 	
 	while uncollapsed_tiles.size() > 0:
@@ -173,7 +173,7 @@ static func fix_uncollapsed_tiles(map: Array) -> void:
 				tile.possibleStates[Tiles.getIndex("stone")] = false
 
 				recalculate_queue.append(tile)
-				print("tile: " + str(tile.position) + " cleared")
+				#print("tile: " + str(tile.position) + " cleared")
 						
 		uncollapsed_tiles.erase(uncollapsedTile)
 							

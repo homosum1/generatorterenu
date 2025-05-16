@@ -18,6 +18,7 @@ const EMPTY_STATE = 19
 
 const TILE_TYPE_RANGES := {
 	"default": [Vector2i(0, 13), Vector2i(40, 53)],
+	"water": [Vector2i(60, 73)],
 	"wall": [Vector2i(80, 99)]
 }
 

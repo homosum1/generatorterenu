@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bd28sv8yutm07"]
+[gd_scene load_steps=25 format=3 uid="uid://bd28sv8yutm07"]
 
 [ext_resource type="Script" path="res://HillsGenerator/HillsGenerator.gd" id="2_17w58"]
 [ext_resource type="Script" path="res://GridRendering/TileMap.gd" id="2_b4q31"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://NatureGenerator/ShadowGenerator.gd" id="7_bth1q"]
 [ext_resource type="Script" path="res://GridOverlay/GridOverlay.gd" id="7_tb6b5"]
 [ext_resource type="Script" path="res://UiControllers/AdvancedMenu.gd" id="10_uef0b"]
+[ext_resource type="Script" path="res://Underground/Underground.gd" id="13_ywyej"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xofl0"]
 texture = ExtResource("2_el5gr")
@@ -282,12 +283,163 @@ texture = ExtResource("2_el5gr")
 [sub_resource type="TileSet" id="TileSet_rtv2r"]
 sources/0 = SubResource("TileSetAtlasSource_d2ome")
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0yxey"]
+texture = ExtResource("2_el5gr")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+8:0/0 = 0
+9:0/0 = 0
+10:0/0 = 0
+11:0/0 = 0
+12:0/0 = 0
+13:0/0 = 0
+0:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+8:1/0 = 0
+9:1/0 = 0
+10:1/0 = 0
+11:1/0 = 0
+12:1/0 = 0
+13:1/0 = 0
+15:1/0 = 0
+16:1/0 = 0
+17:1/0 = 0
+18:1/0 = 0
+0:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+7:2/0 = 0
+8:2/0 = 0
+9:2/0 = 0
+10:2/0 = 0
+11:2/0 = 0
+12:2/0 = 0
+13:2/0 = 0
+0:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+6:3/0 = 0
+7:3/0 = 0
+8:3/0 = 0
+9:3/0 = 0
+10:3/0 = 0
+11:3/0 = 0
+12:3/0 = 0
+13:3/0 = 0
+0:4/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+6:4/0 = 0
+7:4/0 = 0
+8:4/0 = 0
+9:4/0 = 0
+10:4/0 = 0
+11:4/0 = 0
+12:4/0 = 0
+13:4/0 = 0
+14:4/0 = 0
+15:4/0 = 0
+16:4/0 = 0
+17:4/0 = 0
+18:4/0 = 0
+19:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+3:5/0 = 0
+4:5/0 = 0
+5:5/0 = 0
+6:5/0 = 0
+7:5/0 = 0
+8:5/0 = 0
+9:5/0 = 0
+10:5/0 = 0
+11:5/0 = 0
+12:5/0 = 0
+13:5/0 = 0
+14:5/0 = 0
+15:5/0 = 0
+16:5/0 = 0
+17:5/0 = 0
+18:5/0 = 0
+19:5/0 = 0
+5:11/0 = 0
+6:11/0 = 0
+7:11/0 = 0
+9:11/0 = 0
+10:11/0 = 0
+5:12/0 = 0
+7:12/0 = 0
+9:12/0 = 0
+11:12/0 = 0
+5:13/0 = 0
+6:13/0 = 0
+1:15/0 = 0
+2:15/0 = 0
+3:15/0 = 0
+5:15/0 = 0
+6:15/0 = 0
+7:15/0 = 0
+9:15/0 = 0
+10:15/0 = 0
+11:15/0 = 0
+1:16/0 = 0
+2:16/0 = 0
+3:16/0 = 0
+5:16/0 = 0
+6:16/0 = 0
+7:16/0 = 0
+9:16/0 = 0
+10:16/0 = 0
+11:16/0 = 0
+1:17/0 = 0
+2:17/0 = 0
+3:17/0 = 0
+5:17/0 = 0
+6:17/0 = 0
+7:17/0 = 0
+9:17/0 = 0
+10:17/0 = 0
+11:17/0 = 0
+1:18/0 = 0
+2:18/0 = 0
+3:18/0 = 0
+5:18/0 = 0
+6:18/0 = 0
+7:18/0 = 0
+9:18/0 = 0
+10:18/0 = 0
+11:18/0 = 0
+1:2/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_kqipo"]
+sources/0 = SubResource("TileSetAtlasSource_0yxey")
+
 [node name="Node2D" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("2_iue0x")
 tileMapRendererPath = NodePath("TileMapLayer")
 natureMapRendererPath = NodePath("GrassLayer")
 hillMapRendererPath = NodePath("Hills")
+waterMapRendererPath = NodePath("Underground")
 
 [node name="Hills" type="TileMapLayer" parent="."]
 z_index = 1
@@ -631,6 +783,12 @@ text = "Land
 
 [node name="GridOverlay" type="Node2D" parent="."]
 script = ExtResource("7_tb6b5")
+
+[node name="Underground" type="TileMapLayer" parent="."]
+z_index = 5
+tile_set = SubResource("TileSet_kqipo")
+script = ExtResource("13_ywyej")
+chunk_renderer_path = NodePath("..")
 
 [connection signal="pressed" from="UiLayer/UiRoot/RegenButton" to="." method="_on_regen_button_pressed"]
 [connection signal="pressed" from="UiLayer/UiRoot/ZoomButtons/ZoomIn" to="UiLayer/UiRoot" method="_on_zoom_in_pressed"]

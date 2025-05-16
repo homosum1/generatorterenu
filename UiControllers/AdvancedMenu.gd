@@ -41,6 +41,11 @@ var hills_frequency := 0.007
 var hills_threshold := 0.7
 var hillsGeneration := true
 
+
+var underground_threshold := 0.4
+var undergroundGeneration := true
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# connect values to global singleton:
@@ -178,6 +183,12 @@ func get_hills_height_threshold() -> float:
 
 func get_are_hills_rendered() -> float:
 	return hillsGeneration
+
+func get_underground_height_threshold() -> float:
+	return underground_threshold
+
+func get_is_underground_rendered() -> float:
+	return undergroundGeneration
 
 func _on_position_display_toggled(toggled_on: bool) -> void:
 	hillsGeneration = !hillsGeneration

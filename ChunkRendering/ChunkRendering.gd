@@ -3,10 +3,12 @@ extends Node
 @export var tileMapRendererPath: NodePath 
 @export var natureMapRendererPath: NodePath
 @export var hillMapRendererPath: NodePath
+@export var waterMapRendererPath: NodePath
 
 var tileMapRenderer
 var natureMapRenderer
 var hillMapRenderer
+var waterMapRenderer
 
 const CHUNK_GAP = 1
 
@@ -37,6 +39,7 @@ func _ready() -> void:
 	_getChunkRenderer()
 	_getNatureRenderer()
 	_getHillsGenerator()
+	_getWaterGenerator()
 	
 	_groupedGenerationAlgorithm()
 	
@@ -46,6 +49,9 @@ func _groupedGenerationAlgorithm() -> void:
 
 	# hills generation
 	hillMapRenderer.generate_mountains()
+	
+	# water generation
+	waterMapRenderer.generate_water()
 		
 	# generation
 	if Globals.USE_STICHING:
@@ -99,6 +105,14 @@ func _getHillsGenerator() -> bool:
 	
 	return true
 
+func _getWaterGenerator() -> bool:
+	waterMapRenderer = get_node(waterMapRendererPath)
+	
+	if not waterMapRenderer:
+		print("Missing water map generator")
+		return false
+	
+	return true
 
 func _initializeEmptyWorldMap() -> void:
 	for x in range(CHUNKS_COUNT_WIDTH):

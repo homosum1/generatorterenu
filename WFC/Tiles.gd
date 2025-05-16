@@ -53,7 +53,7 @@ const tiles = [
 
 	# water - edges
 	{"name": "water-dirt_bottom-left", "index": 66},
-	{"name": "stone-dirt_bottom-right", "index": 67},
+	{"name": "water-dirt_bottom-right", "index": 67},
 	{"name": "water-dirt_top-left", "index": 68},
 	{"name": "water-dirt_top-right", "index": 69},	
 
