@@ -255,3 +255,28 @@ func apply_mountain_mask_to_chunk(chunk: WFC, chunk_x: int, chunk_y: int) -> voi
 			var hill_cell = height_map_wfc.gridMatrix[world_x][world_y]
 			if hill_cell.collapsedState != empty_wall or _has_non_empty_neighbors(world_x, world_y, empty_wall):
 				chunk.gridMatrix[cx][cy].collapseTo(stone_index)
+
+func apply_mountain_mask_to_horizontal_stitch(row_index: int, edge: WFC) -> void:
+	var empty_wall = Tiles.getIndex("empty-wall")
+	var stone_index = Tiles.getIndex("stone")
+
+	for x in range(edge.GRID_WIDTH):
+		var world_x = x
+		var world_y = (row_index + 1) * chunk_renderer.CHUNK_HEIGHT + row_index
+
+		var hill_cell = height_map_wfc.gridMatrix[world_x][world_y]
+		if hill_cell.collapsedState != empty_wall or _has_non_empty_neighbors(world_x, world_y, empty_wall):
+			edge.gridMatrix[x][0].collapseTo(stone_index)
+
+func apply_mountain_mask_to_vertical_stitch(col_index: int, edge: WFC) -> void:
+	var empty_wall = Tiles.getIndex("empty-wall")
+	var stone_index = Tiles.getIndex("stone")
+
+	for y in range(edge.GRID_HEIGHT):
+		var world_x = (col_index + 1) * chunk_renderer.CHUNK_WIDTH + col_index
+		var world_y = y
+
+		var hill_cell = height_map_wfc.gridMatrix[world_x][world_y]
+		if hill_cell.collapsedState != empty_wall or _has_non_empty_neighbors(world_x, world_y, empty_wall):
+			if edge.gridMatrix[0][y].collapsedState == -1:
+				edge.gridMatrix[0][y].collapseTo(stone_index)

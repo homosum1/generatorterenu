@@ -53,7 +53,7 @@ func _groupedGenerationAlgorithm() -> void:
 	# water generation
 	waterMapRenderer.generate_water()
 		
-	# generation
+	# generationD
 	if Globals.USE_STICHING:
 		_generateStitchingEdges()
 	_calculateWFCForWorldMap()
@@ -61,8 +61,8 @@ func _groupedGenerationAlgorithm() -> void:
 	finalWorldMap = build_combined_world_map()
 	
 	# post processing
-	#PostProcess.clean_up_edges(finalWorldMap)
-	#PostProcess.fix_tiles(finalWorldMap, 3)
+	PostProcess.clean_up_edges(finalWorldMap)
+	PostProcess.fix_tiles(finalWorldMap, 3)
 	
 	# rendering current
 	tileMapRenderer.renderWFCGrid(finalWorldMap, Vector2i(0,0))
@@ -120,45 +120,6 @@ func _initializeEmptyWorldMap() -> void:
 			column.append(null)
 		worldMap.append(column)	
 
-func _get_hill_state(x: int, y: int) -> int:
-	if x >= 0 and y >= 0 and x < hillMapRenderer.height_map_wfc.GRID_WIDTH and y < hillMapRenderer.height_map_wfc.GRID_HEIGHT:
-		return hillMapRenderer.height_map_wfc.gridMatrix[x][y].collapsedState
-	return Tiles.getIndex("empty-wall")
-
-func _has_non_empty_neighbors(world_x: int, world_y: int, empty_wall_index: int) -> bool:
-	for offset in [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
-		var nx = world_x + offset.x
-		var ny = world_y + offset.y
-		if _get_hill_state(nx, ny) != empty_wall_index:
-			return true
-	return false
-	
-func _apply_mountain_mask_to_horizontal_stitch(row_index: int, edge: WFC) -> void:
-	var empty_wall = Tiles.getIndex("empty-wall")
-	var stone_index = Tiles.getIndex("stone")
-
-	for x in range(edge.GRID_WIDTH):
-		var world_x = x
-		var world_y = (row_index + 1) * CHUNK_HEIGHT + row_index
-
-		var hill_cell = hillMapRenderer.height_map_wfc.gridMatrix[world_x][world_y]
-		if hill_cell.collapsedState != empty_wall or _has_non_empty_neighbors(world_x, world_y, empty_wall):
-			edge.gridMatrix[x][0].collapseTo(stone_index)
-
-func _apply_mountain_mask_to_vertical_stitch(col_index: int, edge: WFC) -> void:
-	var empty_wall = Tiles.getIndex("empty-wall")
-	var stone_index = Tiles.getIndex("stone")
-
-	for y in range(edge.GRID_HEIGHT):
-		var world_x = (col_index + 1) * CHUNK_WIDTH + col_index
-		var world_y = y
-
-		var hill_cell = hillMapRenderer.height_map_wfc.gridMatrix[world_x][world_y]
-		if hill_cell.collapsedState != empty_wall or _has_non_empty_neighbors(world_x, world_y, empty_wall):
-			if edge.gridMatrix[0][y].collapsedState == -1:
-				edge.gridMatrix[0][y].collapseTo(stone_index)
-
-
 func _generateStitchingEdges():
 	const horizontalStichWidth = CHUNK_WIDTH * CHUNKS_COUNT_WIDTH + (CHUNKS_COUNT_WIDTH-1) 
 	const verticalStichHeigth = CHUNK_HEIGHT * CHUNKS_COUNT_HEIGHT + (CHUNKS_COUNT_HEIGHT-1) 
@@ -166,7 +127,7 @@ func _generateStitchingEdges():
 	# horizontal stitches
 	for i in range(CHUNKS_COUNT_HEIGHT - 1):
 		var edge = WFC.new(horizontalStichWidth , 1)
-		_apply_mountain_mask_to_horizontal_stitch(i, edge)
+		hillMapRenderer.apply_mountain_mask_to_horizontal_stitch(i, edge)
 		waterMapRenderer.apply_underground_mask_to_horizontal_stitch(i, edge)
 		# disable redundant stone generation
 		edge.enforce_proximity_rule("stone", 2, 40, 53)
@@ -188,7 +149,7 @@ func _generateStitchingEdges():
 			var collapsedIndex = horizontalStiches[y][intersectX][0].collapsedState
 			edge.gridMatrix[0][intersectY].collapseTo(collapsedIndex)
 
-		_apply_mountain_mask_to_vertical_stitch(x, edge)
+		hillMapRenderer.apply_mountain_mask_to_vertical_stitch(x, edge)
 		waterMapRenderer.apply_underground_mask_to_vertical_stitch(x, edge)
 		
 		# disable redundant stone generation
