@@ -12,11 +12,11 @@ var waterMapRenderer
 
 const CHUNK_GAP = 1
 
-const CHUNKS_COUNT_WIDTH = 3
-const CHUNKS_COUNT_HEIGHT = 3
+const CHUNKS_COUNT_WIDTH = 5
+const CHUNKS_COUNT_HEIGHT = 5
 
-const CHUNK_WIDTH = 15
-const CHUNK_HEIGHT = 15
+const CHUNK_WIDTH = 10
+const CHUNK_HEIGHT = 10
 
 var worldMap = []
 var finalWorldMap = []
