@@ -129,7 +129,7 @@ static func _get_surrounding_tiles_with_diagonals(tile: Tile) -> Array:
 #static func checkIfTileIsNeighbor(tile: Tile) -> bool:
 	
 
-static func fix_uncollapsed_tiles(map: Array) -> void:
+static func _fix_uncollapsed_tiles(map: Array) -> void:
 	var width = map.size()
 	var height = map[0].size()
 
@@ -189,4 +189,4 @@ static func fix_uncollapsed_tiles(map: Array) -> void:
 static func fix_tiles(map: Array, loops: int):
 	for i in range(0, loops):
 		print("-> FIXING LOOP: " + str(i))
-		fix_uncollapsed_tiles(map)
+		_fix_uncollapsed_tiles(map)

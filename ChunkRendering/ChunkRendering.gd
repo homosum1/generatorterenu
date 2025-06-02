@@ -54,19 +54,27 @@ func _groupedGenerationAlgorithm() -> void:
 	waterMapRenderer.generate_water()
 		
 	# generationD
+	
+	var start_time = Time.get_ticks_msec()
+	
 	if Globals.USE_STICHING:
 		_generateStitchingEdges()
 	_calculateWFCForWorldMap()
 		
 	finalWorldMap = build_combined_world_map()
 	
+	var elapsed = Time.get_ticks_msec() - start_time
+	print("Elapsed time (ms):", elapsed)
+	
 	# post processing
 	PostProcess.clean_up_edges(finalWorldMap)
 	PostProcess.fix_tiles(finalWorldMap, 3)
 	PostProcess.clean_up_edges(finalWorldMap)
 	
+	
 	# rendering current
 	tileMapRenderer.renderWFCGrid(finalWorldMap, Vector2i(0,0))
+	
 	
 	natureMapRenderer.generate_nature()
 
