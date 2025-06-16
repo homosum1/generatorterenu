@@ -12,8 +12,8 @@ var waterMapRenderer
 
 const CHUNK_GAP = 1
 
-const CHUNKS_COUNT_WIDTH = 5
-const CHUNKS_COUNT_HEIGHT = 5
+const CHUNKS_COUNT_WIDTH = 3
+const CHUNKS_COUNT_HEIGHT = 3
 
 const CHUNK_WIDTH = 10
 const CHUNK_HEIGHT = 10
@@ -71,6 +71,10 @@ func _groupedGenerationAlgorithm() -> void:
 	PostProcess.fix_tiles(finalWorldMap, 3)
 	PostProcess.clean_up_edges(finalWorldMap)
 	
+	# genetic algorithm
+	var genetic = GeneticAlgorithm.new(worldMap, CHUNK_WIDTH, CHUNK_HEIGHT)
+	print(genetic.chunk_fitness_map)
+
 	
 	# rendering current
 	tileMapRenderer.renderWFCGrid(finalWorldMap, Vector2i(0,0))

@@ -97,7 +97,12 @@ const tiles = [
 	
 ]
 
-
+const not_edge_tiles = [
+  "grass",
+  "dirt",
+  "stone",
+  "water",
+]
 
 static var nameToIndex := {}
 static var indexToName := {}
