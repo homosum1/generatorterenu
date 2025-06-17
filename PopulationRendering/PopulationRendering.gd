@@ -22,8 +22,7 @@ func get_max_chunk_height_in_epoch(epoch: Dictionary, chunk_height: int) -> int:
 	for chunk_pos in epoch.keys():
 		if chunk_pos.y > max_y:
 			max_y = chunk_pos.y
-	return (max_y + 1) * chunk_height
-
+	return (max_y + 1) * (chunk_height + 1)  # dodaj szew tutaj
 
 func render_generations_column(all_generations: Dictionary, chunk_width: int, chunk_height: int) -> void:
 	clear()
@@ -35,6 +34,8 @@ func render_generations_column(all_generations: Dictionary, chunk_width: int, ch
 	var sorted_epochs = all_generations.keys()
 	sorted_epochs.sort()
 
+	var effective_chunk_width = chunk_width + 1
+	var effective_chunk_height = chunk_height + 1
 
 	for epoch_number in sorted_epochs:
 		var epoch = all_generations[epoch_number]
@@ -43,13 +44,12 @@ func render_generations_column(all_generations: Dictionary, chunk_width: int, ch
 			var individuals = epoch[chunk_pos]
 			if individuals.size() == 0:
 				continue
-			#var chunk_map = epoch[chunk_pos] # later we should display all chunks near to other
 
 			var individual = individuals[0]
 			var chunk_map = individual["map"]
 			
-			var offset_x = chunk_pos.x * chunk_width
-			var offset_y = (epoch_number * get_max_chunk_height_in_epoch(epoch, chunk_height)) + (chunk_pos.y * chunk_height)
+			var offset_x = chunk_pos.x * effective_chunk_width
+			var offset_y = (epoch_number * get_max_chunk_height_in_epoch(epoch, chunk_height)) + (chunk_pos.y * effective_chunk_height)
 
 			for x in range(chunk_width):
 				for y in range(chunk_height):
