@@ -4,11 +4,13 @@ extends Node
 @export var natureMapRendererPath: NodePath
 @export var hillMapRendererPath: NodePath
 @export var waterMapRendererPath: NodePath
+@export var populationRendererPath: NodePath 
 
 var tileMapRenderer
 var natureMapRenderer
 var hillMapRenderer
 var waterMapRenderer
+var populationRenderer
 
 const CHUNK_GAP = 1
 
@@ -40,6 +42,7 @@ func _ready() -> void:
 	_getNatureRenderer()
 	_getHillsGenerator()
 	_getWaterGenerator()
+	_getPopulationRenderer()
 	
 	_groupedGenerationAlgorithm()
 	
@@ -75,7 +78,8 @@ func _groupedGenerationAlgorithm() -> void:
 	var genetic = GeneticAlgorithm.new(worldMap, CHUNK_WIDTH, CHUNK_HEIGHT)
 	print(genetic.chunk_fitness_map)
 
-	
+	populationRenderer.render_generations_column(genetic.all_generations, CHUNK_WIDTH, CHUNK_HEIGHT)
+
 	# rendering current
 	tileMapRenderer.renderWFCGrid(finalWorldMap, Vector2i(0,0))
 	
@@ -125,6 +129,15 @@ func _getWaterGenerator() -> bool:
 		return false
 	
 	return true
+
+func _getPopulationRenderer() -> bool:
+	populationRenderer = get_node(populationRendererPath)
+	
+	if not populationRenderer:
+		print("Missing population map renderer")
+		return false
+	
+	return true	
 
 func _initializeEmptyWorldMap() -> void:
 	for x in range(CHUNKS_COUNT_WIDTH):

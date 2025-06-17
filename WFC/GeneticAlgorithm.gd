@@ -1,6 +1,9 @@
 class_name GeneticAlgorithm
 extends Object
 
+
+
+
 @export var edge_tiles: Array[int] = [] # indeksy kafelków brzegowych
 @export var expected_edge_density: float = 0.25
 @export var expected_logical_density: float = 0.45
@@ -14,6 +17,17 @@ var chunk_fitness_map: Dictionary = {}
 var CHUNK_WIDTH = null
 var CHUNK_HEIGHT = null
 
+var protected_ranges = [Vector2i(40,53), Vector2i(60, 73)]
+
+var all_generations := {}  
+# Dictionary<(epoch_number:int), Dictionary<chunk_pos:Vector2i, chunk_map:Array>>
+
+func is_protected(index: int) -> bool:
+	for range in protected_ranges:
+		if index >= range.x and index <= range.y:
+			return true
+	return false
+	
 #func print_matrix(world_map: Array) -> void:
 	#for y in range(world_map[0].size()):
 		#var row_output := ""
@@ -24,6 +38,7 @@ var CHUNK_HEIGHT = null
 
 
 func _init(world_map: Array, chunk_width: int, chunk_height: int) -> void:	
+	
 	CHUNK_WIDTH = chunk_width
 	CHUNK_HEIGHT = chunk_height
 	
@@ -51,7 +66,7 @@ func _init(world_map: Array, chunk_width: int, chunk_height: int) -> void:
 	for chunk_pos in worst_chunks:
 		var chunk = world_map[chunk_pos.x][chunk_pos.y]
 		print("Running genetic algorithm for chunk at: ", chunk_pos, " with initial fitness: ", chunk_fitness_map[chunk_pos])
-		initialize_population(world_map, chunk_pos)
+		initialize_population(world_map, chunk_pos, 0)
 
 
 
@@ -100,91 +115,66 @@ func _process(delta: float) -> void:
 	pass
 
 
-func initialize_population(world_map: Array, chunk_pos: Vector2i) -> void:
+func initialize_population(world_map: Array, chunk_pos: Vector2i, epoch_number: int = 0) -> void:
 	var population := []
-	var fitness_map := {}
 
 	for i in range(initial_population_size):
 		var chunk = WFC.new(CHUNK_WIDTH, CHUNK_HEIGHT)
 
-
-		# TOOD: COPY CONST TILES HERE
-
+		_copy_constant_neighbors(chunk, world_map, chunk_pos.x, chunk_pos.y)
 		_inject_neighbors_rules(chunk, world_map, chunk_pos.x, chunk_pos.y)
 
 		chunk._printEntropyMap()
 
-		#var result = chunk.calculateWFC()
-		#var fitness = evaluate_fitness(result)
+		var result = chunk.calculateWFC()
+		var fitness = evaluate_fitness(result)
 
-		#population.append({
-			#"map": result,
-			#"fitness": fitness
-		#})
+		population.append({
+			"map": result,
+			"fitness": fitness
+		})
 
-	print("Initialized population for chunk ", chunk_pos)
+	#print("Initialized population for chunk ", chunk_pos)
+	
+	# initializing all_generations if it doesn't exists yet.
+	if not all_generations.has(epoch_number):
+		all_generations[epoch_number] = {}
 
+	if not all_generations[epoch_number].has(chunk_pos):
+		all_generations[epoch_number][chunk_pos] = []
 
+	all_generations[epoch_number][chunk_pos] += population
 
-# V2
-
-#func _inject_neighbors_rules(chunk: WFC, world_map: Array, x: int, y: int) -> void:
-	## left - right edges
-	#if x > 0 and world_map[x - 1][y] != null:
-		#for i in range(CHUNK_HEIGHT):
-			#var prev_chunk = world_map[x - 1][y]
-#
-			#if prev_chunk[CHUNK_WIDTH - 1][i] != null and prev_chunk[CHUNK_WIDTH - 1][i].neighbors.has("right"):
-				#var world_right_tile = prev_chunk[CHUNK_WIDTH - 1][i].neighbors["right"]
-				#var new_right_tile = chunk.gridMatrix[CHUNK_WIDTH - 1][i]
-				#
-				#if world_right_tile != null:
-					#new_right_tile.neighbors["right"] = world_right_tile
-					#world_right_tile.neighbors["left"] = new_right_tile
-					#world_right_tile._notifyNeighbors()
-#
-			#if prev_chunk[0][i] != null and prev_chunk[0][i].neighbors.has("left"):
-				#var world_left_tile = prev_chunk[0][i].neighbors["left"]
-				#var new_left_tile = chunk.gridMatrix[0][i]
-				#
-				#if world_left_tile != null:
-					#new_left_tile.neighbors["left"] = world_left_tile
-					#world_left_tile.neighbors["right"] = new_left_tile
-					#world_left_tile._notifyNeighbors()
-	#
-	## top - down edges
-	#if y > 0 and world_map[x][y - 1] != null:
-		#for i in range(CHUNK_WIDTH):
-			#var above_chunk = world_map[x][y - 1]
-#
-			#if above_chunk[i][CHUNK_HEIGHT - 1] != null and above_chunk[i][CHUNK_HEIGHT - 1].neighbors.has("bottom"):
-				#var world_top_tile = above_chunk[i][CHUNK_HEIGHT - 1].neighbors["bottom"]
-				#var new_top_tile = chunk.gridMatrix[i][CHUNK_HEIGHT - 1]
-#
-				#if world_top_tile != null:
-					#new_top_tile.neighbors["bottom"] = world_top_tile
-					#world_top_tile.neighbors["top"] = new_top_tile
-					#world_top_tile._notifyNeighbors()
-#
-			#if above_chunk[i][0] != null and above_chunk[i][0].neighbors.has("top"):
-				#var world_bottom_tile = above_chunk[i][0].neighbors["top"]
-				#var new_bottom_tile = chunk.gridMatrix[i][0]
-#
-				#if world_bottom_tile != null:
-					#new_bottom_tile.neighbors["top"] = world_bottom_tile
-					#world_bottom_tile.neighbors["bottom"] = new_bottom_tile
-					#world_bottom_tile._notifyNeighbors()
 
 
 # V1
+
+func _copy_constant_neighbors(chunk: WFC, world_map: Array, x: int, y: int) -> void:
+
+	var source_chunk = world_map[x][y]
+	if source_chunk == null:
+		return
+
+	for i in range(CHUNK_WIDTH):
+		for j in range(CHUNK_HEIGHT):
+			var tile = source_chunk[i][j]
+			if tile == null:
+				continue
+
+			var state = tile.collapsedState
+			if is_protected(state):
+				var new_tile = chunk.gridMatrix[i][j]
+				new_tile.collapseTo(state)
+
+	
 
 func _inject_neighbors_rules(chunk: WFC, world_map: Array, x: int, y: int) -> void:
 		
 
 	for i in range(CHUNK_HEIGHT):
 		
-		if world_map[x][y][CHUNK_WIDTH - 1][i].neighbors.has("right"):		
-			var world_right_tile = world_map[x][y][CHUNK_WIDTH - 1][i].neighbors["right"] 		
+		if world_map[x][y][CHUNK_WIDTH - 1][i].neighbors.has("right"):
+			var world_right_tile = world_map[x][y][CHUNK_WIDTH - 1][i].neighbors["right"]
 			var new_right_tile =  chunk.gridMatrix[CHUNK_WIDTH - 1][i]
 
 			new_right_tile.neighbors["right"] = world_right_tile
@@ -202,13 +192,20 @@ func _inject_neighbors_rules(chunk: WFC, world_map: Array, x: int, y: int) -> vo
 			world_left_tile._notifyNeighbors()
 		
 
-	#if y > 0 and world_map[x][y - 1] != null:
-		#for i in range(CHUNK_WIDTH):
-			#var top_tile = world_map[x][y - 1][i][CHUNK_HEIGHT - 1]
-			#var bottom_tile = chunk.gridMatrix[i][0]
-#
-			#bottom_tile.neighbors["top"] = top_tile
-			#top_tile.neighbors["bottom"] = bottom_tile
-#
-			#top_tile._notifyNeighbors()
-			#bottom_tile._notifyNeighbors()
+	for i in range(CHUNK_WIDTH):
+			
+		if world_map[x][y][i][CHUNK_HEIGHT - 1].neighbors.has("top"):
+			var world_top_tile = world_map[x][y][i][CHUNK_HEIGHT - 1].neighbors["top"]
+			var new_top_tile = chunk.gridMatrix[i][CHUNK_HEIGHT - 1]
+			
+			new_top_tile.neighbors["top"] = world_top_tile
+			world_top_tile.neighbors["bottom"] = new_top_tile
+			world_top_tile._notifyNeighbors()
+
+		if world_map[x][y][i][0].neighbors.has("bottom"):
+			var world_bottom_tile = world_map[x][y][i][0].neighbors["bottom"]
+			var new_bottom_tile = chunk.gridMatrix[i][0]
+
+			new_bottom_tile.neighbors["bottom"] = world_bottom_tile
+			world_bottom_tile.neighbors["top"] = new_bottom_tile
+			world_bottom_tile._notifyNeighbors()
