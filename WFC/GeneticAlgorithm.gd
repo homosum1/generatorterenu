@@ -164,7 +164,7 @@ func _copy_constant_neighbors(chunk: WFC, world_map: Array, x: int, y: int) -> v
 			var state = tile.collapsedState
 			if is_protected(state):
 				var new_tile = chunk.gridMatrix[i][j]
-				new_tile.collapseTo(state)
+				new_tile.collapseTo(state, true)
 
 	
 
@@ -194,17 +194,17 @@ func _inject_neighbors_rules(chunk: WFC, world_map: Array, x: int, y: int) -> vo
 
 	for i in range(CHUNK_WIDTH):
 			
-		if world_map[x][y][i][CHUNK_HEIGHT - 1].neighbors.has("top"):
-			var world_top_tile = world_map[x][y][i][CHUNK_HEIGHT - 1].neighbors["top"]
-			var new_top_tile = chunk.gridMatrix[i][CHUNK_HEIGHT - 1]
+		if world_map[x][y][i][0].neighbors.has("top"):
+			var world_top_tile = world_map[x][y][i][0].neighbors["top"]
+			var new_top_tile = chunk.gridMatrix[i][0]
 			
 			new_top_tile.neighbors["top"] = world_top_tile
 			world_top_tile.neighbors["bottom"] = new_top_tile
 			world_top_tile._notifyNeighbors()
 
-		if world_map[x][y][i][0].neighbors.has("bottom"):
-			var world_bottom_tile = world_map[x][y][i][0].neighbors["bottom"]
-			var new_bottom_tile = chunk.gridMatrix[i][0]
+		if world_map[x][y][i][CHUNK_HEIGHT - 1].neighbors.has("bottom"):
+			var world_bottom_tile = world_map[x][y][i][CHUNK_HEIGHT - 1].neighbors["bottom"]
+			var new_bottom_tile = chunk.gridMatrix[i][CHUNK_HEIGHT - 1]
 
 			new_bottom_tile.neighbors["bottom"] = world_bottom_tile
 			world_bottom_tile.neighbors["top"] = new_bottom_tile
