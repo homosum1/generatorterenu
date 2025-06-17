@@ -10,7 +10,7 @@ extends Object
 @export var alpha: float = 0.7
 @export var beta: float = 0.3
 @export var number_of_recalculated_chunks = 0.3
-@export var initial_population_size = 1
+@export var initial_population_size = 2
 
 var chunk_fitness_map: Dictionary = {}
 
@@ -166,7 +166,6 @@ func _copy_constant_neighbors(chunk: WFC, world_map: Array, x: int, y: int) -> v
 				var new_tile = chunk.gridMatrix[i][j]
 				new_tile.collapseTo(state, true)
 
-	
 
 func _inject_neighbors_rules(chunk: WFC, world_map: Array, x: int, y: int) -> void:
 		

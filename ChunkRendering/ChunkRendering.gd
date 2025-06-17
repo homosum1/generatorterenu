@@ -78,7 +78,7 @@ func _groupedGenerationAlgorithm() -> void:
 	var genetic = GeneticAlgorithm.new(worldMap, CHUNK_WIDTH, CHUNK_HEIGHT)
 	print(genetic.chunk_fitness_map)
 
-	populationRenderer.render_generations_column(genetic.all_generations, CHUNK_WIDTH, CHUNK_HEIGHT)
+	populationRenderer.render_generations_column(genetic.all_generations, CHUNK_WIDTH, CHUNK_HEIGHT, CHUNKS_COUNT_WIDTH)
 
 	# rendering current
 	tileMapRenderer.renderWFCGrid(finalWorldMap, Vector2i(0,0))
