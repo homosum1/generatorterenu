@@ -21,7 +21,7 @@ static func _recalculate_collapse(recalculate_queue) -> void:
 		recalculate_queue.erase(min_entropy_tile)
 
 
-static func clean_up_edges(map: Array) -> void:
+static func clean_up_edges(map: Array, restrict_edges: bool = false) -> void:
 	var width = map.size()
 	var height = map[0].size()
 
@@ -55,7 +55,15 @@ static func clean_up_edges(map: Array) -> void:
 								has_grass_neighbor = true
 								break
 
-				if not has_grass_neighbor:
+				var is_on_edge = (x == 0 or y == 0 or x == width - 1 or y == height - 1)
+
+				var substitute_tile = false
+				if restrict_edges:
+					substitute_tile = not has_grass_neighbor and not is_on_edge
+				else: 
+					substitute_tile = not has_grass_neighbor
+
+				if substitute_tile:
 					tile.collapsedState = Tiles.DIRT_TILE_ID
 		
 					# change neighbours entropy
@@ -83,8 +91,71 @@ static func clean_up_edges(map: Array) -> void:
 
 	_recalculate_collapse(recalculate_queue)
 
-
-
+#
+#static func restricted_clean_up_edges(map: Array) -> void:
+	#var width = map.size()
+	#var height = map[0].size()
+#
+	#var recalculate_queue: Array = []
+#
+	#print("cleanup width: ", width, " cleanup height: ", height)
+#
+	#for x in range(width):
+		#for y in range(height):
+			#var tile = map[x][y]
+			#if tile == null:
+				#continue
+#
+			#const BUFER = 0
+#
+			#if tile.collapsedState in Tiles.EDGE_TILE_IDS:
+				#var has_grass_neighbor = false
+#
+ 				## check if edge has grass neighbor 
+				#for dx in range(-1-BUFER, 2+BUFER):
+					#for dy in range(-1-BUFER, 2+BUFER):
+						#if dx == 0 and dy == 0:
+							#continue
+#
+						#var nx = x + dx
+						#var ny = y + dy
+#
+						#if nx >= 0 and ny >= 0 and nx < width and ny < height:
+							#var neighbor = map[nx][ny]
+							#if neighbor != null and neighbor.collapsedState == Tiles.GRASS_TILE_ID:
+								#has_grass_neighbor = true
+								#break
+#
+				#var is_on_edge = (x == 0 or y == 0 or x == width - 1 or y == height - 1)
+#
+				#if not has_grass_neighbor and not is_on_edge:
+					#tile.collapsedState = Tiles.DIRT_TILE_ID
+		#
+					## change neighbours entropy
+					#for dx in range(-1-BUFER, 2+BUFER):
+						#for dy in range(-1-BUFER, 2+BUFER):
+							#if dx == 0 and dy == 0:
+								#continue
+#
+							#var nx = x + dx
+							#var ny = y + dy
+#
+							#if nx >= 0 and ny >= 0 and nx < width and ny < height:
+								#var neighbor_tile = map[nx][ny]
+								#if neighbor_tile != null and neighbor_tile.collapsedState in Tiles.EDGE_TILE_IDS: 
+									## reset tile
+									#neighbor_tile.possibleStates.clear()
+									#var possibleTilesCount = Tiles.tiles.size()
+									#for i in range(possibleTilesCount):
+										#neighbor_tile.possibleStates.append(true)
+										#
+									#neighbor_tile.collapsedState = -1
+									#neighbor_tile.entropy = neighbor_tile.possibleStates.size()
+		#
+									#recalculate_queue.append(neighbor_tile)
+#
+	#_recalculate_collapse(recalculate_queue)
+#
 
 
 static func _get_surrounding_tiles_with_diagonals(tile: Tile) -> Array:

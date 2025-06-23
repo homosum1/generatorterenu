@@ -69,6 +69,21 @@ func _init(world_map: Array, chunk_width: int, chunk_height: int) -> void:
 		initialize_population(world_map, chunk_pos, 0)
 
 
+func trim_edges_2d_array(original: Array, margin: int) -> Array:
+	var height = original.size()
+	var width = original[0].size()
+	
+	var trimmed := []
+
+	for y in range(margin, height - margin):
+		var row := []
+		for x in range(margin, width - margin):
+			row.append(original[y][x])
+		trimmed.append(row)
+	
+	return trimmed
+
+
 func evaluate_fitness(map: Array) -> float:
 	var height = map.size()
 	var width = map[0].size()
@@ -125,7 +140,22 @@ func initialize_population(world_map: Array, chunk_pos: Vector2i, epoch_number: 
 
 		chunk._printEntropyMap()
 
+		chunk.enforce_proximity_rule("stone", 2, 40, 53)
+
 		var result = chunk.calculateWFC()
+
+		#PostProcess.clean_up_edges(result)
+		#PostProcess.fix_tiles(result, 3)
+		#PostProcess.clean_up_edges(result)
+		
+		#var trimmed_result = trim_edges_2d_array(result, 1)
+
+		PostProcess.clean_up_edges(result, true)
+		
+		
+		#PostProcess.fix_tiles(trimmed_result, 3)
+		#PostProcess.clean_up_edges(trimmed_result)
+
 		var fitness = evaluate_fitness(result)
 
 		population.append({
