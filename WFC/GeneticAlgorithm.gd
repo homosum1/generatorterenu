@@ -11,6 +11,7 @@ extends Object
 @export var beta: float = 0.3
 @export var number_of_recalculated_chunks = 0.3
 @export var initial_population_size = 2
+@export var number_of_epochs = 1
 
 var chunk_fitness_map: Dictionary = {}
 
@@ -62,27 +63,45 @@ func _init(world_map: Array, chunk_width: int, chunk_height: int) -> void:
 	var num_chunks_to_select = ceil(sorted_chunks.size() * number_of_recalculated_chunks)
 	var worst_chunks = sorted_chunks.slice(0, num_chunks_to_select)
 
-	# executing genetic algorithm
+	# initializing first population
 	for chunk_pos in worst_chunks:
 		var chunk = world_map[chunk_pos.x][chunk_pos.y]
 		print("Running genetic algorithm for chunk at: ", chunk_pos, " with initial fitness: ", chunk_fitness_map[chunk_pos])
 		initialize_population(world_map, chunk_pos, 0)
 
+	# executing genetic algorithm
+	for epoch in range(1, number_of_epochs + 1):
+		print("Epoch ", epoch)
+		all_generations[epoch] = {}
 
-func trim_edges_2d_array(original: Array, margin: int) -> Array:
-	var height = original.size()
-	var width = original[0].size()
-	
-	var trimmed := []
+		for chunk_pos in chunk_fitness_map.keys():
+			if not all_generations[epoch - 1].has(chunk_pos):
+				continue
 
-	for y in range(margin, height - margin):
-		var row := []
-		for x in range(margin, width - margin):
-			row.append(original[y][x])
-		trimmed.append(row)
-	
-	return trimmed
+			var prev_population = all_generations[epoch - 1][chunk_pos]
+			var new_population := []
 
+			for i in range(initial_population_size):
+				var winner = tournament_selection(prev_population, 2)
+				new_population.append(winner)
+
+			all_generations[epoch][chunk_pos] = new_population
+
+		
+
+func tournament_selection(population: Array, tournament_size: int) -> Dictionary:
+	var candidates := []
+
+	while candidates.size() < tournament_size:
+		var candidate = population[randi() % population.size()]
+		if candidate not in candidates:
+			candidates.append(candidate)
+
+	candidates.sort_custom(func(a, b):
+		return a["fitness"] > b["fitness"]
+	)
+
+	return candidates[0]
 
 func evaluate_fitness(map: Array) -> float:
 	var height = map.size()
@@ -152,7 +171,6 @@ func initialize_population(world_map: Array, chunk_pos: Vector2i, epoch_number: 
 
 		PostProcess.clean_up_edges(result, true)
 		
-		
 		#PostProcess.fix_tiles(trimmed_result, 3)
 		#PostProcess.clean_up_edges(trimmed_result)
 
@@ -163,9 +181,7 @@ func initialize_population(world_map: Array, chunk_pos: Vector2i, epoch_number: 
 			"fitness": fitness
 		})
 
-	#print("Initialized population for chunk ", chunk_pos)
-	
-	# initializing all_generations if it doesn't exists yet.
+
 	if not all_generations.has(epoch_number):
 		all_generations[epoch_number] = {}
 
@@ -176,7 +192,6 @@ func initialize_population(world_map: Array, chunk_pos: Vector2i, epoch_number: 
 
 
 
-# V1
 
 func _copy_constant_neighbors(chunk: WFC, world_map: Array, x: int, y: int) -> void:
 
