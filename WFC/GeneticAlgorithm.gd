@@ -69,16 +69,13 @@ func _init(world_map: Array, chunk_width: int, chunk_height: int) -> void:
 		initialize_population(world_map, chunk_pos, 0)
 
 
-
 func evaluate_fitness(map: Array) -> float:
 	var height = map.size()
 	var width = map[0].size()
-	
-	#print("width: " + str(width) + " height: " + str(height))
+	var total: int = height * width
 	
 	var edge_tile_count := 0
 	var logical_diff_count := 0
-	var total: int = height * width
 	
 	for i in range(height):
 		for j in range(width):
@@ -94,16 +91,18 @@ func evaluate_fitness(map: Array) -> float:
 			if j < width - 1 and (map[i][j].collapsedState != map[i][j+1].collapsedState):
 				logical_diff_count += 1
 	
-	#print("different vars: " + str(logical_diff_count))
-	
-	var lambda_val = float(edge_tile_count) / total
 	var rho_val = float(logical_diff_count) / total
-	
-	#print("calculated vars:")
-	#print(lambda_val)
-	#print(rho_val)
-	
-	return 1.0 - alpha * abs(rho_val - expected_logical_density) - beta * abs(lambda_val - expected_edge_density)
+	var lambda_val = float(edge_tile_count) / total
+
+	var rho_penalty := 0.0
+	if rho_val > expected_logical_density:
+		rho_penalty = rho_val - expected_logical_density
+
+	var lambda_penalty := 0.0
+	if lambda_val > expected_edge_density:
+		lambda_penalty = lambda_val - expected_edge_density
+
+	return 1.0 - alpha * rho_penalty - beta * lambda_penalty
 
 
 
