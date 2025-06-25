@@ -17,13 +17,6 @@ extends TileMapLayer
 
 
 
-func get_max_chunk_height_in_epoch(epoch: Dictionary, chunk_height: int) -> int:
-	var max_y := 0
-	for chunk_pos in epoch.keys():
-		if chunk_pos.y > max_y:
-			max_y = chunk_pos.y
-	return (max_y + 1) * (chunk_height + 1)  # dodaj szew tutaj
-
 func render_generations_column(all_generations: Dictionary, chunk_width: int, chunk_height: int, chunk_count: int) -> void:
 	clear()
 
@@ -50,7 +43,9 @@ func render_generations_column(all_generations: Dictionary, chunk_width: int, ch
 				var chunk_map = individual["map"]
 
 				var offset_x = (chunk_pos.x + i * (chunk_count + 1) )  * effective_chunk_width
-				var offset_y = (epoch_number * get_max_chunk_height_in_epoch(epoch, chunk_height)) + (chunk_pos.y * effective_chunk_height)
+				
+				var individual_height = chunk_count * (chunk_height + 1) 
+				var offset_y = (epoch_number * (individual_height + chunk_height + 1)) + (chunk_pos.y * effective_chunk_height)
 
 				for x in range(chunk_width):
 					for y in range(chunk_height):

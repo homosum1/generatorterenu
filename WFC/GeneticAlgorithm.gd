@@ -10,7 +10,7 @@ extends Object
 @export var alpha: float = 0.7
 @export var beta: float = 0.3
 @export var number_of_recalculated_chunks = 0.3
-@export var initial_population_size = 2
+@export var initial_population_size = 4
 @export var number_of_epochs = 1
 
 var chunk_fitness_map: Dictionary = {}
@@ -20,7 +20,7 @@ var CHUNK_HEIGHT = null
 
 var protected_ranges = [Vector2i(40,53), Vector2i(60, 73)]
 
-var all_generations := {}  
+var all_generations := {} 
 # Dictionary<(epoch_number:int), Dictionary<chunk_pos:Vector2i, chunk_map:Array>>
 
 func is_protected(index: int) -> bool:
@@ -38,7 +38,34 @@ func is_protected(index: int) -> bool:
 		#print(row_output)
 
 
-func _init(world_map: Array, chunk_width: int, chunk_height: int) -> void:	
+func crossover_chunks_to_child(parent_a: Array, parent_b: Array, chunk_width: int, chunk_height: int) -> WFC:
+	var child := WFC.new(chunk_width, chunk_height)
+
+	var mid_y := int(chunk_height / 2)
+
+	for y in range(chunk_height):
+		for x in range(chunk_width):
+
+
+			var tile = child.gridMatrix[x][y]
+
+			if y == mid_y:
+				var parent_state = parent_a[x][y].collapsedState
+				if is_protected(parent_state):
+					tile.collapseTo(parent_state, true)
+			elif y < mid_y:
+				tile.collapseTo(parent_a[x][y].collapsedState, true)
+			else:
+				tile.collapseTo(parent_b[x][y].collapsedState, true)
+
+	
+	child.calculateWFC()
+	#child._printEntropyMap()
+
+	return child
+
+
+func _init(world_map: Array, chunk_width: int, chunk_height: int) -> void:
 	
 	CHUNK_WIDTH = chunk_width
 	CHUNK_HEIGHT = chunk_height
@@ -81,9 +108,20 @@ func _init(world_map: Array, chunk_width: int, chunk_height: int) -> void:
 			var prev_population = all_generations[epoch - 1][chunk_pos]
 			var new_population := []
 
+			# create next population	
 			for i in range(initial_population_size):
-				var winner = tournament_selection(prev_population, 2)
-				new_population.append(winner)
+				var parent_a = tournament_selection(prev_population, 2)
+				var parent_b = tournament_selection(prev_population, 2)
+
+				while parent_a["map"] == parent_b["map"]:
+					parent_b = tournament_selection(prev_population, 2)
+
+				var child = crossover_chunks_to_child(parent_a["map"], parent_b["map"], CHUNK_WIDTH, CHUNK_HEIGHT)
+				
+				new_population.append({
+					"map": child.gridMatrix,
+					"fitness": evaluate_fitness(child.gridMatrix)
+				})
 
 			all_generations[epoch][chunk_pos] = new_population
 
@@ -157,7 +195,7 @@ func initialize_population(world_map: Array, chunk_pos: Vector2i, epoch_number: 
 		_copy_constant_neighbors(chunk, world_map, chunk_pos.x, chunk_pos.y)
 		_inject_neighbors_rules(chunk, world_map, chunk_pos.x, chunk_pos.y)
 
-		chunk._printEntropyMap()
+		#chunk._printEntropyMap()
 
 		chunk.enforce_proximity_rule("stone", 2, 40, 53)
 
