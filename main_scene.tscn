@@ -1000,6 +1000,11 @@ button_pressed = true
 text = "Underground
 "
 
+[node name="Evolution" type="CheckBox" parent="UiLayer/UiRoot/VisibilityToggles"]
+layout_mode = 2
+text = "Evolution
+"
+
 [node name="GridOverlay" type="Node2D" parent="."]
 script = ExtResource("7_tb6b5")
 
@@ -1027,3 +1032,4 @@ script = ExtResource("14_bjsr8")
 [connection signal="toggled" from="UiLayer/UiRoot/VisibilityToggles/NatureCheckbox2" to="UiLayer/UiRoot" method="_on_nature_checkbox_2_toggled"]
 [connection signal="toggled" from="UiLayer/UiRoot/VisibilityToggles/LandCheckbox3" to="UiLayer/UiRoot" method="_on_land_checkbox_3_toggled"]
 [connection signal="toggled" from="UiLayer/UiRoot/VisibilityToggles/UndergroundCheckbox4" to="UiLayer/UiRoot" method="_on_underground_checkbox_4_toggled"]
+[connection signal="toggled" from="UiLayer/UiRoot/VisibilityToggles/Evolution" to="UiLayer/UiRoot" method="_on_evolution_toggled"]
