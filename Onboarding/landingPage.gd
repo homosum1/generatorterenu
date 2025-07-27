@@ -1,11 +1,14 @@
 extends Node
 
+func _ready():
+	$GenerateButton.pressed.connect(_on_generate_pressed)
+	$TextureButton.pressed.connect(_on_exit_pressed)
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+func _on_generate_pressed():
+	var pre_configuration = preload("res://pre_configuration.tscn").instantiate()
+	get_tree().root.add_child(pre_configuration)
+	get_tree().current_scene.queue_free()
+	get_tree().current_scene = pre_configuration
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func _on_exit_pressed():
+	get_tree().quit()

@@ -1,4 +1,8 @@
-[gd_scene format=3 uid="uid://pl7isa5dbk81"]
+[gd_scene load_steps=4 format=3 uid="uid://pl7isa5dbk81"]
+
+[ext_resource type="Texture2D" uid="uid://dhnpc88h8usve" path="res://close_128dp_1F1F1F_FILL1_wght400_GRAD0_opsz48.png" id="1_7f6uc"]
+[ext_resource type="Script" path="res://Onboarding/landingPage.gd" id="1_rg467"]
+[ext_resource type="Texture2D" uid="uid://djbcq6aqtowui" path="res://close_128dp_1F1F1F_FILL1_wght400_GRAD0_opsz48_2.png" id="2_qr2qo"]
 
 [node name="LandingPage" type="Control"]
 layout_mode = 3
@@ -9,8 +13,9 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_rg467")
 
-[node name="Author" type="Label" parent="."]
+[node name="preTitle" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -40,7 +45,7 @@ Wave Function Collapse (WFC) i
 technik ewolucyjnych"
 horizontal_alignment = 1
 
-[node name="Button" type="Button" parent="."]
+[node name="GenerateButton" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -52,3 +57,26 @@ offset_bottom = 239.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 30
 text = "Rozpocznij generację"
+
+[node name="author" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 213.0
+offset_top = 279.0
+offset_right = 564.0
+offset_bottom = 315.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 26
+text = "autor: Aleksander Kotarski"
+horizontal_alignment = 1
+
+[node name="TextureButton" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 513.0
+offset_top = -315.0
+offset_right = 641.0
+offset_bottom = -187.0
+scale = Vector2(0.4, 0.4)
+texture_normal = ExtResource("1_7f6uc")
+texture_hover = ExtResource("2_qr2qo")
