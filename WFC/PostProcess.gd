@@ -211,6 +211,9 @@ static func _fix_uncollapsed_tiles(map: Array) -> void:
 		Tiles.getIndex("stone"),
 	] + range(60, 74) # 74 is excluded
 
+	print("final world map width: " + str(width))
+	print("final world map height: " + str(height))
+
 	for x in range(width):
 		for y in range(height):
 			var tile = map[x][y]

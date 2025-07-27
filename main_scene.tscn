@@ -1435,6 +1435,37 @@ offset_right = 129.0
 offset_bottom = 59.0
 text = "Help Panel"
 
+[node name="Selectors" type="VBoxContainer" parent="UiLayer/UiRoot"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -184.0
+offset_top = 285.0
+offset_right = -10.0
+offset_bottom = 390.0
+grow_horizontal = 0
+
+[node name="ChunksCount" type="HBoxContainer" parent="UiLayer/UiRoot/Selectors"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UiLayer/UiRoot/Selectors/ChunksCount"]
+layout_mode = 2
+text = "Chunks Count:    "
+
+[node name="OptionButton" type="OptionButton" parent="UiLayer/UiRoot/Selectors/ChunksCount"]
+layout_mode = 2
+
+[node name="TilesPerChunk" type="HBoxContainer" parent="UiLayer/UiRoot/Selectors"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UiLayer/UiRoot/Selectors/TilesPerChunk"]
+layout_mode = 2
+text = "Tiles per chunk:  "
+
+[node name="OptionButton" type="OptionButton" parent="UiLayer/UiRoot/Selectors/TilesPerChunk"]
+layout_mode = 2
+
 [node name="GridOverlay" type="Node2D" parent="."]
 script = ExtResource("7_tb6b5")
 

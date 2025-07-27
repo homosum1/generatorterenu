@@ -14,11 +14,11 @@ var populationRenderer
 
 const CHUNK_GAP = 1
 
-const CHUNKS_COUNT_WIDTH = 3
-const CHUNKS_COUNT_HEIGHT = 3
+var CHUNKS_COUNT_WIDTH = 3
+var CHUNKS_COUNT_HEIGHT = 3
 
-const CHUNK_WIDTH = 10
-const CHUNK_HEIGHT = 10
+var CHUNK_WIDTH = 10
+var CHUNK_HEIGHT = 10
 
 var worldMap = []
 var finalWorldMap = []
@@ -28,6 +28,7 @@ var verticalStiches = []
 
 var total_width = CHUNK_WIDTH * CHUNKS_COUNT_WIDTH + (CHUNKS_COUNT_WIDTH - 1)
 var total_height = CHUNK_HEIGHT * CHUNKS_COUNT_HEIGHT + (CHUNKS_COUNT_HEIGHT - 1)
+
 
 
 # Called when the node enters the scene tree for the first time.
@@ -147,8 +148,8 @@ func _initializeEmptyWorldMap() -> void:
 		worldMap.append(column)	
 
 func _generateStitchingEdges():
-	const horizontalStichWidth = CHUNK_WIDTH * CHUNKS_COUNT_WIDTH + (CHUNKS_COUNT_WIDTH-1) 
-	const verticalStichHeigth = CHUNK_HEIGHT * CHUNKS_COUNT_HEIGHT + (CHUNKS_COUNT_HEIGHT-1) 
+	var horizontalStichWidth = CHUNK_WIDTH * CHUNKS_COUNT_WIDTH + (CHUNKS_COUNT_WIDTH-1) 
+	var verticalStichHeigth = CHUNK_HEIGHT * CHUNKS_COUNT_HEIGHT + (CHUNKS_COUNT_HEIGHT-1) 
 	
 	# horizontal stitches
 	for i in range(CHUNKS_COUNT_HEIGHT - 1):
@@ -316,6 +317,11 @@ func build_combined_world_map() -> Array:
 			combined_map[column_x][y] = column[0][y]
 
 	# --- Assign neihbours (with deleting old ones) ---
+	print("-----------------------")
+	print("width: " + str(total_width))
+	print("height: " + str(total_height))
+	print("-----------------------")
+
 	for x in range(total_width):
 		for y in range (total_height):
 			combined_map[x][y].neighbors.clear()
@@ -336,5 +342,8 @@ func build_combined_world_map() -> Array:
 	return combined_map
 
 func _on_regen_button_pressed() -> void:
+	total_width = CHUNK_WIDTH * CHUNKS_COUNT_WIDTH + (CHUNKS_COUNT_WIDTH - 1)
+	total_height = CHUNK_HEIGHT * CHUNKS_COUNT_HEIGHT + (CHUNKS_COUNT_HEIGHT - 1)
+	
 	tileMapRenderer.clearMap()
 	_groupedGenerationAlgorithm()

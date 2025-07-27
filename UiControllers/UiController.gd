@@ -1,6 +1,8 @@
 extends Node
 
 @onready var camera = get_node("/root/Node2D/Player/Camera2D")
+@onready var main = get_node("/root/Node2D")
+
 @onready var grid_overlay := $"../../GridOverlay"
 @onready var zoom_label: Label = $ZoomButtons/ZoomLabel
 @onready var sliders_panel: Panel = $"Sliders"
@@ -13,9 +15,14 @@ extends Node
 
 @onready var closeButton = $"HelpPanel/CloseButton"
 
+@onready var chunksCountOption = $"Selectors/ChunksCount/OptionButton"
+@onready var chunksSizeOption = $"Selectors/TilesPerChunk/OptionButton"
+
 var zoom_step := 0.1
 var min_zoom := 0.2
 var max_zoom := 3.0
+
+
 
 
 # Called when the node enters the scene tree for the first time.
@@ -27,6 +34,32 @@ func _ready() -> void:
 	$CloseAppButton.pressed.connect(_on_exit_pressed)
 
 	closeButton.pressed.connect(_on_hide_help_pressed)
+
+	for value in [4, 9, 16, 25]:
+		chunksCountOption.add_item(str(value))
+	
+	for value in [4, 9, 16, 25, 36, 49, 64, 81, 100]:
+		chunksSizeOption.add_item(str(value))
+
+	chunksCountOption.select(1)
+	chunksSizeOption.select(8)
+
+	chunksCountOption.connect("item_selected", _on_chunk_count_selected)
+	chunksSizeOption.connect("item_selected", _on_chunk_size_selected)
+
+
+func _on_chunk_count_selected(index):
+	var value = int(chunksCountOption.get_item_text(index))
+	var sqrt_val = int(sqrt(value))
+	main.CHUNKS_COUNT_WIDTH = sqrt_val
+	main.CHUNKS_COUNT_HEIGHT = sqrt_val
+
+func _on_chunk_size_selected(index):
+	var value = int(chunksSizeOption.get_item_text(index))
+	var sqrt_val = int(sqrt(value))
+	main.CHUNK_WIDTH = sqrt_val
+	main.CHUNK_HEIGHT = sqrt_val
+
 
 func _on_exit_pressed():
 	get_tree().quit()
