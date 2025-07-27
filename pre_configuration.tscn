@@ -1,6 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://c6f5k6o0fb4va"]
+[gd_scene load_steps=10 format=3 uid="uid://c6f5k6o0fb4va"]
 
+[ext_resource type="Script" path="res://Onboarding/preConfigurationPage.gd" id="1_58awu"]
 [ext_resource type="Texture2D" uid="uid://btcdpcpn41jpo" path="res://ordered_tiles.png" id="1_71kay"]
+[ext_resource type="Texture2D" uid="uid://dhnpc88h8usve" path="res://close_128dp_1F1F1F_FILL1_wght400_GRAD0_opsz48.png" id="2_d3x1u"]
+[ext_resource type="Texture2D" uid="uid://djbcq6aqtowui" path="res://close_128dp_1F1F1F_FILL1_wght400_GRAD0_opsz48_2.png" id="3_rjbjc"]
 
 [sub_resource type="FontFile" id="FontFile_jm2dn"]
 cache/0/16/0/ascent = 0.0
@@ -91,6 +94,7 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_58awu")
 
 [node name="Label1" type="Label" parent="."]
 offset_left = -453.0
@@ -110,7 +114,7 @@ offset_right = 543.0
 offset_bottom = 231.0
 color = Color(0.217701, 0.217701, 0.217701, 1)
 
-[node name="Button" type="Button" parent="."]
+[node name="GenerateButton" type="Button" parent="."]
 layout_mode = 0
 offset_left = -110.0
 offset_top = 252.0
@@ -395,3 +399,12 @@ layout_mode = 2
 texture = ExtResource("1_71kay")
 expand_mode = 5
 stretch_mode = 4
+
+[node name="TextureButton" type="TextureButton" parent="."]
+offset_left = 513.0
+offset_top = -315.0
+offset_right = 641.0
+offset_bottom = -187.0
+scale = Vector2(0.4, 0.4)
+texture_normal = ExtResource("2_d3x1u")
+texture_hover = ExtResource("3_rjbjc")

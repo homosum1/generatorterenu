@@ -21,6 +21,15 @@ func _ready() -> void:
 	sliders_panel.visible = false
 	camera.zoom = Vector2(1.0, 1.0) 
 	
+	$OpenHelpButton.pressed.connect(_on_show_help_pressed)
+
+func _on_show_help_pressed():
+	$HelpPanel.visible = true
+	#$CloseButton.pressed.connect(_on_hide_help_pressed)
+
+
+func _on_hide_help_pressed():
+	$HelpPanel.visible = false	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

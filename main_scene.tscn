@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://bd28sv8yutm07"]
+[gd_scene load_steps=35 format=3 uid="uid://bd28sv8yutm07"]
 
 [ext_resource type="Script" path="res://HillsGenerator/HillsGenerator.gd" id="2_17w58"]
 [ext_resource type="Script" path="res://GridRendering/TileMap.gd" id="2_b4q31"]
@@ -12,6 +12,8 @@
 [ext_resource type="Script" path="res://NatureGenerator/ShadowGenerator.gd" id="7_bth1q"]
 [ext_resource type="Script" path="res://GridOverlay/GridOverlay.gd" id="7_tb6b5"]
 [ext_resource type="Script" path="res://UiControllers/AdvancedMenu.gd" id="10_uef0b"]
+[ext_resource type="Texture2D" uid="uid://dhnpc88h8usve" path="res://close_128dp_1F1F1F_FILL1_wght400_GRAD0_opsz48.png" id="11_j4rii"]
+[ext_resource type="Texture2D" uid="uid://djbcq6aqtowui" path="res://close_128dp_1F1F1F_FILL1_wght400_GRAD0_opsz48_2.png" id="12_fi855"]
 [ext_resource type="Script" path="res://Underground/UndergroundGenerator.gd" id="13_ywyej"]
 [ext_resource type="Script" path="res://PopulationRendering/PopulationRendering.gd" id="14_bjsr8"]
 
@@ -297,6 +299,86 @@ texture = ExtResource("2_el5gr")
 
 [sub_resource type="TileSet" id="TileSet_rtv2r"]
 sources/0 = SubResource("TileSetAtlasSource_d2ome")
+
+[sub_resource type="FontFile" id="FontFile_cnlft"]
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/20/0/ascent = 0.0
+cache/0/20/0/descent = 0.0
+cache/0/20/0/underline_position = 0.0
+cache/0/20/0/underline_thickness = 0.0
+cache/0/20/0/scale = 1.0
+cache/0/22/0/ascent = 0.0
+cache/0/22/0/descent = 0.0
+cache/0/22/0/underline_position = 0.0
+cache/0/22/0/underline_thickness = 0.0
+cache/0/22/0/scale = 1.0
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/24/0/ascent = 0.0
+cache/0/24/0/descent = 0.0
+cache/0/24/0/underline_position = 0.0
+cache/0/24/0/underline_thickness = 0.0
+cache/0/24/0/scale = 1.0
+
+[sub_resource type="FontFile" id="FontFile_2udsn"]
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+
+[sub_resource type="FontFile" id="FontFile_nho7k"]
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+
+[sub_resource type="FontFile" id="FontFile_8vmmf"]
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+
+[sub_resource type="FontFile" id="FontFile_gvxxw"]
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/22/0/ascent = 0.0
+cache/0/22/0/descent = 0.0
+cache/0/22/0/underline_position = 0.0
+cache/0/22/0/underline_thickness = 0.0
+cache/0/22/0/scale = 1.0
+cache/0/24/0/ascent = 0.0
+cache/0/24/0/descent = 0.0
+cache/0/24/0/underline_position = 0.0
+cache/0/24/0/underline_thickness = 0.0
+cache/0/24/0/scale = 1.0
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/34/0/ascent = 0.0
+cache/0/34/0/descent = 0.0
+cache/0/34/0/underline_position = 0.0
+cache/0/34/0/underline_thickness = 0.0
+cache/0/34/0/scale = 1.0
+cache/0/20/0/ascent = 0.0
+cache/0/20/0/descent = 0.0
+cache/0/20/0/underline_position = 0.0
+cache/0/20/0/underline_thickness = 0.0
+cache/0/20/0/scale = 1.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0yxey"]
 texture = ExtResource("2_el5gr")
@@ -663,23 +745,362 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("4_4e0j1")
 
+[node name="HelpPanelMask" type="ColorRect" parent="UiLayer/UiRoot"]
+z_index = 10
+layout_mode = 0
+offset_right = 2295.0
+offset_bottom = 1286.0
+color = Color(0.301961, 0.301961, 0.301961, 1)
+
+[node name="HelpPanel" type="ColorRect" parent="UiLayer/UiRoot"]
+visibility_layer = 512
+z_index = 11
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -382.0
+offset_top = -238.0
+offset_right = 1158.0
+offset_bottom = 632.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+color = Color(0.174626, 0.174626, 0.174626, 1)
+
+[node name="CloseButton" type="Button" parent="UiLayer/UiRoot/HelpPanel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -140.5
+offset_top = -80.0
+offset_right = 140.5
+offset_bottom = -21.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 30
+text = "Zamknij pomoc"
+
+[node name="ScrollContainer2" type="ScrollContainer" parent="UiLayer/UiRoot/HelpPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -736.0
+offset_top = -411.0
+offset_right = 733.0
+offset_bottom = 319.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UiLayer/UiRoot/HelpPanel/ScrollContainer2"]
+custom_minimum_size = Vector2(1450, 4500)
+layout_mode = 2
+
+[node name="Informacje podstawowe" type="Label" parent="UiLayer/UiRoot/HelpPanel/ScrollContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "1. Informacje podstawowe
+"
+
+[node name="RichTextLabel3" type="RichTextLabel" parent="UiLayer/UiRoot/HelpPanel/ScrollContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/table_v_separation = 0
+theme_override_constants/outline_size = 0
+theme_override_constants/line_separation = 10
+theme_override_fonts/normal_font = SubResource("FontFile_cnlft")
+theme_override_fonts/mono_font = SubResource("FontFile_2udsn")
+theme_override_fonts/italics_font = SubResource("FontFile_nho7k")
+theme_override_fonts/bold_italics_font = SubResource("FontFile_8vmmf")
+theme_override_fonts/bold_font = SubResource("FontFile_gvxxw")
+theme_override_font_sizes/bold_italics_font_size = 24
+theme_override_font_sizes/italics_font_size = 24
+theme_override_font_sizes/mono_font_size = 24
+theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/bold_font_size = 34
+bbcode_enabled = true
+text = "
+
+Aby rozpocząć pierwszą generację mapy, należy kliknąć przycisk: \"Wygeneruj mapę\". Po zakończeniu generacji nastąpi przeniesienie do ekranu z wygenerowaną mapą. Aby wykonać kolejną generację mapy, należy kliknąć przycisk: \"Generate map\".
+
+
+[b]Regulacja rozmiaru mapy:[/b]
+
+Początkowo wygenerowana mapa składa się z dziewięciu podmap, z których każda zbudowana jest ze 100 kafli. Rozmiar mapy można zmienić dla kolejnych generacji w ustawieniach \"Map size\".
+
+
+[b]Ustawienia widoczności warstw:[/b]
+
+Ta sekcja pozwala na przełączanie widoczności poszczególnych warstw terenu. Wyłączenie warstwy powoduje jej ukrycie w podglądzie mapy, ale nie ma wpływu na sam proces generacji.
+
+  - [b]Hills[/b] – Przełącza widoczność wygenerowanych wzgórz.  
+  - [b]Nature[/b] – Kontroluje widoczność roślinności, takiej jak trawa i drzewa.  
+  - [b]Land[/b] – Wyświetla bazową warstwę terenu.  
+  - [b]Underground[/b] – Pokazuje elementy znajdujące się pod warstwą bazową.
+
+
+Użyj tych pól wyboru, aby dostosować, które warstwy są widoczne podczas podglądu lub analizy wygenerowanej mapy.
+
+"
+fit_content = true
+scroll_active = false
+tab_size = 24
+shortcut_keys_enabled = false
+
+[node name="ColorRect3" type="ColorRect" parent="UiLayer/UiRoot/HelpPanel/ScrollContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(1050, 3)
+layout_mode = 2
+
+[node name="Ustawienia" type="Label" parent="UiLayer/UiRoot/HelpPanel/ScrollContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "
+2. Ustawienia"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UiLayer/UiRoot/HelpPanel/ScrollContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/table_v_separation = 0
+theme_override_constants/outline_size = 0
+theme_override_constants/line_separation = 10
+theme_override_fonts/normal_font = SubResource("FontFile_cnlft")
+theme_override_fonts/mono_font = SubResource("FontFile_2udsn")
+theme_override_fonts/italics_font = SubResource("FontFile_nho7k")
+theme_override_fonts/bold_italics_font = SubResource("FontFile_8vmmf")
+theme_override_fonts/bold_font = SubResource("FontFile_gvxxw")
+theme_override_font_sizes/bold_italics_font_size = 24
+theme_override_font_sizes/italics_font_size = 24
+theme_override_font_sizes/mono_font_size = 24
+theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/bold_font_size = 34
+bbcode_enabled = true
+text = "
+
+[b]Otrzymane widoki i rezultaty generacji są w znacznym stopniu konfigurowalne z poziomu interfejsu użytkownika programu. Poniżej znajduje się opis dostępnych modyfikatorów:[/b]
+
+
+[b] - zoom in (+), zoom out (-)[/b] 
+   Przycisku służą do przybliżania i oddalania widoku mapy.
+
+
+ - [b]Debug grid[/b]
+   Opcja włącza siatkę pomocniczą na mapie, ułatwiającą śledzenie kafli.
+
+
+ - [b]Entropy display[/b]
+   Opcja wyświetla wartości entropii na poszczególnych kaflach w trakcie 
+   działania algorytmu WFC (Przed skorzystaniem z opcji konieczne jest 
+   włączenie siatki pomocniczej przez zaznaczenie opcji \"Debug grid\").
+
+
+ - [b]Position display[/b]
+   Opcja pokazuje współrzędne (X,Y) dla wszystkich kafli mapy.  (Przed  
+   skorzystaniem z opcji konieczne jest włączenie siatki pomocniczej przez 
+   zaznaczenie opcji \"Debug grid\").
+
+
+ - [b]Rendering Settings[/b]
+
+   Po włączeniu tej opcji, pojawiają się dodatkowe suwaki i opcje pomocnicze 
+   do konfiguracji wyglądu terenu. Omówione zostały one w sekcji 
+   \"zaawansowana konfiguracja mapy\": 
+
+"
+fit_content = true
+scroll_active = false
+tab_size = 24
+shortcut_keys_enabled = false
+
+[node name="ColorRect" type="ColorRect" parent="UiLayer/UiRoot/HelpPanel/ScrollContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(1050, 3)
+layout_mode = 2
+
+[node name="ZaawansowanaKonfiguracjaMapy" type="Label" parent="UiLayer/UiRoot/HelpPanel/ScrollContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "
+3. Zaawansowana konfiguracja mapy"
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="UiLayer/UiRoot/HelpPanel/ScrollContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/table_v_separation = 0
+theme_override_constants/outline_size = 0
+theme_override_constants/line_separation = 10
+theme_override_fonts/normal_font = SubResource("FontFile_cnlft")
+theme_override_fonts/mono_font = SubResource("FontFile_2udsn")
+theme_override_fonts/italics_font = SubResource("FontFile_nho7k")
+theme_override_fonts/bold_italics_font = SubResource("FontFile_8vmmf")
+theme_override_fonts/bold_font = SubResource("FontFile_gvxxw")
+theme_override_font_sizes/bold_italics_font_size = 24
+theme_override_font_sizes/italics_font_size = 24
+theme_override_font_sizes/mono_font_size = 24
+theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/bold_font_size = 34
+bbcode_enabled = true
+text = "
+
+Parametry regularne z poziomu menu zaawansowanej konfiguracji mapy. Aby zmiana parametrów miała wpływ na uzyskany wynik generacji, po wykonaniu zmiany konieczna jest ponowna generacja mapy.
+
+
+[b]Ustawienia warstwy bazowej:[/b]
+
+  - [b]Grassiness[/b]  
+    Parametr pozwala na regulację częstości występowania kafli trawy na 
+    generowanej mapie.
+  
+  - [b]Earthness[/b] 
+    Stopień \"ziemistości\". Parametr pozwala na regulację częstości 
+    występowania kafli ziemi na generowanej mapie.
+
+
+
+[b]Ustawienia warstwy zieleni:[/b]
+
+  - [b]Grass density[/b] 
+    Parametr regulujący zagęszczenie trawy generowanej na mapie.  
+
+
+  - [b]Grass frequency[/b]
+    Parametr regulujący częstotliwość występowania trawy generowanej 
+    na mapie.  
+
+
+    Na trawiastych kaflach istnieje możliwość wygenerowania trawy w ramach 
+    osobnej warstwy. Zarówno gęstość, jak i częstotliwość występowania trawy 
+    są regulowane za pośrednictwem tych parametrów.
+
+
+  - [b]Trees density[/b] – zagęszczenie drzew.  
+
+  - [b]Trees frequency[/b] – częstotliwość ich pojawiania się.
+
+
+    Oprócz trawy, trawiaste kafle pozwalają na wygenerowanie na nich drzew. 
+    Struktura drzewa zajmuje więcej niż jeden kafel. Tak jak w przypadku trawy, 
+    zarówno gęstość, jak i częstotliwość występowania drzew regulowane są 
+    za pośrednictwem parametrów \"Trees density\" oraz \"Trees frequency\".
+
+
+
+[b]Ustawienia warstwy wzgórz:[/b]
+
+
+Warstwa wzgórz wyświetlana jest ponad bazową warstwą terenu. Jej generacja może zostać wyłączona za pośrednictwem flagi: \"Hills generation\".
+
+Możliwe jest również regulowanie generowanych wzgórz.
+
+
+  - [b]Hills frequency[/b]  
+    Parametr odpowiada za regulację częstotliwości generowanych wzgórz.  
+
+
+  - [b]Hills threshold[/b]  
+    Parametr reguluje próg aktywacji, powyżej którego generowane są wzgórza
+    w zależności od wartości szumu. Im niższy próg aktywacji, tym więcej 
+    wzgórz zostanie wygenerowanych.
+
+
+
+[b]Ustawienie generowania wody:[/b]
+
+W warstwie bazowej i w warstwie znajdującej się poniżej warstwy bazowej mogą zostać wygenerowane zbiorniki wodne. Ich generacja może zostać wyłączona za pomocą flagi \"Water generation\".
+
+
+  - [b]Water generation[/b]  
+    Przycisk włącza lub wyłącza generowanie zbiorników wodnych.
+
+
+  - [b]Water threshold[/b] 
+    Parametru ustawiający próg wartości szumu, przy którym pojawia się woda.
+
+"
+fit_content = true
+scroll_active = false
+tab_size = 24
+shortcut_keys_enabled = false
+
+[node name="ColorRect2" type="ColorRect" parent="UiLayer/UiRoot/HelpPanel/ScrollContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(1050, 3)
+layout_mode = 2
+
+[node name="WykorzystanyZestawKafli" type="Label" parent="UiLayer/UiRoot/HelpPanel/ScrollContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "
+4. Wykorzystany zestaw kafli"
+
+[node name="RichTextLabel4" type="RichTextLabel" parent="UiLayer/UiRoot/HelpPanel/ScrollContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/table_v_separation = 0
+theme_override_constants/outline_size = 0
+theme_override_constants/line_separation = 10
+theme_override_fonts/normal_font = SubResource("FontFile_cnlft")
+theme_override_fonts/mono_font = SubResource("FontFile_2udsn")
+theme_override_fonts/italics_font = SubResource("FontFile_nho7k")
+theme_override_fonts/bold_italics_font = SubResource("FontFile_8vmmf")
+theme_override_fonts/bold_font = SubResource("FontFile_gvxxw")
+theme_override_font_sizes/bold_italics_font_size = 24
+theme_override_font_sizes/italics_font_size = 24
+theme_override_font_sizes/mono_font_size = 24
+theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/bold_font_size = 34
+bbcode_enabled = true
+text = "
+
+Do generacji mapy został wykorzystany poniższy zestaw kafli. Może on zostać zmieniony poprzez modyfikację plików: \"ordered_tiles.png\" oraz \"plants.png\".
+
+
+[b]Plik \"ordered_tiles.png\"[/b]:
+"
+fit_content = true
+scroll_active = false
+tab_size = 24
+shortcut_keys_enabled = false
+
+[node name="TextureRect" type="TextureRect" parent="UiLayer/UiRoot/HelpPanel/ScrollContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(0, 700)
+layout_mode = 2
+texture = ExtResource("2_el5gr")
+expand_mode = 5
+stretch_mode = 4
+
+[node name="TextureButton" type="TextureButton" parent="UiLayer/UiRoot"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -44.9998
+offset_top = 20.0
+offset_right = 83.0002
+offset_bottom = 148.0
+grow_horizontal = 0
+scale = Vector2(0.24, 0.24)
+texture_normal = ExtResource("11_j4rii")
+texture_hover = ExtResource("12_fi855")
+
 [node name="RegenButton" type="Button" parent="UiLayer/UiRoot"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -139.0
+offset_left = -176.0
 offset_top = 20.0
-offset_right = -20.0
+offset_right = -57.0
 offset_bottom = 51.0
 grow_horizontal = 0
 text = "Generate Map"
 
 [node name="ZoomButtons" type="HBoxContainer" parent="UiLayer/UiRoot"]
 layout_mode = 1
-offset_left = 20.0
+offset_left = 147.0
 offset_top = 20.0
-offset_right = 222.0
+offset_right = 424.0
 offset_bottom = 60.0
 
 [node name="ZoomIn" type="Button" parent="UiLayer/UiRoot/ZoomButtons"]
@@ -968,9 +1389,9 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -140.0
+offset_left = -175.0
 offset_top = 66.0
-offset_bottom = 259.0
+offset_bottom = 264.0
 grow_horizontal = 0
 
 [node name="Label" type="Label" parent="UiLayer/UiRoot/VisibilityToggles"]
@@ -1004,6 +1425,13 @@ text = "Underground
 layout_mode = 2
 text = "Evolution
 "
+
+[node name="OpenHelpButton" type="Button" parent="UiLayer/UiRoot"]
+offset_left = 21.0
+offset_top = 21.0
+offset_right = 129.0
+offset_bottom = 59.0
+text = "Help Panel"
 
 [node name="GridOverlay" type="Node2D" parent="."]
 script = ExtResource("7_tb6b5")
