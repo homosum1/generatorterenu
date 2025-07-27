@@ -1,9 +1,6 @@
 class_name GeneticAlgorithm
 extends Object
 
-
-
-
 @export var edge_tiles: Array[int] = [] # indeksy kafelków brzegowych
 @export var expected_edge_density: float = 0.25
 @export var expected_logical_density: float = 0.45
@@ -14,7 +11,6 @@ extends Object
 @export var number_of_epochs = 1
 @export var mutation_chance: float = 1.0
 
-
 var chunk_fitness_map: Dictionary = {}
 
 var CHUNK_WIDTH = null
@@ -23,7 +19,8 @@ var CHUNK_HEIGHT = null
 var protected_ranges = [Vector2i(40,53), Vector2i(60, 73)]
 
 var all_generations := {} 
-# Dictionary<(epoch_number:int), Dictionary<chunk_pos:Vector2i, chunk_map:Array>>
+# Dictionary<epoch_number: int, Dictionary<chunk_pos: Vector2i, population: Array<Dictionary{map: Array, fitness: float}>>>
+
 var best_results := {}
 
 
@@ -165,7 +162,6 @@ func _init(world_map: Array, chunk_width: int, chunk_height: int) -> void:
 	# initializing first population
 	for chunk_pos in worst_chunks:
 		var chunk = world_map[chunk_pos.x][chunk_pos.y]
-		print("Running genetic algorithm for chunk at: ", chunk_pos, " with initial fitness: ", chunk_fitness_map[chunk_pos])
 		initialize_population(world_map, chunk_pos, 0)
 
 	# executing genetic algorithm
@@ -290,30 +286,18 @@ func initialize_population(world_map: Array, chunk_pos: Vector2i, epoch_number: 
 		_copy_constant_neighbors(chunk, world_map, chunk_pos.x, chunk_pos.y)
 		_inject_neighbors_rules(chunk, world_map, chunk_pos.x, chunk_pos.y)
 
-		#chunk._printEntropyMap()
-
 		chunk.enforce_proximity_rule("stone", 2, 40, 53)
 
 		var result = chunk.calculateWFC()
 
-		#PostProcess.clean_up_edges(result)
-		#PostProcess.fix_tiles(result, 3)
-		#PostProcess.clean_up_edges(result)
-		
-		#var trimmed_result = trim_edges_2d_array(result, 1)
-
 		PostProcess.clean_up_edges(result, true)
 		
-		#PostProcess.fix_tiles(trimmed_result, 3)
-		#PostProcess.clean_up_edges(trimmed_result)
-
 		var fitness = evaluate_fitness(result)
 
 		population.append({
 			"map": result,
 			"fitness": fitness
 		})
-
 
 	if not all_generations.has(epoch_number):
 		all_generations[epoch_number] = {}

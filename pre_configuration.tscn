@@ -1,0 +1,387 @@
+[gd_scene load_steps=7 format=3 uid="uid://c6f5k6o0fb4va"]
+
+[ext_resource type="Texture2D" uid="uid://btcdpcpn41jpo" path="res://ordered_tiles.png" id="1_71kay"]
+
+[sub_resource type="FontFile" id="FontFile_jm2dn"]
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/20/0/ascent = 0.0
+cache/0/20/0/descent = 0.0
+cache/0/20/0/underline_position = 0.0
+cache/0/20/0/underline_thickness = 0.0
+cache/0/20/0/scale = 1.0
+cache/0/22/0/ascent = 0.0
+cache/0/22/0/descent = 0.0
+cache/0/22/0/underline_position = 0.0
+cache/0/22/0/underline_thickness = 0.0
+cache/0/22/0/scale = 1.0
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/24/0/ascent = 0.0
+cache/0/24/0/descent = 0.0
+cache/0/24/0/underline_position = 0.0
+cache/0/24/0/underline_thickness = 0.0
+cache/0/24/0/scale = 1.0
+
+[sub_resource type="FontFile" id="FontFile_lwhcr"]
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+
+[sub_resource type="FontFile" id="FontFile_tanev"]
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+
+[sub_resource type="FontFile" id="FontFile_aw7fd"]
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+
+[sub_resource type="FontFile" id="FontFile_t8bc5"]
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/22/0/ascent = 0.0
+cache/0/22/0/descent = 0.0
+cache/0/22/0/underline_position = 0.0
+cache/0/22/0/underline_thickness = 0.0
+cache/0/22/0/scale = 1.0
+cache/0/24/0/ascent = 0.0
+cache/0/24/0/descent = 0.0
+cache/0/24/0/underline_position = 0.0
+cache/0/24/0/underline_thickness = 0.0
+cache/0/24/0/scale = 1.0
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/34/0/ascent = 0.0
+cache/0/34/0/descent = 0.0
+cache/0/34/0/underline_position = 0.0
+cache/0/34/0/underline_thickness = 0.0
+cache/0/34/0/scale = 1.0
+cache/0/20/0/ascent = 0.0
+cache/0/20/0/descent = 0.0
+cache/0/20/0/underline_position = 0.0
+cache/0/20/0/underline_thickness = 0.0
+cache/0/20/0/scale = 1.0
+
+[node name="PreConfiguration" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label1" type="Label" parent="."]
+offset_left = -453.0
+offset_top = -308.0
+offset_right = 477.0
+offset_bottom = -262.0
+theme_override_font_sizes/font_size = 30
+text = "Poradnik użytkownika programu"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 2
+offset_left = -534.0
+offset_top = -241.0
+offset_right = 530.0
+offset_bottom = 246.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+
+[node name="Informacje podstawowe" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "1. Informacje podstawowe
+"
+
+[node name="RichTextLabel3" type="RichTextLabel" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/table_v_separation = 0
+theme_override_constants/outline_size = 0
+theme_override_constants/line_separation = 10
+theme_override_fonts/normal_font = SubResource("FontFile_jm2dn")
+theme_override_fonts/mono_font = SubResource("FontFile_lwhcr")
+theme_override_fonts/italics_font = SubResource("FontFile_tanev")
+theme_override_fonts/bold_italics_font = SubResource("FontFile_aw7fd")
+theme_override_fonts/bold_font = SubResource("FontFile_t8bc5")
+theme_override_font_sizes/bold_italics_font_size = 24
+theme_override_font_sizes/italics_font_size = 24
+theme_override_font_sizes/mono_font_size = 24
+theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/bold_font_size = 34
+bbcode_enabled = true
+text = "
+
+Aby rozpocząć pierwszą generację mapy, należy kliknąć przycisk: \"Wygeneruj mapę\". Po zakończeniu generacji nastąpi przeniesienie do ekranu z wygenerowaną mapą. Aby wykonać kolejną generację mapy, należy kliknąć przycisk: \"Generate map\".
+
+
+[b]Regulacja rozmiaru mapy:[/b]
+
+Początkowo wygenerowana mapa składa się z dziewięciu podmap, z których każda zbudowana jest ze 100 kafli. Rozmiar mapy można zmienić dla kolejnych generacji w ustawieniach \"Map size\".
+
+
+[b]Ustawienia widoczności warstw:[/b]
+
+Ta sekcja pozwala na przełączanie widoczności poszczególnych warstw terenu. Wyłączenie warstwy powoduje jej ukrycie w podglądzie mapy, ale nie ma wpływu na sam proces generacji.
+
+  - [b]Hills[/b] – Przełącza widoczność wygenerowanych wzgórz.  
+  - [b]Nature[/b] – Kontroluje widoczność roślinności, takiej jak trawa i drzewa.  
+  - [b]Land[/b] – Wyświetla bazową warstwę terenu.  
+  - [b]Underground[/b] – Pokazuje elementy znajdujące się pod warstwą bazową.
+
+
+Użyj tych pól wyboru, aby dostosować, które warstwy są widoczne podczas podglądu lub analizy wygenerowanej mapy.
+
+"
+fit_content = true
+scroll_active = false
+tab_size = 24
+shortcut_keys_enabled = false
+
+[node name="ColorRect3" type="ColorRect" parent="ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(1050, 3)
+layout_mode = 2
+
+[node name="Ustawienia" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "
+2. Ustawienia"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/table_v_separation = 0
+theme_override_constants/outline_size = 0
+theme_override_constants/line_separation = 10
+theme_override_fonts/normal_font = SubResource("FontFile_jm2dn")
+theme_override_fonts/mono_font = SubResource("FontFile_lwhcr")
+theme_override_fonts/italics_font = SubResource("FontFile_tanev")
+theme_override_fonts/bold_italics_font = SubResource("FontFile_aw7fd")
+theme_override_fonts/bold_font = SubResource("FontFile_t8bc5")
+theme_override_font_sizes/bold_italics_font_size = 24
+theme_override_font_sizes/italics_font_size = 24
+theme_override_font_sizes/mono_font_size = 24
+theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/bold_font_size = 34
+bbcode_enabled = true
+text = "
+
+[b]Otrzymane widoki i rezultaty generacji są w znacznym stopniu konfigurowalne z poziomu interfejsu użytkownika programu. Poniżej znajduje się opis dostępnych modyfikatorów:[/b]
+
+
+[b] - zoom in (+), zoom out (-)[/b] 
+   Przycisku służą do przybliżania i oddalania widoku mapy.
+
+
+ - [b]Debug grid[/b]
+   Opcja włącza siatkę pomocniczą na mapie, ułatwiającą śledzenie kafli.
+
+
+ - [b]Entropy display[/b]
+   Opcja wyświetla wartości entropii na poszczególnych kaflach w trakcie 
+   działania algorytmu WFC (Przed skorzystaniem z opcji konieczne jest 
+   włączenie siatki pomocniczej przez zaznaczenie opcji \"Debug grid\").
+
+
+ - [b]Position display[/b]
+   Opcja pokazuje współrzędne (X,Y) dla wszystkich kafli mapy.  (Przed  
+   skorzystaniem z opcji konieczne jest włączenie siatki pomocniczej przez 
+   zaznaczenie opcji \"Debug grid\").
+
+
+ - [b]Rendering Settings[/b]
+
+   Po włączeniu tej opcji, pojawiają się dodatkowe suwaki i opcje pomocnicze 
+   do konfiguracji wyglądu terenu. Omówione zostały one w sekcji 
+   \"zaawansowana konfiguracja mapy\": 
+
+"
+fit_content = true
+scroll_active = false
+tab_size = 24
+shortcut_keys_enabled = false
+
+[node name="ColorRect" type="ColorRect" parent="ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(1050, 3)
+layout_mode = 2
+
+[node name="ZaawansowanaKonfiguracjaMapy" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "
+3. Zaawansowana konfiguracja mapy"
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/table_v_separation = 0
+theme_override_constants/outline_size = 0
+theme_override_constants/line_separation = 10
+theme_override_fonts/normal_font = SubResource("FontFile_jm2dn")
+theme_override_fonts/mono_font = SubResource("FontFile_lwhcr")
+theme_override_fonts/italics_font = SubResource("FontFile_tanev")
+theme_override_fonts/bold_italics_font = SubResource("FontFile_aw7fd")
+theme_override_fonts/bold_font = SubResource("FontFile_t8bc5")
+theme_override_font_sizes/bold_italics_font_size = 24
+theme_override_font_sizes/italics_font_size = 24
+theme_override_font_sizes/mono_font_size = 24
+theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/bold_font_size = 34
+bbcode_enabled = true
+text = "
+
+Parametry regularne z poziomu menu zaawansowanej konfiguracji mapy. Aby zmiana parametrów miała wpływ na uzyskany wynik generacji, po wykonaniu zmiany konieczna jest ponowna generacja mapy.
+
+
+[b]Ustawienia warstwy bazowej:[/b]
+
+  - [b]Grassiness[/b]  
+    Parametr pozwala na regulację częstości występowania kafli trawy na 
+    generowanej mapie.
+  
+  - [b]Earthness[/b] 
+    Stopień \"ziemistości\". Parametr pozwala na regulację częstości 
+    występowania kafli ziemi na generowanej mapie.
+
+
+
+[b]Ustawienia warstwy zieleni:[/b]
+
+  - [b]Grass density[/b] 
+    Parametr regulujący zagęszczenie trawy generowanej na mapie.  
+
+
+  - [b]Grass frequency[/b]
+    Parametr regulujący częstotliwość występowania trawy generowanej 
+    na mapie.  
+
+
+    Na trawiastych kaflach istnieje możliwość wygenerowania trawy w ramach 
+    osobnej warstwy. Zarówno gęstość, jak i częstotliwość występowania trawy 
+    są regulowane za pośrednictwem tych parametrów.
+
+
+  - [b]Trees density[/b] – zagęszczenie drzew.  
+
+  - [b]Trees frequency[/b] – częstotliwość ich pojawiania się.
+
+
+    Oprócz trawy, trawiaste kafle pozwalają na wygenerowanie na nich drzew. 
+    Struktura drzewa zajmuje więcej niż jeden kafel. Tak jak w przypadku trawy, 
+    zarówno gęstość, jak i częstotliwość występowania drzew regulowane są 
+    za pośrednictwem parametrów \"Trees density\" oraz \"Trees frequency\".
+
+
+
+[b]Ustawienia warstwy wzgórz:[/b]
+
+
+Warstwa wzgórz wyświetlana jest ponad bazową warstwą terenu. Jej generacja może zostać wyłączona za pośrednictwem flagi: \"Hills generation\".
+
+Możliwe jest również regulowanie generowanych wzgórz.
+
+
+  - [b]Hills frequency[/b]  
+    Parametr odpowiada za regulację częstotliwości generowanych wzgórz.  
+
+
+  - [b]Hills threshold[/b]  
+    Parametr reguluje próg aktywacji, powyżej którego generowane są wzgórza
+    w zależności od wartości szumu. Im niższy próg aktywacji, tym więcej 
+    wzgórz zostanie wygenerowanych.
+
+
+
+[b]Ustawienie generowania wody:[/b]
+
+W warstwie bazowej i w warstwie znajdującej się poniżej warstwy bazowej mogą zostać wygenerowane zbiorniki wodne. Ich generacja może zostać wyłączona za pomocą flagi \"Water generation\".
+
+
+  - [b]Water generation[/b]  
+    Przycisk włącza lub wyłącza generowanie zbiorników wodnych.
+
+
+  - [b]Water threshold[/b] 
+    Parametru ustawiający próg wartości szumu, przy którym pojawia się woda.
+
+"
+fit_content = true
+scroll_active = false
+tab_size = 24
+shortcut_keys_enabled = false
+
+[node name="ColorRect2" type="ColorRect" parent="ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(1050, 3)
+layout_mode = 2
+
+[node name="WykorzystanyZestawKafli" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "
+4. Wykorzystany zestaw kafli"
+
+[node name="RichTextLabel4" type="RichTextLabel" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/table_v_separation = 0
+theme_override_constants/outline_size = 0
+theme_override_constants/line_separation = 10
+theme_override_fonts/normal_font = SubResource("FontFile_jm2dn")
+theme_override_fonts/mono_font = SubResource("FontFile_lwhcr")
+theme_override_fonts/italics_font = SubResource("FontFile_tanev")
+theme_override_fonts/bold_italics_font = SubResource("FontFile_aw7fd")
+theme_override_fonts/bold_font = SubResource("FontFile_t8bc5")
+theme_override_font_sizes/bold_italics_font_size = 24
+theme_override_font_sizes/italics_font_size = 24
+theme_override_font_sizes/mono_font_size = 24
+theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/bold_font_size = 34
+bbcode_enabled = true
+text = "
+
+Do generacji mapy został wykorzystany poniższy zestaw kafli. Może on zostać zmieniony poprzez modyfikację plików: \"ordered_tiles.png\" oraz \"plants.png\".
+
+
+[b]Plik \"ordered_tiles.png\"[/b]:
+"
+fit_content = true
+scroll_active = false
+tab_size = 24
+shortcut_keys_enabled = false
+
+[node name="TextureRect" type="TextureRect" parent="ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 700)
+layout_mode = 2
+texture = ExtResource("1_71kay")
+expand_mode = 5
+stretch_mode = 4
+
+[node name="ColorRect3" type="ColorRect" parent="."]
+z_index = -1
+custom_minimum_size = Vector2(1050, 3)
+offset_left = -549.0
+offset_top = -258.0
+offset_right = 543.0
+offset_bottom = 248.0
+color = Color(0.342207, 0.342207, 0.342207, 1)
