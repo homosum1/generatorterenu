@@ -11,6 +11,8 @@ extends Node
 @onready var underground = $"../../Underground"
 @onready var evolution = $"../../Populations"
 
+@onready var closeButton = $"HelpPanel/CloseButton"
+
 var zoom_step := 0.1
 var min_zoom := 0.2
 var max_zoom := 3.0
@@ -22,13 +24,19 @@ func _ready() -> void:
 	camera.zoom = Vector2(1.0, 1.0) 
 	
 	$OpenHelpButton.pressed.connect(_on_show_help_pressed)
+	$CloseAppButton.pressed.connect(_on_exit_pressed)
+
+	closeButton.pressed.connect(_on_hide_help_pressed)
+
+func _on_exit_pressed():
+	get_tree().quit()
 
 func _on_show_help_pressed():
+	$HelpPanelMask.visible = true
 	$HelpPanel.visible = true
-	#$CloseButton.pressed.connect(_on_hide_help_pressed)
-
 
 func _on_hide_help_pressed():
+	$HelpPanelMask.visible = false
 	$HelpPanel.visible = false	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

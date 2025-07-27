@@ -746,6 +746,7 @@ grow_vertical = 2
 script = ExtResource("4_4e0j1")
 
 [node name="HelpPanelMask" type="ColorRect" parent="UiLayer/UiRoot"]
+visible = false
 z_index = 10
 layout_mode = 0
 offset_right = 2295.0
@@ -753,6 +754,7 @@ offset_bottom = 1286.0
 color = Color(0.301961, 0.301961, 0.301961, 1)
 
 [node name="HelpPanel" type="ColorRect" parent="UiLayer/UiRoot"]
+visible = false
 visibility_layer = 512
 z_index = 11
 layout_mode = 1
@@ -1070,7 +1072,7 @@ texture = ExtResource("2_el5gr")
 expand_mode = 5
 stretch_mode = 4
 
-[node name="TextureButton" type="TextureButton" parent="UiLayer/UiRoot"]
+[node name="CloseAppButton" type="TextureButton" parent="UiLayer/UiRoot"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -1444,6 +1446,7 @@ chunk_renderer_path = NodePath("..")
 hills_generator_path = NodePath("../Hills")
 
 [node name="Populations" type="TileMapLayer" parent="."]
+visible = false
 tile_set = SubResource("TileSet_j4rgo")
 script = ExtResource("14_bjsr8")
 
